@@ -1,9 +1,10 @@
 import React from 'react';
-
+import './PageTitle.css';
 function PageTitle()
 {
+
     return(
-        <h1 id="title">Title Test</h1>
+        <h1 id="title">Tutor</h1>
     );
 };
 
