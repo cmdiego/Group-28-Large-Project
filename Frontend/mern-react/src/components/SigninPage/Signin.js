@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import './SignUp.css';
+import './SignIn.css';
 
-function Signup()
+function Signin()
 {
     var signupEmail;
     var signupPassword;
@@ -49,46 +49,29 @@ function Signup()
                 alert('Select if tutor or student');
 
         }
-        
+
         else if (state.button == 4)
         {
-            window.location.href = "../src/pages/SigninPage";
+            window.location.href = "../src/pages/SignupPage";
 
         }
-
     };
 
 
     return (
         <div id="signupDiv">
             <form onSubmit={signupProcess} id = "formID">
-                <span id="inner-title">Sign Up</span><br />
+                <span id="inner-title">Sign In</span><br />
                 <input type="email" id="signupEmail" placeholder="Type Email" ref={ (c) => signupEmail = c} /><br />
                 <input type="password" id="signupPassword" placeholder="Type Password" ref={ (c) => signupPassword = c} /><br />
-                <input type="password" id="confirmPassword" placeholder="Confirm Password" ref={ (c) => confirmPassword = c} /><br />
 
 
-                <div id = "radiobuttons">
-
-                    <label class="form-check-label" for="exampleRadios2">
-                        <input class="form-check-input" type="radio" name="radiobutton" id="radiobutton1" value="Student"></input>
-                    I am a Student</label>
-                    
-                    <label class="form-check-label" for="exampleRadios2">
-                        <input class="form-check-input" type="radio" name="radiobutton" id="radiobutton2" value="Tutor"></input>
-                    I am a Tutor</label>
-                </div>
-
-                <input type="submit" id="signupButton" class="buttons" value="Signup" onClick={() => state.button = 3} />
-
-                
-                <label>Already have an account?<input type="submit" id="defferSignIn" class="buttons" value="Sign in" onClick={() => state.button = 4}/></label>
-                
-
+                <input type="submit" id="signupButton" class="buttons" value="Sign in" onClick={() => state.button = 3} />
+                <label>Dont have an account?<input type="submit" id="defferSignIn" class="buttons" value="Sign up" onClick={() => state.button = 4} /></label>
             </form>
     <span id="signupResult">{message}</span>
         </div>
     );
 };
 
-export default Signup;
+export default Signin;
