@@ -4,7 +4,7 @@ function PageTitle()
 {
 
     return(
-        <h1 id="title">Tutor</h1>
+        <h1 id="title">Tuter</h1>
     );
 };
 
