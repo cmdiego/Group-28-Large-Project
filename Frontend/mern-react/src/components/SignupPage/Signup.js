@@ -52,7 +52,7 @@ function Signup()
         
         else if (state.button == 4)
         {
-            window.location.href = "../src/pages/SigninPage";
+            window.location.href = '/SigninPage';
 
         }
 
@@ -79,7 +79,7 @@ function Signup()
                     I am a Tutor</label>
                 </div>
 
-                <input type="submit" id="signupButton" class="buttons" value="Signup" onClick={() => state.button = 3} />
+                <input type="submit" id="signupButton" class="buttons" value="Sign up" onClick={() => state.button = 3} />
 
                 
                 <label>Already have an account?<input type="submit" id="defferSignIn" class="buttons" value="Sign in" onClick={() => state.button = 4}/></label>
