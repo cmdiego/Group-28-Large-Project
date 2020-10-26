@@ -14,24 +14,7 @@ function Signup()
     const signupProcess = async event =>
     {
         event.preventDefault();
-        if (state.button == 1){
-            if (!(signupPassword.value === confirmPassword.value))
-            {
-                alert('Passwords don\'t match');
-                return;
-            }
-            alert('signing in as Student' + ' ' + signupEmail.value + ' ' + signupPassword.value + ' ' + confirmPassword.value);
-        }
-        else if (state.button == 2){
-            if (!(signupPassword.value === confirmPassword.value))
-            {
-                alert('Passwords don\'t match');
-                return;
-            }
-            alert('signing in as '+  + ' ' + signupEmail.value + ' ' + signupPassword.value + ' ' + confirmPassword.value);
-        }
-
-        else if (state.button == 3){
+        if (state.button === 1){
             if (!(signupPassword.value === confirmPassword.value))
             {
                 alert('Passwords don\'t match');
@@ -39,18 +22,18 @@ function Signup()
             }
 
             if(document.getElementById('radiobutton1').checked)
-                alert('signing in as student' + ' ' + signupEmail.value + ' ' + signupPassword.value + ' ' + confirmPassword.value);
+                alert('signing in as student '+ signupEmail.value + ' ' + signupPassword.value + ' ' + confirmPassword.value);
             
 
             else if(document.getElementById('radiobutton2').checked)
-                alert('signing in as tutor' + ' ' + signupEmail.value + ' ' + signupPassword.value + ' ' + confirmPassword.value);
+                alert('signing in as tutor ' + signupEmail.value + ' ' + signupPassword.value + ' ' + confirmPassword.value);
 
             else
                 alert('Select if tutor or student');
 
         }
         
-        else if (state.button == 4)
+        else if (state.button === 2)
         {
             window.location.href = '/SigninPage';
 
@@ -79,10 +62,10 @@ function Signup()
                     I am a Tutor</label>
                 </div>
 
-                <input type="submit" id="signupButton" class="buttons" value="Sign up" onClick={() => state.button = 3} />
+                <input type="submit" id="signupButton" class="buttons" value="Sign up" onClick={() => state.button = 1} />
 
                 
-                <label>Already have an account?<input type="submit" id="defferSignIn" class="buttons" value="Sign in" onClick={() => state.button = 4}/></label>
+                <label>Already have an account?<input type="submit" id="defferSignIn" class="buttons" value="Sign in" onClick={() => state.button = 2}/></label>
                 
 
             </form>
