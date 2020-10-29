@@ -4,6 +4,7 @@ import './App.css';
 
 import SignupPage from './pages/SignupPage';
 import SigninPage from './pages/SigninPage';
+import GeneralSignPage from './pages/GeneralSignPage';
 function App() {
   return (
     <Router >
@@ -13,6 +14,9 @@ function App() {
         </Route>
         <Route path="/SigninPage" exact>
           <SigninPage />
+        </Route>
+        <Route path="/GeneralSignPage" exact>
+          <GeneralSignPage />
         </Route>
         <Redirect to="/SignupPage" />
       </Switch>

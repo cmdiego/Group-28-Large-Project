@@ -22,12 +22,18 @@ function Signup()
             }
 
             if(document.getElementById('radiobutton1').checked)
+            {
                 alert('signing in as student '+ signupEmail.value + ' ' + signupPassword.value + ' ' + confirmPassword.value);
-            
+                /*TO BE ADDED: Hook up to api endpoint*/
+                window.location.href = '/GeneralSignPage';
+            }
 
             else if(document.getElementById('radiobutton2').checked)
+            {
                 alert('signing in as tutor ' + signupEmail.value + ' ' + signupPassword.value + ' ' + confirmPassword.value);
-
+                /*TO BE ADDED: Hook up to api endpoint*/
+                window.location.href = '/GeneralSignPage';
+            }
             else
                 alert('Select if tutor or student');
 
