@@ -12,26 +12,26 @@ function GeneralSignup()
         event.preventDefault();
         alert('info added ' + firstName.value + ' ' + lastName.value + ' ' + schoolName.value + ' ' + bioInfo.value);
         /* for now loops back to signin*/
-        window.location.href = '/SigninPage';
+        window.location.href = '/CourseSetupPage';
     };
     return (
         <div id="GeneralSignupdiv">
             <form onSubmit={generalCont} id="genFormID">
-                <span id="firstNameTitle">First Name:</span>
+                <span id="firstNameTitle"></span>
                 <br />
-                <input type="text" id="firstName" ref={ (c) => firstName = c} />
+                <input type="text" id="firstName" placeholder = "First Name" ref={ (c) => firstName = c} />
                 <br />
-                <span id="lastNameTitle">Last Name:</span>
+                <span id="lastNameTitle"></span>
                 <br />
-                <input type="text" id="lastName" ref={ (c) => lastName = c} />
+                <input type="text" id="lastName" placeholder = "Last Name" ref={ (c) => lastName = c} />
                 <br />
-                <span id="SchoolNametitle">School Name:</span>
+                <span id="SchoolNametitle"></span>
                 <br />
-                <input type="text" id="schoolName" ref={ (c) => schoolName = c} />
+                <input type="text" id="schoolName" placeholder = "Last Name" ref={ (c) => schoolName = c} />
                 <br />
-                <span id="BioTitle">Bio:</span>
+                <span id="BioTitle"></span>
                 <br />
-                <textarea id="bioText" ref= { (c) => bioInfo = c}></textarea>
+                <textarea id="bioText" placeholder = "Bio, tell us a bit about your self" ref= { (c) => bioInfo = c}></textarea>
                 <br />
                 <input type="submit" id="genSubmit" class="buttons" value="Next" onClick={generalCont} />
             </form>
