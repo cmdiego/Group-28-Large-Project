@@ -7,6 +7,7 @@ import SigninPage from './pages/SigninPage';
 import GeneralSignPage from './pages/GeneralSignPage';
 import CourseSetupPage from './pages/CourseSetupPage';
 import ScheduleBuilderPage from './pages/ScheduleBuilderPage';
+import HomePage from './pages/HomePage';
 function App() {
   return (
     <Router >
@@ -28,6 +29,9 @@ function App() {
         </Route>
         <Route path="/ScheduleBuildPage" exact>
           <ScheduleBuilderPage />
+        </Route>
+        <Route path="/HomePage" exact>
+          <HomePage />
         </Route>
         <Redirect to="/SignupPage" />
       </Switch>
