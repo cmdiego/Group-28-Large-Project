@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './SignUp.css';
+const axios = require('axios'); 
 
 function Signup()
 {
@@ -11,34 +12,54 @@ function Signup()
         button: 1
     };
 
-    const signupProcess = async event =>
-    {
+    const signupProcess = async event => {
         event.preventDefault();
+        //User is on the Signup page
         if (state.button === 1){
+
             if (!(signupPassword.value === confirmPassword.value))
             {
                 alert('Passwords don\'t match');
                 return;
             }
 
-            if(document.getElementById('radiobutton1').checked)
-            {
-                alert('signing in as student '+ signupEmail.value + ' ' + signupPassword.value + ' ' + confirmPassword.value);
-                /*TO BE ADDED: Hook up to api endpoint*/
-                window.location.href = '/GeneralSignPage';
+            let req = {
+                email: signupEmail.value, 
+                password: signupPassword.value
             }
 
+                                        //Student
+            if(document.getElementById('radiobutton1').checked)
+            {
+                console.log("Student");
+                axios.post('http://localhost:5000/api/signup', req)
+                .catch(err => {
+                    console.log(err); 
+                })
+                console.log("Student signup work!");
+
+               // alert('signing in as student '+ signupEmail.value + ' ' + signupPassword.value + ' ' + confirmPassword.value);
+                /*TO BE ADDED: Hook up to api endpoint*/
+                //window.location.href = '/GeneralSignPage';
+            }
+                                            //Tutor
             else if(document.getElementById('radiobutton2').checked)
             {
-                alert('signing in as tutor ' + signupEmail.value + ' ' + signupPassword.value + ' ' + confirmPassword.value);
+                axios.post('http://localhost:5000/api/signup', req)
+                .catch(err => {
+                    console.log(err); 
+                })
+                console.log("Tutor signup work!");
+
+               // alert('signing in as tutor ' + signupEmail.value + ' ' + signupPassword.value + ' ' + confirmPassword.value);
                 /*TO BE ADDED: Hook up to api endpoint*/
-                window.location.href = '/GeneralSignPage';
+               // window.location.href = '/GeneralSignPage';
             }
             else
                 alert('Select if tutor or student');
 
         }
-        
+        //User clicks on the Sign in link
         else if (state.button === 2)
         {
             window.location.href = '/SigninPage';
@@ -50,7 +71,7 @@ function Signup()
 
     return (
         <div id="signupDiv">
-            <form onSubmit={signupProcess} id = "formID">
+            <form method="post" action="/email-activate" onSubmit={signupProcess} id = "formID">
                 <span id="inner-title">Sign Up</span><br />
                 <input type="email" id="signupEmail" placeholder="Type Email" ref={ (c) => signupEmail = c} /><br />
                 <input type="password" id="signupPassword" placeholder="Type Password" ref={ (c) => signupPassword = c} /><br />
