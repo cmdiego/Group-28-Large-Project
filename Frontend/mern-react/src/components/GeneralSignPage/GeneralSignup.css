@@ -44,3 +44,12 @@ label
     margin-top: 5px;
     width: 100%;
 }
+ #uploadprofilelable
+ {
+    padding: 10px 10px;
+    border-radius: 5px;
+    width: auto;
+    height: auto;
+    color: whitesmoke;
+    background-color: #444;
+ }

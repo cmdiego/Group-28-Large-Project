@@ -1,11 +1,11 @@
 /* stuff from npm-burger-menu that is needed with what they are*/
 /* Position and sizing of burger button */
 .bm-burger-button {
-    position: fixed;
-    width: 36px;
-    height: 30px;
-    left: 36px;
-    top: 36px;
+    position: relative;
+    width: auto;
+    height: auto;
+    left: auto;
+    top: auto;
   }
   
   /* Color/shape of burger icon bars */

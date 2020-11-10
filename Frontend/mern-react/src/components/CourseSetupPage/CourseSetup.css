@@ -38,6 +38,12 @@ input, select
 {
     width: 30%;
 }
+#submitclasses
+{
+    margin-right: auto;
+    margin-left: auto;
+    width: 30%;
+}
 
 #addclass
 {

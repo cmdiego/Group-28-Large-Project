@@ -4,6 +4,7 @@ import './HamburgerMenu.css';
 
 export default props => {
     return (
+        
         <Menu>
             <a className="menu-item" href="/appointments">Appointments</a>
         </Menu>

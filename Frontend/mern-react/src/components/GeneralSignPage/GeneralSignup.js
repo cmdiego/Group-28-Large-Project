@@ -27,11 +27,14 @@ function GeneralSignup()
                 <br />
                 <span id="SchoolNametitle"></span>
                 <br />
-                <input type="text" id="schoolName" placeholder = "Last Name" ref={ (c) => schoolName = c} />
+                <input type="text" id="schoolName" placeholder = "Schools Name" ref={ (c) => schoolName = c} />
                 <br />
                 <span id="BioTitle"></span>
                 <br />
                 <textarea id="bioText" placeholder = "Bio, tell us a bit about your self" ref= { (c) => bioInfo = c}></textarea>
+                <br />
+                <p id = "uploadprofilelable">Upload a profile picture:<input type="file" id ="genSubmit"/></p>        
+        
                 <br />
                 <input type="submit" id="genSubmit" class="buttons" value="Next" onClick={generalCont} />
             </form>
