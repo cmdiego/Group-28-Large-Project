@@ -1,7 +1,61 @@
-* {
-    box-sizing: border-box;
+
+#profileButton
+{
+    width: 100px;
+    background-color: black;
+    position: absolute;
+    top: 0;
+    left: 0;
 }
-#page-wrap {
-    padding-bottom: 10px;
-    padding-top: 10px;
+
+#searchButton
+{
+    width: 200px;
+    background-color: black;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#logoutButton
+{
+    width: 100px;
+    background-color: black;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+#wrapAround
+{
+    border-radius: 10px;
+    margin: 25px;
+    background-color: rgb(236, 91, 75);
+}
+#mockCard
+{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+    width: 400px;
+    min-width: 100px;
+    min-height: 100px;
+    padding: 20px 40px 40px 40px;
+    border-radius: 6px;
+    background-color: rgb(236, 91, 75);
+    
+}
+
+#mockCard > span
+{
+    padding: 10px;
+}
+#deleteCardButton
+{
+    padding: 10px;
+    width: 30px;
+    height: 30px;
+    margin-left: 400px;
+    border-radius: 5px;
+    background-color: #444;
+    color: white;
 }
