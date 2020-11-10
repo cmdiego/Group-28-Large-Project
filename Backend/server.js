@@ -1,20 +1,31 @@
 const express = require('express');
 const cors = require('cors');
+
+//Allow to use environmental variables 
+require('dotenv').config(); 
+
+//Connect to database
+require("./database/connection.js");
+
 const app = express();
+
+const authRoutes = require("./routes/auth.routes");
+app.use(express.json()); 
 app.use(cors());
 
-app.use((req, res, next) =>
-{
+app.use('/api', authRoutes);
+
+/*app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader(
-        'Access-Control-Allow-Headers',
-        'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-    );
-    res.setHeader(
-        'Access-Control-Allow-Methods',
-        'GET, POST, PATCH, DELETE, OPTIONS'
-    );
-    next();
+    res.setHeader('Access-Control-Allow-Headers','Origin, X-Requested-With, Content-Type, Accept');
+    res.setHeader('Access-Control-Allow-Methods','GET, POST, PATCH, DELETE, OPTIONS');
+    next(); 
+});*/
+
+const port = process.env.PORT || 5000; 
+
+app.listen(port, () => {
+    console.log(`Server is running on port: ${port}`);
 });
 
-app.listen(5000);
+
