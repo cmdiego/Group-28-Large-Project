@@ -1,0 +1,16 @@
+#mainScheduleForm {
+    display: flex;
+    flex-direction: row;
+    width: auto;
+    min-width: 100px;
+    min-height: auto;
+    padding: 20px 40px 40px 40px;
+    border-radius: 6px;
+    box-shadow: 0px 8px 36px #222;
+    background-color: rgb(236, 91, 75);
+}
+
+#addBlock{
+    color: black;
+    background-color: rgb(236, 91, 75);
+}

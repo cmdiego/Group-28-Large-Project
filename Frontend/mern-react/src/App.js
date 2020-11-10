@@ -1,25 +1,41 @@
 import React from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
 import './App.css';
 
+import SignupPage from './pages/SignupPage';
+import SigninPage from './pages/SigninPage';
+import GeneralSignPage from './pages/GeneralSignPage';
+import CourseSetupPage from './pages/CourseSetupPage';
+import ScheduleBuilderPage from './pages/ScheduleBuilderPage';
+import HomePage from './pages/HomePage';
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router >
+      <Switch>
+        <Route path="/SignupPage" exact>
+          <SignupPage />
+        </Route>
+        <Route path="/SigninPage" exact>
+          <SigninPage />
+        </Route>
+        <Route path="/CourseSetupPage" exact>
+          <CourseSetupPage />
+        </Route>
+        <Route path="/GeneralSignPage" exact>
+          <GeneralSignPage />
+        </Route>
+        <Route path="/CourseSetupPage" exact>
+          <CourseSetupPage />
+        </Route>
+        <Route path="/ScheduleBuildPage" exact>
+          <ScheduleBuilderPage />
+        </Route>
+        <Route path="/HomePage" exact>
+          <HomePage />
+        </Route>
+        <Redirect to="/SignupPage" />
+      </Switch>
+    </Router>
   );
 }
 

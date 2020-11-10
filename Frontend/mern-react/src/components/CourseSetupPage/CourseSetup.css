@@ -1,0 +1,51 @@
+body
+{
+    font-family: Lato;
+    height: 97vh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #444;
+}
+
+#setupForm
+{
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    min-width: 100px;
+    min-height: auto;
+    padding: 20px 40px 40px 40px;
+    border-radius: 6px;
+    box-shadow: 0px 8px 36px #222;
+    background-color: rgb(236, 91, 75);
+}
+
+input, select
+{
+    padding: 10px 10px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    color: whitesmoke;
+    background-color: #444 ;
+    padding: 0.938em;
+    margin: 5px;
+}
+
+#setuptextbox
+{
+    width: 30%;
+}
+#submitclasses
+{
+    margin-right: auto;
+    margin-left: auto;
+    width: 30%;
+}
+
+#addclass
+{
+    width: 7%;
+}

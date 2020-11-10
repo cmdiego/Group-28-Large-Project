@@ -1,0 +1,55 @@
+
+
+#GeneralSignupdiv
+{
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    min-width: 100px;
+    min-height: 400px;
+    padding: 20px 40px 40px 40px;
+    border-radius: 6px;
+    box-shadow: 0px 8px 36px #222;
+    background-color: rgb(236, 91, 75);
+}
+
+
+input, textarea
+{
+    padding: 10px 10px;
+    border-radius: 5px;
+    border: 1px solid #444;
+    color: whitesmoke;
+    width: 100%;
+    background-color: #444 ;
+    padding: 0.938em;
+    margin-top: 5px;
+}
+
+
+
+label
+{
+    margin-bottom: 0.5em;
+    color: whitesmoke;
+    padding: 	0.938em;
+    font-weight: lighter;
+    font-size: large;
+}
+
+#genSubmit
+{
+    display: block;
+    margin: 0 auto;
+    margin-top: 5px;
+    width: 100%;
+}
+ #uploadprofilelable
+ {
+    padding: 10px 10px;
+    border-radius: 5px;
+    width: auto;
+    height: auto;
+    color: whitesmoke;
+    background-color: #444;
+ }
