@@ -1,10 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Backend",
-    "\\Frontend",
-    "\\Frontend\\mern-react"
+    "\\Backend"
   ],
-  "SelectedNode": "\\Backend\\package.json",
+  "SelectedNode": "\\README.md",
   "PreviewInSolutionExplorer": false
 }

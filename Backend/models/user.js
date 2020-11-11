@@ -1,18 +1,20 @@
-const mongoose = require('mongoose'); 
-const crypto = require('crypto'); 
+const mongoose = require('mongoose');
+const crypto = require('crypto');
 
-//User Schema 
-const userSchema = new mongoose.Schema({
+//User Schema
+const Schema = mongoose.Schema;
+const userSchema = new Schema({
     email: {
         type: String,
         trim: true,
-        required: true, 
+        required: true,
         unique: true,
-        lowercase: true 
-    }, 
+        lowercase: true
+    },
     password:{
         type: String,
-        required: true, 
+        trim: true,
+        required: true,
     }
 }, {timestamps: true});
 
