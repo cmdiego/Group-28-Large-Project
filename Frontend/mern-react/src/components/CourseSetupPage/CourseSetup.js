@@ -8,23 +8,36 @@ function CourseSetup()
 
     function addclass()
     {
-        
-        count ++;
-        alert("i exists");
+       
+        var temp = count;
 
-        document.getElementById('form'+(count-1)).innerHTML += ('<div id= form'+count+'><span id= "inner-title">Course '+count+ 
-        ':<input type="text" id="setuptextbox" placeholder="Subject Code" />'+
-        '<input type="text" id="setuptextbox" placeholder="Course Number" />'+
-        '<input type = "button" id = "addclass" value = "+"  onClick = {addclass}/>'+
-        '<input type = "button" id = "addclass" value = "-"  />'+
-        ' <br/></span>'+
-        '</div>');
+        count ++;
+
+
+        var newdiv = document.createElement('div');
+        newdiv.innerHTML = ('<div id= "form'+(count)+'"><span id= "inner-title">Course '+(count)+ 
+                            ':<input type="text" id="setuptextbox" placeholder="Subject Code" />'+
+                            '<input type="text" id="setuptextbox" placeholder="Course Number" />'+
+                            ' <br/></span>'+
+                            '</div>');
+
+        document.getElementById("form"+temp).appendChild(newdiv);
+
         return;
     };
 
     function removeclass()
     {
-        alert("need to make delete");
+        if (count == 1)
+        {
+            return;
+        }
+
+        var div = document.getElementById("form"+(count));
+        div.parentNode.removeChild(div);
+        count--;
+        
+        return;
     };
 
     function submitclass()
@@ -37,19 +50,22 @@ function CourseSetup()
     return (
         <div id="SetupDiv">
             <form  id = "setupForm">
-                <div id = 'form1'>
+                <div id = "form1">
                     <span id="inner-title">Course 1:
                         <input type="text" id="setuptextbox" placeholder="Subject Code" />
                         <input type="text" id="setuptextbox" placeholder="Course Number" />
-                        <input type = "button" id = "addclass" value = "+"  onClick = {addclass}/>
-                        <input type = "button" id = "addclass" value = "-"  onClick = {removeclass}/>
+                        
                     </span>
                     <br />
                 </div>
                 
+                <span id="actionbuttons">
+                <input type = "button" id = "submitclasses" value = "Add class"  onClick = {addclass}/>
+                <input type = "button" id = "submitclasses" value = "Remove class"  onClick = {removeclass}/>
                 <input type = "button" id = "submitclasses" value = "Submit"  onClick = {submitclass}/>
+                </span>
             </form>
-    <span id="classSetupResult"></span>
+                <span id="classSetupResult"></span>
         </div>
     );
 };
