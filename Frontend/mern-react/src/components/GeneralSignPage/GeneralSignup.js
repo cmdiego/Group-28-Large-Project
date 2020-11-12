@@ -33,7 +33,7 @@ function GeneralSignup()
                 <br />
                 <textarea id="bioText" placeholder = "Bio, tell us a bit about your self" ref= { (c) => bioInfo = c}></textarea>
                 <br />
-                <p id = "uploadprofilelable">Upload a profile picture:<input type="file" id ="genSubmit"/></p>        
+                <p id = "uploadprofilelable">Upload a profile picture:<input type="file" id ="genSubmit" accept="image/*"/></p>        
         
                 <br />
                 <input type="submit" id="genSubmit" class="buttons" value="Next" onClick={generalCont} />

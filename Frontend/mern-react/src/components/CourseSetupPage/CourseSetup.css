@@ -40,12 +40,9 @@ input, select
 }
 #submitclasses
 {
-    margin-right: auto;
+    
+    margin-right: 10;
     margin-left: auto;
     width: 30%;
-}
-
-#addclass
-{
-    width: 7%;
+    
 }
