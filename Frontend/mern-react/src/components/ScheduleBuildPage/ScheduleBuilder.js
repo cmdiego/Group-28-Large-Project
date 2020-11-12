@@ -1,10 +1,24 @@
 import React, { useState } from 'react';
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 import './ScheduleBuilder.css';
+
+const options = [
+    'one', 'two'
+];
+
+
 function ScheduleBuilder()
 {
-    function addBlock()
+    const _onSelect=(e)=>{
+        console.log(e);
+        setValue(e);
+    }
+    const [value,setValue] = useState('');
+
+    function submitBlock()
     {
-        alert('addButton pressed');
+        alert('submitButton pressed ' + value.value);
     }
     return(
         <div id="ScheduleDiv">
@@ -13,12 +27,11 @@ function ScheduleBuilder()
                 <br />
                 </span>
                 <input type="text" id="dateInfo" placeholder="Schedule a day" />
-                <input type="text" id="timeInfo" placeholder="Schedule a time" /> 
-                <input type="text" id="durationInfo" placeholder="For how long?" />
+                <Dropdown options={options} onChange={_onSelect} placeholder="Select an option" />
                 <br />
             </form>
             <form id="buttonForm">
-                <input type="button" id="addBlock" value="+" onClick={addBlock} />
+                <input type="button" id="submitBlock" value="Submit" onClick={submitBlock} />
             </form>
         </div>
     );
