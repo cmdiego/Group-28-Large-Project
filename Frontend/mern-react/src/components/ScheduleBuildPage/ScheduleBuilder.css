@@ -1,6 +1,6 @@
 #mainScheduleForm {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     width: auto;
     min-width: 100px;
     min-height: auto;
@@ -8,6 +8,13 @@
     border-radius: 6px;
     box-shadow: 0px 8px 36px #222;
     background-color: rgb(236, 91, 75);
+}
+
+#timeSlotBlock {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-items: auto;
 }
 
 #submitBlock{
