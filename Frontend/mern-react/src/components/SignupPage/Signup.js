@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './SignUp.css';
 const axios = require('axios'); 
-
+var alreadyPressed = false;
 function Signup()
 {
     var signupEmail;
@@ -14,6 +14,7 @@ function Signup()
 
     const signupProcess = async event => {
         event.preventDefault();
+        
         //User is on the Signup page
         if (state.button === 1){
 
@@ -37,7 +38,13 @@ function Signup()
                     console.log(err); 
                 })
                 console.log("Student signup work!");
-
+                if (!alreadyPressed)
+                {
+                    var newdiv = document.createElement('div');
+                    newdiv.innerHTML = ('<div id= "confirmAppend"><span="inner">Confirmation Email Sent<br /></span></div>');
+                    document.getElementById("theForm").appendChild(newdiv);
+                    alreadyPressed = true;
+                }
                // alert('signing in as student '+ signupEmail.value + ' ' + signupPassword.value + ' ' + confirmPassword.value);
                 /*TO BE ADDED: Hook up to api endpoint*/
                 //window.location.href = '/GeneralSignPage';
@@ -50,7 +57,13 @@ function Signup()
                     console.log(err); 
                 })
                 console.log("Tutor signup work!");
-
+                if (!alreadyPressed)
+                {
+                    var newdiv = document.createElement('div');
+                    newdiv.innerHTML = ('<div id= "confirmAppend"><span="inner">Confirmation Email Sent<br /></span></div>');
+                    document.getElementById("theForm").appendChild(newdiv);
+                    alreadyPressed = true;
+                }
                // alert('signing in as tutor ' + signupEmail.value + ' ' + signupPassword.value + ' ' + confirmPassword.value);
                 /*TO BE ADDED: Hook up to api endpoint*/
                // window.location.href = '/GeneralSignPage';
@@ -94,8 +107,13 @@ function Signup()
                 
                 <label>Already have an account?<input type="submit" id="defferSignIn" class="buttons" value="Sign in" onClick={() => state.button = 2}/></label>
                 
-
+                <div id="confirmNotify">
+                <form id="theForm">
+                    <text></text>
+                </form>
+            </div>
             </form>
+            
     <span id="signupResult">{message}</span>
         </div>
     );
