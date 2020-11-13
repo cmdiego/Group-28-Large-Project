@@ -17,6 +17,13 @@
     justify-items: auto;
 }
 
+#addDelButtons {
+    display:flex;
+    flex-direction: row;
+}
+#chooseTime{
+    padding: 10px;
+}
 #submitBlock{
     color: black;
     background-color: rgb(236, 91, 75);
