@@ -1,19 +1,26 @@
-import React, { useState } from 'react';
+import React, {Component, useState } from 'react';
+import {useParams}  from "react-router-dom";
 import './GeneralSignup.css';
-function GeneralSignup()
-{
+import axios from "axios"; 
+
+function Activation() {
     var firstName;
     var lastName;
     var schoolName;
     var bioInfo;
-    const [message,setMessage] = useState('');
+
+    let {token}  = useParams();
+    axios.post(`http://localhost:5000/auth/email-activate/`, {token});
+   
+    const [message, setMessage] = useState('');
+    
     const generalCont = async event =>
     {
         event.preventDefault();
-        alert('info added ' + firstName.value + ' ' + lastName.value + ' ' + schoolName.value + ' ' + bioInfo.value);
         /* for now loops back to signin*/
         window.location.href = '/CourseSetupPage';
-    };
+    };  
+    
     return (
         <div id="GeneralSignupdiv">
             <form onSubmit={generalCont} id="genFormID">
@@ -27,23 +34,17 @@ function GeneralSignup()
                 <br />
                 <span id="SchoolNametitle"></span>
                 <br />
-                <input type="text" id="schoolName" placeholder = "Schools Name" ref={ (c) => schoolName = c} />
+                <input type="text" id="schoolName" placeholder = "Last Name" ref={ (c) => schoolName = c} />
                 <br />
                 <span id="BioTitle"></span>
                 <br />
                 <textarea id="bioText" placeholder = "Bio, tell us a bit about your self" ref= { (c) => bioInfo = c}></textarea>
-                <br />
-                <p id = "uploadprofilelable">Upload a profile picture:<input type="file" id ="genSubmit" accept="image/*"/></p>        
-        
                 <br />
                 <input type="submit" id="genSubmit" class="buttons" value="Next" onClick={generalCont} />
             </form>
             <span id="generalSignResult">{message}</span>
         </div>
     );
-
-
-
 };
 
-export default GeneralSignup;
+export default Activation;
