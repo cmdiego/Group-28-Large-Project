@@ -1,16 +1,16 @@
 // Run 'nodemon server' or 'npm start'
 const express = require('express'); // middle-wear
 const cors = require('cors');
+const app = express();
 const mongoose = require('mongoose');
 
 require('dotenv').config();
 
-const app = express();
+
 app.use(cors());
 app.use(express.json());
 const port = process.env.PORT;
 const uri = process.env.ATLAS_URI;
-console.log(uri);
 
 // connecting ot mongoose
 mongoose.connect(uri, {useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true});
