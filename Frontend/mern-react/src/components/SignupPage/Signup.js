@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import './SignUp.css';
 const axios = require('axios'); 
 var alreadyPressed = false;
+
 function Signup()
 {
-    var signupEmail;
-    var signupPassword;
-    var confirmPassword;
+    var signupEmail, signupPassword, confirmPassword;
     const [message,setMessage] = useState('');
     const state = {
         button: 1
@@ -14,7 +13,7 @@ function Signup()
 
     const signupProcess = async event => {
         event.preventDefault();
-        
+
         //User is on the Signup page
         if (state.button === 1){
 
@@ -23,7 +22,7 @@ function Signup()
                 alert('Passwords don\'t match');
                 return;
             }
-
+            //Get the email & password value
             let req = {
                 email: signupEmail.value, 
                 password: signupPassword.value
@@ -33,7 +32,7 @@ function Signup()
             if(document.getElementById('radiobutton1').checked)
             {
                 console.log("Student");
-                axios.post('http://localhost:5000/api/signup', req)
+                axios.post('http://localhost:5000/auth/signup', req)
                 .catch(err => {
                     console.log(err); 
                 })
@@ -45,14 +44,11 @@ function Signup()
                     document.getElementById("theForm").appendChild(newdiv);
                     alreadyPressed = true;
                 }
-               // alert('signing in as student '+ signupEmail.value + ' ' + signupPassword.value + ' ' + confirmPassword.value);
-                /*TO BE ADDED: Hook up to api endpoint*/
-                //window.location.href = '/GeneralSignPage';
             }
                                             //Tutor
             else if(document.getElementById('radiobutton2').checked)
             {
-                axios.post('http://localhost:5000/api/signup', req)
+                axios.post('http://localhost:5000/auth/signup', req)
                 .catch(err => {
                     console.log(err); 
                 })
@@ -64,24 +60,16 @@ function Signup()
                     document.getElementById("theForm").appendChild(newdiv);
                     alreadyPressed = true;
                 }
-               // alert('signing in as tutor ' + signupEmail.value + ' ' + signupPassword.value + ' ' + confirmPassword.value);
-                /*TO BE ADDED: Hook up to api endpoint*/
-               // window.location.href = '/GeneralSignPage';
             }
             else
                 alert('Select if tutor or student');
-
         }
         //User clicks on the Sign in link
         else if (state.button === 2)
         {
             window.location.href = '/SigninPage';
-
         }
-
     };
-
-
     return (
         <div id="signupDiv">
             <form method="post" action="/email-activate" onSubmit={signupProcess} id = "formID">
