@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './SignIn.css';
+const axios = require('axios');
 
 function Signin()
 {
@@ -13,9 +14,22 @@ function Signin()
     const signinProcess = async event =>
     {
         event.preventDefault();
+        
+        let req = {
+            email: signinEmail.value, 
+            password: signinPassword.value
+        }
+
         if (state.button === 1)
         {
-            alert('signing in ' + signinEmail.value + ' ' + signinPassword.value);
+           
+            window.location.href = '/SigninPage';
+            console.log("Student signup work!");
+            axios.post('http://localhost:5000/api/signin', req)
+                .catch(err => {
+                    console.log(err); 
+                })
+            //alert('signing in ' + signinEmail.value + ' ' + signinPassword.value);
         }
         else if (state.button === 2)
         {

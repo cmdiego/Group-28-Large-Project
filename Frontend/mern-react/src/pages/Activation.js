@@ -1,14 +1,14 @@
 import React from 'react';
-import GeneralSignup from '../components/GeneralSignPage/GeneralSignup';
+import Activation from '../components/GeneralSignPage/Activation';
 import PageTitle from '../components/GeneralSignPage/PageTitle';
-const GeneralSignPage = () =>
+const Activate = () =>
 {
     return(
         <div>
             <PageTitle />
-            <GeneralSignup />
+            <Activation />
         </div>
     );
 };
 
-export default GeneralSignPage;
+export default Activate;
