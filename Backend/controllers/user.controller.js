@@ -36,11 +36,15 @@ exports.signup = async function(req, res) {
 
   transporter.sendMail(mailResponse, function(err, info) {
     if(err)
+    {
       console.log(err);
       return res.status(400).json({error: err});
+    }
     else
+    {
       console.log('Email sent to: ' + email + ', activate your account plzz');
       return res.json('Email Sent');
+    }
   });
   // This point should never be reached, function should be returned prior to reaching the end
   console.log("Something went wrong with signup");
