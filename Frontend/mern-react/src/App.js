@@ -7,6 +7,7 @@ import Activate from './pages/Activation';
 import CourseSetupPage from './pages/CourseSetupPage';
 import ScheduleBuilderPage from './pages/ScheduleBuilderPage';
 import HomePage from './pages/HomePage';
+import ProfilePage from './pages/ProfilePage';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route path="/CourseSetupPage" exact> <CourseSetupPage /></Route>
         <Route path="/ScheduleBuildPage" exact><ScheduleBuilderPage /></Route>
         <Route path="/HomePage" exact><HomePage /></Route>
+        <Route path ="/ProfilePage" exact><ProfilePage/></Route>
         <Redirect to="/SignupPage" />
       </Switch>
     </Router>

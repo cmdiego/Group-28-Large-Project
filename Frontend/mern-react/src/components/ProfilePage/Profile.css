@@ -1,0 +1,61 @@
+form
+{
+    text-align: center;
+    font-size: large;
+    font-weight: lighter;
+    color: whitesmoke;
+}
+
+#topofForm
+{
+    padding: 10px 10px;
+    border-radius: 5px;
+    width: auto;
+    height: auto;
+    color: whitesmoke;
+    background-color: #444;
+}
+
+#bottominfo2
+{
+    padding: 10px 10px;
+    border-radius: 5px;
+    width: auto;
+    height: auto;
+    color: whitesmoke;
+    background-color: #444;
+}
+
+#bottominfo2
+{
+    padding: 10px 10px;
+    border-radius: 5px;
+    width: auto;
+    height: auto;
+    color: whitesmoke;
+    background-color: #444;
+}
+
+.circular--square
+{
+    display: inline-block;
+    position: center;
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+}
+
+#submitclasses
+{
+    
+    margin-right: 10;
+    margin-left: auto;
+    width: 30%;
+    
+}
+
+ul
+{
+    list-style: none;
+    text-align: left;
+}
