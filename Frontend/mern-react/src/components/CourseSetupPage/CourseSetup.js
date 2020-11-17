@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import './CourseSetup.css';
+const axios = require('axios');
 
 var count = 1;
-
+var courseCode = [];
+var courseNum = [];
 function CourseSetup()
 {
 
@@ -42,7 +44,26 @@ function CourseSetup()
 
     function submitclass()
     {
-        alert("need to make a submit form");
+        var temp = 0;
+        for(var i = 0; i <count*2; i++)
+        {
+            courseCode[temp] = document.getElementById("setupForm").elements[i].value;
+            courseNum[temp] = document.getElementById("setupForm").elements[i+1].value;
+            i++;
+            temp++;
+        }
+
+        alert(courseCode+courseNum);
+        let req = {
+            count: count,
+            courseCode: courseCode,
+            courseNum: courseNum
+        }
+
+        axios.post('http://localhost:5000/auth/course',req);
+
+        // Course Code will hold all the course Codes EX. COP/EEL
+        // Course Num is the number of all those classes
     };
 
 

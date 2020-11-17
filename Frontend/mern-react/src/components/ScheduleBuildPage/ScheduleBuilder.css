@@ -28,3 +28,8 @@
     color: black;
     background-color: rgb(236, 91, 75);
 }
+
+#buttonForm
+{
+    align-items: center;
+}
