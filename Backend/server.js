@@ -3,6 +3,8 @@ const express = require('express'); // middle-wear
 const cors = require('cors');
 const app = express();
 const authRoutes = require("./routes/auth.routes");
+const courseRoutes = require("./routes/course.routes");
+const timeslotRoutes = require("./routes/timeslot.routes")
 require("./database/connection.js");
 require('dotenv').config();
 
@@ -12,6 +14,8 @@ app.use(express.json());
 const port = process.env.PORT;
 
 app.use('/auth', authRoutes);
+app.use('/timeslot', timeslotRoutes);
+app.use('/course', courseRoutes);
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');

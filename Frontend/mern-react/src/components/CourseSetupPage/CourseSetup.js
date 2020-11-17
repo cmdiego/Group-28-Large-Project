@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './CourseSetup.css';
+const axios = require('axios');
 
 var count = 1;
 var courseCode = [];
@@ -51,6 +52,15 @@ function CourseSetup()
             i++;
             temp++;
         }
+
+        alert(courseCode+courseNum);
+        let req = {
+            count: count,
+            courseCode: courseCode,
+            courseNum: courseNum
+        }
+
+        axios.post('http://localhost:5000/auth/course',req);
 
         // Course Code will hold all the course Codes EX. COP/EEL
         // Course Num is the number of all those classes
