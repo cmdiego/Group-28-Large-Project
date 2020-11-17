@@ -27,7 +27,7 @@ function App() {
         <Route path="/CourseSetupPage" exact>
           <CourseSetupPage />
         </Route>
-        <Route path="/ScheduleBuildPage" exact>
+        <Route path="/ScheduleBuilderPage" exact>
           <ScheduleBuilderPage />
         </Route>
         <Route path="/HomePage" exact>
