@@ -5,37 +5,17 @@ var dummyFname = 'Jon';
 var dummyLname = 'Snow';
 var dummySchool = 'Nights Watch';
 var dummyEmail = 'jonsnow@gmail.com';
-var courseCodes = ['COP','COP','CIS','EEL'];
-var courseNums = ['4600','4331','4910','3421'];
-var flag = false;
-var nameList ="";
 
-function populate()
-{
-    if(flag == true )
-    {
-        return;
-    }
-    
-    const list = document.querySelector('.my-list');
+/*need API to send a File like this*/
+const classes = [
 
-    const listItems = courseCodes.map((element)=>{'<li id= ${element} class = listItem >${element}</li>'});
+    {class: 'COP 4600'},
+    {class: 'COP 4331'},
+    {class: 'CIS 4940'},
+    {class: 'COP 3502'}
 
-/*
-    for(var i = 0; i<courseCodes.length; i++)
-    {
-        var currentClass = courseCodes[i] + courseNums[i];
-        
-        var listClass = document.createElement("li");
-        listClass.innerHTML = ('<li>'+currentClass+'</li>');
+]
 
-        //document.getElementById("tester").appendChild(listClass);
-
-    }
-*/
-    flag = true;
-    return;
-}
 
 function Profile()
 {
@@ -65,16 +45,11 @@ function Profile()
 
         <div id = "bottominfo2">
             
-            <lable id = 'FirstyNamey'>Courses</lable>
+            
+            <span id ="CoursesLable">Courses:</span>
 
             <br />
-
-                <ul class = "my-list" title = "Courses"> 
-                <li>COP 4600</li>
-                    {populate()}
-                </ul>
-           
-
+            {classes.map(thisclass => (<p>{thisclass.class}</p>))}
             <br />
 
         </div>
@@ -91,4 +66,6 @@ function Profile()
         </div>
     );
 };
+
+
 export default Profile;

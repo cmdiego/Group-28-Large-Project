@@ -1,3 +1,10 @@
+#CoursesLable
+{
+ font-size: larger;
+ color: whitesmoke;
+
+}
+
 form
 {
     text-align: center;
@@ -59,3 +66,4 @@ ul
     list-style: none;
     text-align: left;
 }
+
