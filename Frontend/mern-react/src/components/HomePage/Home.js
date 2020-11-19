@@ -10,6 +10,7 @@ function Home () {
     var mockDate = '11/10';
     var mockTime = '9:45';
     var isStudent = true;
+
     const searchProcess = async event =>
     {
         event.preventDefault();
@@ -19,14 +20,15 @@ function Home () {
     const profileProcess = async event =>
     {
         event.preventDefault();
-        alert("Shmoovin to profile page");
+        window.location.href = "/ProfilePage"; 
+        //alert("Shmoovin to profile page");
     };
 
     const logoutProcess = async event =>
     {
         event.preventDefault();
-        alert("Logging out");
-        window.location.href = '/SignupPage';
+        //alert("Logging out");
+        window.location.href = '/SigninPage';
     };
     const deleteCardProcess = async event =>
     {

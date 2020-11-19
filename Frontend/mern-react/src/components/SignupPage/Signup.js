@@ -16,22 +16,21 @@ function Signup()
 
         //User is on the Signup page
         if (state.button === 1){
-
             if (!(signupPassword.value === confirmPassword.value))
             {
                 alert('Passwords don\'t match');
                 return;
             }
-            //Get the email & password value
-            let req = {
-                email: signupEmail.value, 
-                password: signupPassword.value
-            }
-
                                         //Student
             if(document.getElementById('radiobutton1').checked)
             {
-                console.log("Student");
+                //Get the email, password, student, and tutor value
+                let req = {
+                    email: signupEmail.value, 
+                    password: signupPassword.value,
+                    student: true, 
+                    tutor: false
+                }
                 axios.post('http://localhost:5000/auth/signup', req)
                 .catch(err => {
                     console.log(err); 
@@ -48,6 +47,13 @@ function Signup()
                                             //Tutor
             else if(document.getElementById('radiobutton2').checked)
             {
+                //Get the email, password, student, and tutor value
+                let req = {
+                    email: signupEmail.value, 
+                    password: signupPassword.value,
+                    student: false, 
+                    tutor: true
+                }
                 axios.post('http://localhost:5000/auth/signup', req)
                 .catch(err => {
                     console.log(err); 

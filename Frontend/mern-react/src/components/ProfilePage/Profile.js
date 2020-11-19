@@ -12,6 +12,14 @@ var dummySchool = 'Nights Watch';
 var dummyEmail = 'jonsnow@gmail.com';
 var bioFromAPI = 'hard coded string but once we get the API just set this equal to it';
 
+function getinfo() {
+    axios.get('http://localhost:5000/auth/userinfo').then(() => {
+        console.log("data received!")
+    }).catch(() => {
+        alert("Error retrieving data!");  
+    })
+}
+
 /*need API to send a File like this*/
 const classes = [
 
@@ -57,6 +65,12 @@ function Profile()
         else
             alert("they match");
     }
+    const GoHome = async event =>
+    {
+        event.preventDefault();
+        window.location.href = "/HomePage"; 
+        //alert("Shmoovin to profile page");
+    };
 
     const submitnewEmail = async event =>
     {
@@ -158,7 +172,7 @@ function Profile()
 
 
             <input id = "buttonstyling" type = "button" value = "Edit Classes"/>
-            <input id = "buttonstyling" type = "button" value = "Back" />
+            <input id = "buttonstyling" type = "button" value = "Back" onClick = {GoHome} />
             
             </div>
 

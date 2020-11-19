@@ -4,19 +4,29 @@ import './GeneralSignup.css';
 import axios from "axios"; 
 
 function Activation() {
+    
     var firstName;
     var lastName;
     var schoolName;
     var bioInfo;
-
-    let {token}  = useParams();
-    axios.post(`http://localhost:5000/auth/email-activate/`, {token});
-   
     const [message, setMessage] = useState('');
     
+    //Create a dedicated page w/ button to activate
+    let {token}  = useParams();
+
+    //Clicked after creating account
     const generalCont = async event =>
     {
         event.preventDefault();
+        let req = {
+            firstName: firstName.value, 
+            lastName: lastName.value,
+            schoolName: schoolName.value, 
+            bioBox: bioInfo.value,
+            tkn: token
+        }
+        axios.post(`http://localhost:5000/auth/email-activate/`, req);
+        //axios.post(`http://localhost:5000/auth/email-activate/`, {token});
         /* for now loops back to signin*/
         window.location.href = '/CourseSetupPage';
     };  
@@ -34,7 +44,7 @@ function Activation() {
                 <br />
                 <span id="SchoolNametitle"></span>
                 <br />
-                <input type="text" id="schoolName" placeholder = "Last Name" ref={ (c) => schoolName = c} />
+                <input type="text" id="schoolName" placeholder = "School Name" ref={ (c) => schoolName = c} />
                 <br />
                 <span id="BioTitle"></span>
                 <br />
