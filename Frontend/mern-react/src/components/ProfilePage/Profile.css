@@ -42,7 +42,15 @@ form
     color: whitesmoke;
     background-color: #444;
 }
-
+#bottominfo3
+{
+    padding: 10px 10px;
+    border-radius: 5px;
+    width: auto;
+    height: auto;
+    color: whitesmoke;
+    background-color: #444;
+}
 .circular--square
 {
     display: inline-block;
@@ -60,10 +68,48 @@ form
     width: 30%;
     
 }
-
+#saveNewBio
+{
+    width: 30%;
+    border-radius: 5px;
+    border-color: rgb(88, 88, 88);
+}
 ul
 {
     list-style: none;
     text-align: left;
 }
 
+#buttonstyling
+{
+    
+    margin-right: 10;
+    margin-left: auto;
+    width: 48.80%;
+    
+}
+#newEmail
+{
+    width: 40%;
+}
+
+#confirmNewEmail
+{
+    width: 40%;
+}
+
+#newPass
+{
+    width: 40%;
+}
+
+#confirmNewPass
+{
+    width: 40%;
+}
+
+.divider {
+    width: 5px;
+    height: auto;
+    display: inline-block;
+}
