@@ -57,7 +57,6 @@ function Home () {
     var mockDate = '11/10';
     var mockTime = '9:45';
     var isStudent = true;
-<<<<<<< HEAD
     var testInfo = [
         {
             Course: 'COP4600',
@@ -74,9 +73,6 @@ function Home () {
             Date: new Date()
         }
     ];
-=======
-
->>>>>>> upstream/main
     const searchProcess = async event =>
     {
         event.preventDefault();
