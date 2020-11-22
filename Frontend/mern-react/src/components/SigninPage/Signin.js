@@ -22,13 +22,16 @@ function Signin()
 
         if (state.button === 1)
         {
-           
-            window.location.href = '/SigninPage';
-            console.log("Student signup work!");
-            axios.post('http://localhost:5000/api/signin', req)
+            axios.post('http://localhost:5000/auth/signin', req)
+            .then(function(resp) {
+                const status = resp.status; 
+                if(status == 200)
+                     window.location = '/HomePage';
+            })
                 .catch(err => {
                     console.log(err); 
                 })
+
             //alert('signing in ' + signinEmail.value + ' ' + signinPassword.value);
         }
         else if (state.button === 2)

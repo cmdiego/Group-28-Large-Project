@@ -1,11 +1,24 @@
-// Course Schema
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); 
 
-const Schema = mongoose.Schema;
-const courseSchema = new Schema ({
-  id: Number,
-  subjectCode: {type: String. uppercase: true},     // only ever 3 letters
-  courseCode: Number
+//**************** Course Collection ***********************
+//*** defining schemas ********/
+
+const coursesSchema = new mongoose.Schema({    
+    listCourse: [], 
+    count: Number,
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    },
 });
 
-module.exports = mongoose.model('Course', courseSchema);
+module.exports = mongoose.model('Courses', coursesSchema);
+
+//const temp = mongoose.model('Courses', coursesSchema);
+
+/*temp.create({
+    subjectCode: "MAC",
+    courseNumber: '4345'
+})*/
+
+//module.exports = temp;
