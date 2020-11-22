@@ -1,12 +1,12 @@
-const mongoose = require('mongoose'); 
+const mongoose = require('mongoose');
 
 //**************** Appointment / Time slot Collection ***********************
 //*** defining schemas ********/
 const appointmentSchema = new mongoose.Schema({
-    class: String,
-    tutor: String,
-    student: String,
-    time: String,
+    course: String,
+    tutorEmail: String,
+    studentEmail: String,
+    date: Date,
     rating : Number,
 });
 
