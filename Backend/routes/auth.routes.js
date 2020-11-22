@@ -6,6 +6,6 @@ const {signup, signin, activateAccount} = require("../controllers/user.controlle
 //API Endpoint for localhost:5000/signup directed to the signup method
 router.post('/signup', signup);
 router.post('/signin', signin);
-router.get('/email-activate', activateAccount); //.post
+router.get('/email-activate', activateAccount);
 //Export features for other to transfer
 module.exports = router;
