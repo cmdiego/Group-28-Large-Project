@@ -4,6 +4,7 @@ import download from './download.png';
 import {useParams}  from "react-router-dom";
 import axios from "axios"; 
 import PopupEmail from './PopupEmail';
+import CourseCards from './CourseCards';
 import PopupPassword from './PopupPassword';
 
 var dummyFname = 'Jon';
@@ -12,6 +13,7 @@ var dummySchool = 'Nights Watch';
 var dummyEmail = 'jonsnow@gmail.com';
 var bioFromAPI = 'hard coded string but once we get the API just set this equal to it';
 
+
 function getinfo() {
     axios.get('http://localhost:5000/auth/userinfo').then(() => {
         console.log("data received!")
@@ -19,6 +21,31 @@ function getinfo() {
         alert("Error retrieving data!");  
     })
 }
+
+function BringUpEdit()
+{
+    var temp = document.getElementById("setupForm").style.display ="none";
+    var temp = document.getElementById("editClassForm").style.display ="inline-block";
+
+}
+
+function BacktoProfile()
+{
+     var temp = document.getElementById("editClassForm").style.display ="none";
+     var temp = document.getElementById("setupForm").style.display = "inline-block";
+}
+
+function addclasses()
+{
+
+
+    var newdiv = document.createElement('span');
+    newdiv.innerHTML = ('<span id= "inner-title"><input type= "text" id="styleText" defaultValue = {thisclass.class} ></input><button id="buttonstyling3">X</button></span>');
+
+    document.getElementById("endOfthis").appendChild(newdiv);
+    return;
+};
+
 
 /*need API to send a File like this*/
 const classes = [
@@ -29,6 +56,8 @@ const classes = [
     {class: 'COP 3502'}
 
 ]
+
+
 
 function Profile()
 {
@@ -87,8 +116,8 @@ function Profile()
 
 
     return(
+
         <div id="Profileinformation">
-           
             <form  id = "setupForm">
                 <div id = "form1">
                 <br />
@@ -119,7 +148,8 @@ function Profile()
 
                 <br />
                 {classes.map(thisclass => (<p>{thisclass.class}</p>))}
-                
+                <br/>
+
 
             </div>
             <br/>
@@ -171,14 +201,34 @@ function Profile()
 
 
 
-            <input id = "buttonstyling" type = "button" value = "Edit Classes"/>
+            <input id = "buttonstyling" type = "button" value = "Edit Classes" onClick = {BringUpEdit}/>
             <input id = "buttonstyling" type = "button" value = "Back" onClick = {GoHome} />
             
             </div>
-
+            
                     
-                </form>
+            </form>
+        
+            <form id = "editClassForm">
+            Edit Courses
+            <br />
+            <br />
+            <br />
+            <div id = "courseEditList">
+                   
+                {classes.map(thisclass => (<div id = "classesListEdit"><input type= "text" id="styleText" defaultValue = {thisclass.class} ></input>
+                                             <button id="buttonstyling3">X</button></div>))}
+                                             <div id ="endOfthis"></div>
+            </div>
+            <br/>
+            <input type = "button" id = "buttonstyling2" value = "Submit Changes" onClick = {BacktoProfile} />
+            <input type = "button" id = "buttonstyling2" value = "Add Course" onClick = {addclasses} />
+            <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile} />
+            
+
+            </form>
         </div>
+        
     );
 };
 
