@@ -23,7 +23,7 @@ function Activation() {
             lastName: lastName.value,
             schoolName: schoolName.value, 
             bioBox: bioInfo.value,
-            tkn: token
+            token: token
         }
         axios.post(`http://localhost:5000/auth/email-activate/`, req);
         //axios.post(`http://localhost:5000/auth/email-activate/`, {token});
