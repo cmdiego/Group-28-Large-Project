@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import AppointCard from './AppointCard';
 import './Home.css';
+const axios = require('axios');
 /*
 function Thingerino(props) {
     var mockfirstName = 'Brent';
@@ -76,7 +77,8 @@ function Home () {
     const searchProcess = async event =>
     {
         event.preventDefault();
-        alert("Shmoovin to the search page");
+        window.location.href = '/SearchPage';
+        //alert("Shmoovin to the search page");
     };
 
     const profileProcess = async event =>
