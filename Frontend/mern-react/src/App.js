@@ -3,7 +3,9 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-d
 import './App.css';
 import SignupPage from './pages/SignupPage';
 import SigninPage from './pages/SigninPage';
-import Activate from './pages/Activate'; 
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
+import Activate from './pages/Activate';
+import Request from './pages/Request'; 
 import CourseSetupPage from './pages/CourseSetupPage';
 import ScheduleBuilderPage from './pages/ScheduleBuilderPage';
 import HomePage from './pages/HomePage';
@@ -16,7 +18,9 @@ function App() {
       <Switch>
         <Route path="/SignupPage" exact> <SignupPage /> </Route>
         <Route path="/SigninPage" exact> <SigninPage /> </Route>
+        <Route path="/ForgotPassword" exact> <ForgotPasswordPage /> </Route>
         <Route path="/authentication/email-activate/:token" exact> <Activate/> </Route>
+        <Route path="/reset-password/:token" exact> <Request/> </Route>
         <Route path="/CourseSetupPage" exact> <CourseSetupPage /></Route>
         <Route path="/ScheduleBuildPage" exact><ScheduleBuilderPage /></Route>
         <Route path="/HomePage" exact><HomePage /></Route>
