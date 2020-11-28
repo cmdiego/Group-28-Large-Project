@@ -78,3 +78,8 @@ export.setTimeslot = async function(req, res) {
     };
   });
 }
+
+export.getAppointments = async fuction(req, res) {
+
+  // TODO function for collecting the correct timeslots that are considered appointments
+}
