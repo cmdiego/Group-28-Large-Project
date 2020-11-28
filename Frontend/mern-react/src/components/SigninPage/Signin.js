@@ -38,6 +38,9 @@ function Signin()
         {
             window.location.href = '/SignupPage';
         }
+        else if(state.button === 3) {
+            window.location.href = '/ForgotPassword'; // '/ForgotPassword'
+        }
     };
 
 
@@ -49,6 +52,7 @@ function Signin()
                 <input type="password" id="signinPassword" placeholder="Type Password" ref={ (c) => signinPassword = c} /><br />
                 <input type="submit" id="signinButton" class="buttons" value="Sign in" onClick={() => state.button = 1} />
                 <label>Dont have an account?<input type="submit" id="defferSignIn" class="buttons" value="Sign up" onClick={() => state.button = 2} /></label>
+                <input type="submit" id="defferSignIn" class="buttons" value="Forgot Password?" onClick={() => state.button = 3} />
             </form>
     <span id="signinResult">{message}</span>
         </div>

@@ -98,7 +98,9 @@ function ScheduleBuilder()
                     <span id="timeSlotBlock">Choose Day:
                         <DatePicker id="datePicker" selected={startDate} onChange={date => setStartDate(date)} />
                         <text id="chooseTime">Choose Time: </text>
+                        
                         <Dropdown id="dropDown" options={options} onChange={_onSelect} placeholder="Select an option" />
+
                     </span>
                     <br />
                 </div>
@@ -106,10 +108,11 @@ function ScheduleBuilder()
                     <input type="button" id="addButton" value="+" onClick={addText}/>
                     <input type="button" id="delButton" value="-" onClick={deleteText} />
                 </div>
+                <div id="buttonForm">
+                    <input type="button" id="submitBlock" value="Submit" onClick={submitBlock} />
+                </div>
             </form>
-            <div id="buttonForm">
-                <input type="button" id="submitBlock" value="Submit" onClick={submitBlock} />
-            </div>
+
         </div>
     );
 };

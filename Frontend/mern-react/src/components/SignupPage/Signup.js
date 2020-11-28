@@ -21,6 +21,11 @@ function Signup()
                 alert('Passwords don\'t match');
                 return;
             }
+            if(signupPassword.value < 6) {
+                alert('Password has be at least 6 characters long!');
+                console.log('Password has be at least 6 characters long!'); 
+                return;
+            }
                                         //Student
             if(document.getElementById('radiobutton1').checked)
             {
