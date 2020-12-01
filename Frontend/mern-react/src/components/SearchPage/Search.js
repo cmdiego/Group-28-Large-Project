@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
+import SearchCard from './SearchCard';
 import './Search.css';
 const axios = require('axios');
 var options = [
@@ -38,20 +39,24 @@ function SearchOutput(props)
             or however that info gets managed within the backend
 
         */
-        var test = 'hello';
-        var test2 = [ 'hey', 'bro', 'what', 'up'];
+        // Would fill this array with information from search api and display with search card
+        var test2 = [
+            {
+                Tutor: 
+                {
+                    firstName: 'Robert',
+                    lastName: 'Johnson',
+                    email: 'robZone@gmail.com'
+                },
+                Date: new Date()
+            }
+        ];
+        var test3 = [{}];
         return (
-            <div>
-                <text>{props.value + ' ' + test}</text>
-                <br />
-                {test2.map(infoStuff =>
-                    (
-                        <div>
-                            <text>{infoStuff}</text>
-                            <br />
-                        </div>
-                    )
-                )}
+            <div id="SearchDisplay">
+                {test2.map(searchInfo => (
+                    <SearchCard info={searchInfo} />
+                ))}
             </div>
         );
     }
