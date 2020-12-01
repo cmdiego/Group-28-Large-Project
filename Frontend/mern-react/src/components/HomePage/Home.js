@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import AppointCard from './AppointCard';
+import otLogo from '../../otLogo.png';
 import './Home.css';
+
 const axios = require('axios');
 /*
 function Thingerino(props) {
@@ -105,6 +107,7 @@ function Home () {
     var testInfo2 = [{}];
     return (
         <div id="HomepageDiv">
+            <img class = "img-thumbnail" src = {otLogo} alt ="otLogo"/>    
             <input type="button" id="profileButton" class="button" value="Profile" onClick={profileProcess} />
             {isStudent ? <input type="button" id="searchButton" class="button" value="Search for Tutors" onClick={searchProcess} /> : <div></div>}
             <input type="button" id="logoutButton" class="button" value="Log Out" onClick={logoutProcess} />

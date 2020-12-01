@@ -59,3 +59,21 @@
     background-color: #444;
     color: white;
 }
+
+
+#CardStyle
+{
+    border-radius: 10px;
+    margin: 25px;
+    padding:10px;
+    background-color: rgb(236, 91, 75);
+    height: auto;
+    width: 500px;
+    font-size: large;
+    text-align: center;
+}
+
+.img-thumbnail
+{
+    width: 500px;
+}
