@@ -64,12 +64,14 @@ function Home () {
             Tutor: 
             {
                 firstName: 'Jeremy',
-                lastName: 'Elbertson'
+                lastName: 'Elbertson',
+                email: 'jerma986@gmail.com'
             },
             Student: 
             {
                 firstName: 'John',
-                lastName: 'Johnson'
+                lastName: 'Johnson',
+                email: 'johnjohn@gmail.com'
             },
             Date: new Date()
         }
@@ -99,7 +101,8 @@ function Home () {
         event.preventDefault();
         alert("delete card/ cancel appointment");
     };
-    
+    // used to test if search results are empty
+    var testInfo2 = [{}];
     return (
         <div id="HomepageDiv">
             <input type="button" id="profileButton" class="button" value="Profile" onClick={profileProcess} />

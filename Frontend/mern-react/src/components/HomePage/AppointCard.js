@@ -32,6 +32,12 @@ function TutorInfo(props) {
     );
 }
 
+function EmailInfo(props) {
+    return (
+        <text>{'Email: ' + props.email}</text>
+    );
+}
+
 function StudentInfo(props) {
     return (
         <text>{'Student: ' + props.Student.firstName + ' ' + props.Student.lastName}</text>
@@ -100,6 +106,15 @@ class AppointCard extends React.Component {
         const isDisplayed = this.state.isDisplayed;
         var isStudent = this.isStudent;
         var stuff = this.info;
+        // Enter here if given empty info (no appointments owned)
+        if (Object.entries(stuff).length === 0)
+        {
+            return (
+                <div>
+                    <text>No Current Appointments</text>
+                </div>
+            );
+        }
         if (isDisplayed)
         {
             return (
@@ -108,12 +123,14 @@ class AppointCard extends React.Component {
                     <DateInfo Date={stuff.Date} />
                     <br />
                     {isStudent ? <TutorInfo Tutor={stuff.Tutor} /> : <StudentInfo Student={stuff.Student} />}
+                    {isStudent ? <EmailInfo email={stuff.Tutor.email} /> : <EmailInfo email={stuff.Student.email} />}
                     <TimeInfo Date={stuff.Date} />
                     <br />
                     <button onClick={this.handleDeleteClick}>X</button>
                 </div>
             );
         }
+        // enter when delete button pressed to stop displaying info
         else{
             return null;
         }
