@@ -17,6 +17,7 @@ var flag = false;
 var nameList ="";
 var bioFromAPI = 'hard coded string but once we get the API just set this equal to it';
 
+
 const classes = [
 
     {class: 'COP 4600'},
@@ -26,6 +27,8 @@ const classes = [
 
 ]
 
+
+
 function getinfo() {
     axios.get('http://localhost:5000/auth/userinfo').then(() => {
         console.log("data received!")
@@ -33,6 +36,14 @@ function getinfo() {
         alert("Error retrieving data!");  
     })
 }
+
+function handleDeleteClick()
+{
+    alert("this works");
+
+    return;
+}
+
 function populate()
 {
     if(flag == true )
@@ -69,14 +80,17 @@ function BacktoProfile()
 
 function addclasses()
 {
-
-
     var newdiv = document.createElement('span');
     newdiv.innerHTML = ('<span id= "inner-title"><input type= "text" id="styleText" defaultValue = {thisclass.class} ></input><button id="buttonstyling3">X</button></span>');
 
     document.getElementById("endOfthis").appendChild(newdiv);
     return;
 };
+
+function removeclasses()
+{
+    this.setState({isDisplayed: false});
+}
 
 
 function Profile()
@@ -134,6 +148,7 @@ function Profile()
             alert("they match");
 
     }
+    
     
     /*componentDidMount = () => {
     };*/
@@ -242,12 +257,13 @@ function Profile()
             <div id = "courseEditList">
 
                 {classes.map(thisclass => (<div id = "classesListEdit"><input type= "text" id="styleText" defaultValue = {thisclass.class} ></input>
-                                             <button id="buttonstyling3">X</button></div>))}
+                                             <button id="buttonstyling3" onClick={removeclasses}>X</button></div>))}
                                              <div id ="endOfthis"></div>
             </div>
+            
+            <input type = "button" id = "buttonstyling2" value = "Add Slot" onClick = {addclasses} />
             <br/>
             <input type = "button" id = "buttonstyling2" value = "Submit Changes" onClick = {BacktoProfile} />
-            <input type = "button" id = "buttonstyling2" value = "Add Course" onClick = {addclasses} />
             <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile} />
 
 

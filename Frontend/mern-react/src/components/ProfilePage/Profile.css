@@ -94,6 +94,15 @@ form
     border-radius: 6px;
     box-shadow: 0px 8px 36px #222;
 }
+#bottominfo
+{
+    padding: 10px 10px;
+    border-radius: 5px;
+    width: auto;
+    height: auto;
+    color: whitesmoke;
+    background-color: #444;
+}
 
 #bottominfo2
 {
@@ -122,6 +131,19 @@ form
     height: 100px;
     width: 100px;
     border-radius: 50%;
+}
+
+#backgroundstyle
+{
+    background-color: #444;
+    border-radius: 5px;
+    padding: 10px 10px;
+    text-align: center;
+}
+
+#tutorRatingLable
+{
+
 }
 
 #submitclasses

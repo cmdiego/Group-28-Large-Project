@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import StarRatingComponent from 'react-star-rating-component';
 import './Profile.css';
 import download from './download.png';
 import PopupEmail from './PopupEmail';
@@ -11,7 +12,7 @@ var dummyLname = 'Snow';
 var dummySchool = 'Nights Watch';
 var dummyEmail = 'jonsnow@gmail.com';
 var bioFromAPI = 'String from DB';
-
+var rating =2.5;
 
 
 function TutorProfile()
@@ -93,6 +94,17 @@ function TutorProfile()
             <lable id = 'schoolName'>School: {dummySchool}</lable>
             <br/>
             <lable id = 'tempEmail'>Email: {dummyEmail}</lable>
+            <br/>
+            <br/>
+            <label id="tutorRatingLable">Tutor Rating:</label>
+            <br/>
+            <StarRatingComponent 
+            name="tutorrating" 
+            starCount={5}
+            value={rating}
+            />
+        
+            
         </div>
         <br/>
 
