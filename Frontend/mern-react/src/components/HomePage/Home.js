@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import AppointCard from './AppointCard';
+import otLogo from '../../otLogo.png';
 import './Home.css';
+
 const axios = require('axios');
 /*
 function Thingerino(props) {
@@ -74,6 +76,23 @@ function Home () {
                 email: 'johnjohn@gmail.com'
             },
             Date: new Date()
+        },
+
+        {
+            Course: 'COP4331',
+            Tutor: 
+            {
+                firstName: 'James',
+                lastName: 'Smith',
+                email: 'Jsmite@gmail.com'
+            },
+            Student: 
+            {
+                firstName: 'John',
+                lastName: 'Johnson',
+                email: 'johnjohn@gmail.com'
+            },
+            Date: new Date()
         }
     ];
     const searchProcess = async event =>
@@ -105,9 +124,10 @@ function Home () {
     var testInfo2 = [{}];
     return (
         <div id="HomepageDiv">
+            <img class = "img-thumbnail" src = {otLogo} alt ="otLogo"/>    
             <input type="button" id="profileButton" class="button" value="Profile" onClick={profileProcess} />
-            {isStudent ? <input type="button" id="searchButton" class="button" value="Search for Tutors" onClick={searchProcess} /> : <div></div>}
             <input type="button" id="logoutButton" class="button" value="Log Out" onClick={logoutProcess} />
+            {/*
             <div id="wrapAround">
                 <div id="mockCard">
                     <span id="coursePart">
@@ -129,7 +149,10 @@ function Home () {
                 </div>
                 <button id="deleteCardButton" onClick={deleteCardProcess}>X</button>
             </div>
-            <div>
+
+            */}
+            <div id ="middleOfPage">
+            {isStudent ? <input type="button" id="searchButton" class="button" value="Search for Tutors" onClick={searchProcess} /> : <div></div>}
                 {testInfo.map(infoStuff => (
                     <AppointCard info={infoStuff} isStudent={true} />
                 ))}

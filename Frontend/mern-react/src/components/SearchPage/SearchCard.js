@@ -1,5 +1,6 @@
 import React from 'react';
-import './SearchCard.css';
+import './Search.css';
+
 
 function TutorInfo(props) {
     return( 
@@ -85,13 +86,15 @@ class SearchCard extends React.Component {
                 <div className="SearchCard">
                     <div className="searchContent">
                         <TutorInfo Tutor={slotInfo.Tutor} />
+                        <br/>
                         <EmailInfo Tutor={slotInfo.Tutor} />
                         <br />
                         <DateInfo Date={slotInfo.Date} />
+                        <br/>
                         <TimeInfo Date={slotInfo.Date} />
                     </div>
-                    <div className="searchButton">
-                        <button onClick={this.handleAddClick}>Add</button>
+                    <div>
+                        <button id = "buttonStyle" onClick={this.handleAddClick}>Add</button>
                     </div>
                 </div>
             );

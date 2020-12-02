@@ -7,3 +7,78 @@
     top: 0;
     left: 0;
 }
+
+.Dropdown-control
+{
+    text-align: center;
+    background-color: #444;
+    color:whitesmoke;
+    border-color:  rgb(236, 91, 75);
+    border-radius: 10px;
+    width: 400px;
+    font-size: x-large;
+}
+
+.Dropdown-menu
+{
+    text-align: center;
+    border-radius: 10px;
+    color: white;
+    background-color: #444;
+    border-color:  rgb(236, 91, 75);
+}
+
+.Dropdown-option
+{
+    color: whitesmoke;
+}
+.Dropdown-menu:hover
+{
+    background-color: #444;
+}
+
+
+.Dropdown-option:hover
+{
+    background-color:rgb(73, 72, 72);
+    color: whitesmoke
+}
+
+
+.Dropdown-menu:active
+{
+    background-color:  #444;
+}
+
+
+
+#SearchDisplay
+{
+    background-color: rgb(236, 91, 75);
+    border-radius: 10px;
+    margin: 25px;
+    width: 350px;
+    height: auto;
+    font-size: large;
+    padding: 5%;
+    text-align: center;
+}
+
+#buttonStyle
+{
+    background-color: #444;
+    color: whitesmoke;
+    border-radius: 10px;
+    margin: 25px;
+    width: 50%;
+}
+
+#headerforSearch
+{
+    position: absolute;
+    left: 0%;
+    right: 0%;
+    color: whitesmoke;
+    text-align: center;
+    top: 0px;
+}

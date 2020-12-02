@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './SignUp.css';
+import otLogo from '../../otLogo.png';
 const axios = require('axios'); 
 var alreadyPressed = false;
 
@@ -83,6 +84,9 @@ function Signup()
     };
     return (
         <div id="signupDiv">
+            <img class = "img-rounded" src = {otLogo} alt ="otLogo"/>    
+            <br></br>
+
             <form method="post" action="/email-activate" onSubmit={signupProcess} id = "formID">
                 <span id="inner-title">Sign Up</span><br />
                 <input type="email" id="signupEmail" placeholder="Type Email" ref={ (c) => signupEmail = c} /><br />

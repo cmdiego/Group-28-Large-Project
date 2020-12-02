@@ -119,17 +119,16 @@ class AppointCard extends React.Component {
         if (isDisplayed)
         {
             return (
-                <div className="appointCard">
+                <div id = "CardStyle">
                     <CourseInfo Course={stuff.Course} />
+                    <br/>
                     <DateInfo Date={stuff.Date} />
                     <br />
-                    {isStudent ? <TutorInfo Tutor={stuff.Tutor} /> : <StudentInfo Student={stuff.Student} />}
-                    {isStudent ? <EmailInfo email={stuff.Tutor.email} /> : <EmailInfo email={stuff.Student.email} />}
+                    {isStudent ? <TutorInfo Tutor={stuff.Tutor} /> : <StudentInfo Student={stuff.Student} />}<br/>
+                    {isStudent ? <EmailInfo email={stuff.Tutor.email} /> : <EmailInfo email={stuff.Student.email} />}<br/>
                     <TimeInfo Date={stuff.Date} />
                     <br />
-                    <div className="appointButton">
-                        <button onClick={this.handleDeleteClick}>X</button>
-                    </div>
+                    <button id= "deleteCardButton"onClick={this.handleDeleteClick}>X</button>
                 </div>
             );
         }

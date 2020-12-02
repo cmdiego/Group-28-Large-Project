@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './SignIn.css';
+import otLogo from '../../otLogo.png';
 const axios = require('axios');
+
 
 function Signin()
 {
@@ -46,6 +48,8 @@ function Signin()
 
     return (
         <div id="signinDiv">
+            <img class = "img-rounded" src = {otLogo} alt ="otLogo"/>    
+            <br></br>
             <form onSubmit={signinProcess} id = "formID">
                 <span id="inner-title">Sign In</span><br />
                 <input type="email" id="signinEmail" placeholder="Type Email" ref={ (c) => signinEmail = c} /><br />

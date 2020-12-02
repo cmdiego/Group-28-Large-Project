@@ -94,7 +94,10 @@ function Search () {
     return (
         <div id="searchPageDiv">
             <button id="backButton" onClick={backButtonProcess} >Back</button>
-            <Dropdown id="searchDrop" options={format} onChange={_onSelect} placeholder="Choose a class" />
+            <Dropdown id="searchDrop" options={format} onChange={_onSelect} placeholder="Choose a class" 
+            itemTextStyle={{backgroundColor:"blue",textColor:"white"}}
+            textColor="#FFF"
+            />
             <br />
             <SearchOutput value={value.value} />
         </div>
