@@ -1,4 +1,5 @@
 import React from 'react';
+import './AppointCard.css';
 const axios = require('axios');
 /*
  var res = [
@@ -118,7 +119,7 @@ class AppointCard extends React.Component {
         if (isDisplayed)
         {
             return (
-                <div>
+                <div className="appointCard">
                     <CourseInfo Course={stuff.Course} />
                     <DateInfo Date={stuff.Date} />
                     <br />
@@ -126,7 +127,9 @@ class AppointCard extends React.Component {
                     {isStudent ? <EmailInfo email={stuff.Tutor.email} /> : <EmailInfo email={stuff.Student.email} />}
                     <TimeInfo Date={stuff.Date} />
                     <br />
-                    <button onClick={this.handleDeleteClick}>X</button>
+                    <div className="appointButton">
+                        <button onClick={this.handleDeleteClick}>X</button>
+                    </div>
                 </div>
             );
         }
