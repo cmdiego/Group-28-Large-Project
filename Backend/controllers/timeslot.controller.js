@@ -79,7 +79,29 @@ export.setTimeslot = async function(req, res) {
   });
 }
 
-export.getAppointments = async fuction(req, res) {
 
-  // TODO function for collecting the correct timeslots that are considered appointments
+export.getAppointments = async function(req, res) {
+  const user = req.user;
+  if(user.isStudent)
+  {
+    Appointment.find({studentEmail: user.email, date: {$gte: new Date()}}, function(err, timeSlots){
+      if(err)
+      {
+        console.log("Error in getting appointments");
+        return res.status(400).json({error: "did not get appointments properly"});
+      }
+      res.appointments = timeSlots;
+    });
+  }
+}
+
+export.getTimeslots = async function(req, res) {
+  const course = req.course;
+  Appointment.find({course: course, student: ""}, function(err, timeSlots){
+    if(err){
+      console.log("Error in getting timeslots");
+      return res.status(400).json({error: "did not get timeslots properly"});
+    }
+    res.timeSlots = timeSlots;
+  });
 }

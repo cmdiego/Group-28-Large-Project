@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const {addTimeslot, removeTimeslot, setTimeslot, getAppointments} = require("../controllers/timeslot.controller");
+const {addTimeslot, removeTimeslot, setTimeslot, getAppointments, getTimeslots} = require("../controllers/timeslot.controller");
 
 // skeleton for api, talked with eduardo and tristan about these
 /*
@@ -21,5 +21,6 @@ router.post('/add', addTimeslot);
 router.post('/delete', removeTimeslot);
 router.post('/set', setTimeslot);
 router.post('/appointments', getAppointments);
+router.post('/search', getTimeslots);
 
 module.exports = router;
