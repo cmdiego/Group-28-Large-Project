@@ -66,6 +66,12 @@ function BringUpPass()
     var temp = document.getElementById("editPassform").style.display ="inline-block";
 }
 
+function BringUpBio()
+{
+    var temp = document.getElementById("setupForm").style.display ="none";
+    var temp = document.getElementById("editBioform").style.display ="inline-block";
+}
+
 function BacktoProfile()
 {
      var temp = document.getElementById("editClassForm").style.display ="none";
@@ -75,6 +81,12 @@ function BacktoProfile()
 function BacktoProfile2()
 {
     var temp = document.getElementById("editPassform").style.display ="none";
+    var temp = document.getElementById("setupForm").style.display = "inline-block";
+}
+
+function BacktoProfile3()
+{
+    var temp = document.getElementById("editBioform").style.display ="none";
     var temp = document.getElementById("setupForm").style.display = "inline-block";
 }
 
@@ -132,18 +144,7 @@ const  submitnewPass = async event =>
         alert("they match");
 }
 
-const  submitnewEmail = async event =>
-{
-    var email1 = document.getElementById("newEmail").value;
-    var email2 = document.getElementById("confirmNewEmail").value;
 
-    if(email1 != email2)
-        alert("password not matching");
-
-    else
-        alert("they match");
-
-}
 //function Profile()
 class Profile extends Component 
 {
@@ -228,8 +229,7 @@ class Profile extends Component
 
                 <span id ="CoursesLable">Bio:</span>
                 <br/>
-                <textarea value={this.state.bioBox}></textarea>
-                <input type = "button" id="saveNewBio" class="buttons" value="Save Changes" onClick={saveBioChange}/>
+                <text>{this.state.bioBox}</text>
 
             </div>
 
@@ -238,7 +238,7 @@ class Profile extends Component
 
 
             <input id = "buttonstyling" type = "button" value = "Update password" onClick={BringUpPass}/>
-
+            <input id = "buttonstyling" type = "button" value = "Update Bio" onClick={BringUpBio}/>
 
 
             <input id = "buttonstyling" type = "button" value = "Edit Classes" onClick = {BringUpEdit}/>
@@ -250,21 +250,22 @@ class Profile extends Component
             </form>
 
             <form id = "editClassForm">
-            Edit Courses
-            <br />
-            <br />
-            <br />
-            <div id = "courseEditList">
+                Edit Courses
+                <br />
+                <br />
+                <br />
+                <div id = "courseEditList">
 
-                {classes.map(thisclass => (<div id = "classesListEdit"><input type= "text" id="styleText" defaultValue = {thisclass.class} ></input>
-                                             <button id="buttonstyling3" onClick={removeclasses}>X</button></div>))}
-                                             <div id ="endOfthis"></div>
-            </div>
-            
-            <input type = "button" id = "buttonstyling2" value = "Add Slot" onClick = {addclasses} />
-            <br/>
-            <input type = "button" id = "buttonstyling2" value = "Submit Changes" onClick = {BacktoProfile} />
-            <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile} />
+                    {classes.map(thisclass => (<div id = "classesListEdit"><input type= "text" id="styleText" defaultValue = {thisclass.class} ></input>
+                                                <button id="buttonstyling3" onClick={removeclasses}>X</button></div>))}
+                                                <div id ="endOfthis"></div>
+                </div>
+                
+                <input type = "button" id = "buttonstyling2" value = "Add Slot" onClick = {addclasses} />
+                <input type = "button" id = "buttonstyling2" value = "Clear All" onClick = {addclasses} />
+                <br/>
+                <input type = "button" id = "buttonstyling2" value = "Submit Changes" onClick = {BacktoProfile} />
+                <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile} />
 
 
             </form>
@@ -280,9 +281,18 @@ class Profile extends Component
                 <br/>
                 <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitnewPass} />
                 <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile2} />
-
-
             </form>
+
+            <form id = "editBioform">
+                Update Bio
+                <br/>
+                <br/>
+                <textarea id="bioText" placeholder = "Bio, tell us a bit about your self" ></textarea>               
+                <br/>
+                <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitnewPass} />
+                <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile3} />
+            </form>
+
         </div>
 
         );

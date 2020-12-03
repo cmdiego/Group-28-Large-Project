@@ -84,7 +84,7 @@ class SearchCard extends React.Component {
         {
             
             return (
-                <div className="SearchCard" id = "CardStyle">
+                <div className="SearchCard" id = "CardStyle">Appointment Details
                     <div className="searchContent">
                     <div id = "innerStylecard">
                         <TutorInfo Tutor={slotInfo.Tutor} />
@@ -97,7 +97,7 @@ class SearchCard extends React.Component {
                     </div>
                     </div>
                     <div>
-                        <button id = "buttonStyle" onClick={this.handleAddClick}>Add</button>
+                        <button id = "buttonStyle5" onClick={this.handleAddClick}>Schedule Now</button>
                     </div>
                 </div>
             );

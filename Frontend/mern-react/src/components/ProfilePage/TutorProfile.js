@@ -24,11 +24,23 @@ function TutorProfile()
         var temp = document.getElementById("setupForm").style.display ="none";
         var temp = document.getElementById("editPassform").style.display ="inline-block";
     }
+
+    function BringUpBio()
+    {
+        var temp = document.getElementById("setupForm").style.display ="none";
+        var temp = document.getElementById("editBioform").style.display ="inline-block";
+    }
  
     
     function BacktoProfile2()
     {
         var temp = document.getElementById("editPassform").style.display ="none";
+        var temp = document.getElementById("setupForm").style.display = "inline-block";
+    }
+
+    function BacktoProfile3()
+    {
+        var temp = document.getElementById("editBioform").style.display ="none";
         var temp = document.getElementById("setupForm").style.display = "inline-block";
     }
 
@@ -127,15 +139,16 @@ function TutorProfile()
 
                 <span id ="CoursesLable">Bio:</span>
                 <br/>
-                <textarea>{bioFromAPI}</textarea>
-                <input type = "button" id="saveNewBio" class="buttons" value="Save Changes" onClick={saveBioChange}/>
+                <br/>
+                <text>{bioFromAPI}</text>
+                <br/>
 
             </div>
 
 
 
             <input id = "buttonstyling4" type = "button" value = "Update password" onClick={BringUpPass}/>
-            
+            <input id = "buttonstyling4" type = "button" value = "Update Bio" onClick={BringUpBio}/>
 
 
             <input id = "buttonstyling4" type = "button" value = "Update Schedule"  />
@@ -157,6 +170,16 @@ function TutorProfile()
                 <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile2} />
 
 
+            </form>
+
+            <form id = "editBioform">
+                Update Bio
+                <br/>
+                <br/>
+                <textarea id="bioText" placeholder = "Bio, tell us a bit about your self" ></textarea>               
+                <br/>
+                <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {BringUpBio} />
+                <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile3} />
             </form>
 
         </div>
