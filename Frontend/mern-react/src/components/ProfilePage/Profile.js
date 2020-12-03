@@ -125,7 +125,10 @@ const  submitnewPass = async event =>
     else {
         axios.post('http://localhost:5000/auth/changePassword', {pass1}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
         .then(function(resp) {
-            console.log(resp); 
+            console.log(resp);
+            if(resp.status == 200) {
+                BacktoProfile2();
+            } 
         })
             .catch(err => {
                 console.log(err); 

@@ -345,15 +345,14 @@ exports.changePassword = async function(req, res) {
                     function(err, success) {
                         if(err) {
                           console.log("Error in changing passwords: ", err);
-                          return res.status(400), json({error: 'Error in changing passwords'})
+                          return res.status(400).json({error: 'Error in changing passwords'})
                         }
                          console.log("Password Updated!");
-                         res.json({ message: "Password Updated!" });
+                        return res.status(200).json("Password Changed Successs"); 
                     });
                });
             });
         });
-        return res; 
 }
 
        
