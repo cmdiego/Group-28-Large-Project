@@ -2,6 +2,7 @@ import React from 'react';
 import './Search.css';
 
 
+
 function TutorInfo(props) {
     return( 
         <text>{'Tutor: ' + props.Tutor.firstName + ' ' + props.Tutor.lastName + ' '}</text>
@@ -83,8 +84,9 @@ class SearchCard extends React.Component {
         {
             
             return (
-                <div className="SearchCard">
+                <div className="SearchCard" id = "CardStyle">
                     <div className="searchContent">
+                    <div id = "innerStylecard">
                         <TutorInfo Tutor={slotInfo.Tutor} />
                         <br/>
                         <EmailInfo Tutor={slotInfo.Tutor} />
@@ -92,6 +94,7 @@ class SearchCard extends React.Component {
                         <DateInfo Date={slotInfo.Date} />
                         <br/>
                         <TimeInfo Date={slotInfo.Date} />
+                    </div>
                     </div>
                     <div>
                         <button id = "buttonStyle" onClick={this.handleAddClick}>Add</button>

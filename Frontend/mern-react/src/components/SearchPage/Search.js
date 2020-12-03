@@ -63,6 +63,7 @@ function SearchOutput(props)
         var test3 = [{}];
         return (
             <div id="SearchDisplay">
+
                 {test2.map(searchInfo => (
                     <SearchCard info={searchInfo} />
                 ))}
@@ -94,12 +95,12 @@ function Search () {
     return (
         <div id="searchPageDiv">
             <button id="backButton" onClick={backButtonProcess} >Back</button>
-            <Dropdown id="searchDrop" options={format} onChange={_onSelect} placeholder="Choose a class" 
-            itemTextStyle={{backgroundColor:"blue",textColor:"white"}}
-            textColor="#FFF"
-            />
+            <div id="DropdownHelper">
+            <Dropdown id="searchDrop" options={format} onChange={_onSelect} placeholder="Choose a class" />
+            </div>
             <br />
             <SearchOutput value={value.value} />
+            
         </div>
     );
 }
