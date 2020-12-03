@@ -31,7 +31,7 @@ form
 {
     display: none;
     flex-direction: column;
-    width: 400px;
+    width: 500px;
     min-width: 100px;
     min-height: 400px;
     padding: 20px 40px 40px 40px;
@@ -231,4 +231,10 @@ ul
 #stylesomeButtons
 {
     width: 20%;
+}
+
+#testhis
+{
+    color: whitesmoke;
+    font-weight: bold;
 }
