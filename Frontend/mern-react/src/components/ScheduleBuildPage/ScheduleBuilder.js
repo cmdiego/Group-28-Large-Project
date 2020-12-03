@@ -59,7 +59,7 @@ function ScheduleBuilder()
         timeArray.push(value.value);
         dateArray.push(startDate);
         var newdiv = document.createElement('div');
-        newdiv.innerHTML = ('<div id = "form'+(count)+'"><span id="innerPart">Time Slot '+(count + 1)+':<text id="timeText">{'+dateArray[count].toDateString()+'}</text>'+'<text id="dateText">{'+timeArray[(count)]+'}</text>'+' <br /></span>' + '</div>');
+        newdiv.innerHTML = ('<br/><div id = "form'+(count)+'"><span id="innerPart">Time Slot '+(count + 1)+' :<text id="timeText">'+dateArray[count].toDateString()+'</text>'+'<text id="dateText"> at '+timeArray[(count)]+'</text>'+' <br /></span>' + '</div>');
         if (count === 0)
         {
             document.getElementById("form").appendChild(newdiv);
@@ -93,6 +93,7 @@ function ScheduleBuilder()
                 <div id="form">
                     <text></text>
                 </div>
+                <br/>
 
                 <div id="scheduleInfoDiv">
                     <span id="timeSlotBlock">Choose Day:
