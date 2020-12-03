@@ -4,7 +4,7 @@ import './Search.css';
 function PageTitle()
 {
     return(
-        <h1 id="headerforSearch">Search for Tutors</h1>
+        <h1 id="headerforSearch"></h1>
     );
 };
 

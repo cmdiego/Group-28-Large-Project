@@ -31,9 +31,48 @@ form
 {
     display: none;
     flex-direction: column;
-    width: 400px;
+    width: 500px;
     min-width: 100px;
     min-height: 400px;
+    padding: 20px 40px 40px 40px;
+    border-radius: 6px;
+    box-shadow: 0px 8px 36px #222;
+    background-color: rgb(236, 91, 75);
+}
+
+#editPassform
+{
+    display: none;
+    flex-direction: column;
+    width: 400px;
+    min-width: 100px;
+    min-height: 200px;
+    padding: 20px 40px 40px 40px;
+    border-radius: 6px;
+    box-shadow: 0px 8px 36px #222;
+    background-color: rgb(236, 91, 75);
+}
+
+#editBioform
+{
+    display: none;
+    flex-direction: column;
+    width: 400px;
+    min-width: 100px;
+    min-height: 200px;
+    padding: 20px 40px 40px 40px;
+    border-radius: 6px;
+    box-shadow: 0px 8px 36px #222;
+    background-color: rgb(236, 91, 75);
+}
+
+#editAvaform
+{
+    display: none;
+    flex-direction: column;
+    width: 400px;
+    min-width: 100px;
+    min-height: 200px;
     padding: 20px 40px 40px 40px;
     border-radius: 6px;
     box-shadow: 0px 8px 36px #222;
@@ -156,6 +195,7 @@ form
     border-radius: 5px;
     border-color: rgb(88, 88, 88);
 }
+
 ul
 {
     list-style: none;
@@ -170,24 +210,15 @@ ul
     width: 48%;
     
 }
-#newEmail
-{
-    width: 40%;
-}
-
-#confirmNewEmail
-{
-    width: 40%;
-}
 
 #newPass
 {
-    width: 40%;
+    width: 90%;
 }
 
 #confirmNewPass
 {
-    width: 40%;
+    width: 90%;
 }
 
 .divider {
@@ -200,4 +231,10 @@ ul
 #stylesomeButtons
 {
     width: 20%;
+}
+
+#testhis
+{
+    color: whitesmoke;
+    font-weight: bold;
 }

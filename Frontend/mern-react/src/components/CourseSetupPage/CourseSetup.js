@@ -37,6 +37,10 @@ function CourseSetup()
         return;
     };
 
+     function toUpper(x) {
+        return x.toUpperCase();
+    }; 
+
     function submitclass()
     {
         let courseCodeIndex = 0;
@@ -44,7 +48,7 @@ function CourseSetup()
 
         var req = {
             count: Number,
-            courses: []
+            courses: [],
         }
 
         //Save Subject Code
@@ -71,17 +75,21 @@ function CourseSetup()
         let courses = []; 
 
         for(let i = 0; i < count; i++) {
-            courses[i] = courseCode[i]+courseNum[i];
+            courses[i] = courseCode[i]+ " " + courseNum[i];
         }
+  
+        courses = courses.map(toUpper); 
 
         for(let i = 0; i < count; i++) {
             req.courses.push(courses[i]); 
         }
-        axios.post('http://localhost:5000/auth/addCourse', req)
+        axios.post('http://localhost:5000/auth/addCourse', req, { headers: {Authorization: localStorage.getItem('jwtToken')}})
         .then(function(resp) {
             const status = resp.status; 
-            if(status == 200)
-                 window.location = '/HomePage';
+            if(status == 201)
+                 window.location = '/ScheduleBuildPage';
+            if(status == 202) 
+                window.location = '/HomePage';
         })
             .catch(err => {
                 console.log(err); 

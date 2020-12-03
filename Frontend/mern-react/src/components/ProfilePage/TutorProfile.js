@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import StarRatingComponent from 'react-star-rating-component';
 import './Profile.css';
 import download from './download.png';
-import PopupEmail from './PopupEmail';
-import PopupPassword from './PopupPassword';
 const axios = require('axios');
 
 
@@ -22,16 +19,40 @@ function TutorProfile()
     const [isOpen2, setIsOpen2] = useState(false);
 
 
-    const togglePopup = () =>
+    function BringUpPass()
     {
-
-        setIsOpen(!isOpen);
-
+        var temp = document.getElementById("setupForm").style.display ="none";
+        var temp = document.getElementById("editPassform").style.display ="inline-block";
     }
 
-    const togglePopup2 = () =>
+    function BringUpBio()
     {
-      setIsOpen2(!isOpen);
+        var temp = document.getElementById("setupForm").style.display ="none";
+        var temp = document.getElementById("editBioform").style.display ="inline-block";
+    }
+    function BringupSche()
+    {
+        var temp = document.getElementById("setupForm").style.display ="none";
+        var temp = document.getElementById("editAvaform").style.display ="inline-block";
+    }
+ 
+    
+    function BacktoProfile2()
+    {
+        var temp = document.getElementById("editPassform").style.display ="none";
+        var temp = document.getElementById("setupForm").style.display = "inline-block";
+    }
+
+    function BacktoProfile3()
+    {
+        var temp = document.getElementById("editBioform").style.display ="none";
+        var temp = document.getElementById("setupForm").style.display = "inline-block";
+    }
+
+    function BacktoProfile4()
+    {
+        var temp = document.getElementById("editAvaform").style.display ="none";
+        var temp = document.getElementById("setupForm").style.display = "inline-block";
     }
 
     const saveBioChange= async event =>
@@ -76,7 +97,7 @@ function TutorProfile()
     return(
         <div id="Profileinformation">
            
-            <form  id = "setupForm2">
+            <form  id = "setupForm">
                 <div id = "form1">
                     <span id="topofForm">Account Information</span>
                     <br/>
@@ -129,35 +150,61 @@ function TutorProfile()
 
                 <span id ="CoursesLable">Bio:</span>
                 <br/>
-                <textarea>{bioFromAPI}</textarea>
-                <input type = "button" id="saveNewBio" class="buttons" value="Save Changes" onClick={saveBioChange}/>
+                <br/>
+                <text>{bioFromAPI}</text>
+                <br/>
 
             </div>
 
 
 
-            <input id = "buttonstyling4" type = "button" value = "Update password" onClick={togglePopup2}/>
-            {isOpen2 && <PopupPassword
-            content={<>
-            <b>Update Password</b>
-            <br/>
-            <br/>
-            <input type="text" id="newPass" placeholder = "New Password"/>
-            <br/>
-            <input type="text" id="confirmNewPass" placeholder = "Confirm Password"/>
-            <br/>
-            <button id = "popuButton" onClick = {submitnewPass}>Submit</button>
-             <div class ="divider"/>
-            <button id = "popuButton">Cancle</button></>}handleClose={togglePopup2}/>}
+            <input id = "buttonstyling4" type = "button" value = "Update password" onClick={BringUpPass}/>
+            <input id = "buttonstyling4" type = "button" value = "Update Bio" onClick={BringUpBio}/>
 
+<<<<<<< HEAD
             {/*this is the update schedule button */}
             <input id = "buttonstyling4" type = "button" value = "Update Schedule"  />
 
+=======
+
+            <input id = "buttonstyling4" type = "button" value = "Update Schedule"  onClick = {BringupSche}/>
+>>>>>>> upstream/main
             <input id = "buttonstyling4" type = "button" value = "Back" onClick = {GoHome} />
 
             </div>
             </form>
 
+            <form id = "editPassform">
+                Update Password
+                <br/>
+                <br/>
+                <input type="password" id="newPass" placeholder = "New Password" class ="password"/>
+                <br/>
+                <input type="password" id="confirmNewPass" placeholder = "Confirm Password"/>
+                
+                <br/>
+                <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitnewPass} />
+                <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile2} />
+
+
+            </form>
+
+            <form id = "editBioform">
+                Update Bio
+                <br/>
+                <br/>
+                <textarea id="bioText" placeholder = "Bio, tell us a bit about your self" ></textarea>               
+                <br/>
+                <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {BringUpBio} />
+                <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile3} />
+            </form>
+
+            <form id = "editAvaform">
+                 stuffs
+                
+                <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitnewPass} />
+                <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile4} />
+            </form>
 
         </div>
 

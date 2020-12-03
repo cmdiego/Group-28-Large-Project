@@ -8,8 +8,9 @@ const userSchema = new mongoose.Schema({
         trim: true,
         required: true, 
         unique: true, 
-        lowercase: true 
-    }, 
+        lowercase: true, 
+        sparse: true,  
+    },
     password : String,
     isStudent: Boolean, 
     isTutor: Boolean,
@@ -32,7 +33,7 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Courses'
     }, 
-
 }, {timestamps: true});
+
 
 module.exports = mongoose.model('User', userSchema);
