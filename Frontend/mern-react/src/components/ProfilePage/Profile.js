@@ -63,10 +63,22 @@ function BringUpEdit()
 
 }
 
+function BringUpPass()
+{
+    var temp = document.getElementById("setupForm").style.display ="none";
+    var temp = document.getElementById("editPassform").style.display ="inline-block";
+}
+
 function BacktoProfile()
 {
      var temp = document.getElementById("editClassForm").style.display ="none";
      var temp = document.getElementById("setupForm").style.display = "inline-block";
+}
+
+function BacktoProfile2()
+{
+    var temp = document.getElementById("editPassform").style.display ="none";
+    var temp = document.getElementById("setupForm").style.display = "inline-block";
 }
 
 function addclasses()
@@ -225,22 +237,7 @@ class Profile extends Component
 
 
 
-            <input id = "buttonstyling" type = "button" value = "Update password" onClick={togglePopup2}/>
-            {isOpen2 && <PopupPassword
-            content={<>
-            <b>Update Password</b>
-            <br/>
-            <br/>
-            <input type="text" id="newPass" placeholder = "New Password"/>
-            <br/>
-            <input type="text" id="confirmNewPass" placeholder = "Confirm Password"/>
-            <br/>
-            <button id = "popuButton" onClick = {submitnewPass}>Submit</button>
-             <div class ="divider"/>
-            <button id = "popuButton">Cancel</button>
-            </>}
-            handleClose={togglePopup2}
-            />}
+            <input id = "buttonstyling" type = "button" value = "Update password" onClick={BringUpPass}/>
 
 
 
@@ -268,6 +265,21 @@ class Profile extends Component
             <br/>
             <input type = "button" id = "buttonstyling2" value = "Submit Changes" onClick = {BacktoProfile} />
             <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile} />
+
+
+            </form>
+
+            <form id = "editPassform">
+                Update Password
+                <br/>
+                <br/>
+                <input type="password" id="newPass" placeholder = "New Password" class ="password"/>
+                <br/>
+                <input type="password" id="confirmNewPass" placeholder = "Confirm Password"/>
+                
+                <br/>
+                <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitnewPass} />
+                <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile2} />
 
 
             </form>
