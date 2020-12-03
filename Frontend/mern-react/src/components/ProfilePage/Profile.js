@@ -143,7 +143,8 @@ class Profile extends Component
         lastName: '',
         schoolName: '',
         email: '',
-        courses: []
+        courses: [],
+        bioBox: ''
     }
 
     async  componentDidMount() {
@@ -153,13 +154,15 @@ class Profile extends Component
         const resSchool = await res.data.schoolName;
         const resEmail = await res.data.email;
         const resCourses = await res.data.courses; 
+        const resBioBox = await res.data.bioBox; 
 
         this.setState(idk => ({
             firstName: idk.firstName = resFirst,
             lastName: idk.lastName = resLast,
             schoolName: idk.schoolName = resSchool,
             email: idk.email = resEmail,
-            courses: idk.courses = resCourses
+            courses: idk.courses = resCourses,
+            bioBox: idk.bioBox = resBioBox
         }))
       }
 
@@ -216,7 +219,7 @@ class Profile extends Component
 
                 <span id ="CoursesLable">Bio:</span>
                 <br/>
-                <textarea>{bioFromAPI}</textarea>
+                <textarea value={this.state.bioBox}></textarea>
                 <input type = "button" id="saveNewBio" class="buttons" value="Save Changes" onClick={saveBioChange}/>
 
             </div>
