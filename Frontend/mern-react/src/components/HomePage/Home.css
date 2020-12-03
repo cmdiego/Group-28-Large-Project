@@ -66,6 +66,7 @@
     margin-left: 400px;
     border-radius: 5px;
     background-color: #444;
+    border-color: #444;
     color: white;
 }
 
@@ -78,6 +79,22 @@
     background-color: rgb(236, 91, 75);
     height: auto;
     width: 500px;
+    font-size: large;
+    font-weight: lighter;
+    color: #444;
+    font-weight: bold;
+}
+
+#innerStylecard
+{
+    border-radius: 10px;
+    margin: 25px;
+    padding:10px;
+    background-color: #444;
+    height: auto;
+    width: auto;
+    color: whitesmoke;
+    box-shadow: 1px 1px 20px #222;
     font-size: large;
     text-align: center;
 }
