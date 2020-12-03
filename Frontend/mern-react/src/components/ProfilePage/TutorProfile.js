@@ -150,8 +150,9 @@ function TutorProfile()
              <div class ="divider"/>
             <button id = "popuButton">Cancle</button></>}handleClose={togglePopup2}/>}
 
-
+            {/*this is the update schedule button */}
             <input id = "buttonstyling4" type = "button" value = "Update Schedule"  />
+
             <input id = "buttonstyling4" type = "button" value = "Back" onClick = {GoHome} />
 
             </div>
