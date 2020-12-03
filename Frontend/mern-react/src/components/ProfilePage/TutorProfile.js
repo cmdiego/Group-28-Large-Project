@@ -30,6 +30,11 @@ function TutorProfile()
         var temp = document.getElementById("setupForm").style.display ="none";
         var temp = document.getElementById("editBioform").style.display ="inline-block";
     }
+    function BringupSche()
+    {
+        var temp = document.getElementById("setupForm").style.display ="none";
+        var temp = document.getElementById("editAvaform").style.display ="inline-block";
+    }
  
     
     function BacktoProfile2()
@@ -41,6 +46,12 @@ function TutorProfile()
     function BacktoProfile3()
     {
         var temp = document.getElementById("editBioform").style.display ="none";
+        var temp = document.getElementById("setupForm").style.display = "inline-block";
+    }
+
+    function BacktoProfile4()
+    {
+        var temp = document.getElementById("editAvaform").style.display ="none";
         var temp = document.getElementById("setupForm").style.display = "inline-block";
     }
 
@@ -151,7 +162,7 @@ function TutorProfile()
             <input id = "buttonstyling4" type = "button" value = "Update Bio" onClick={BringUpBio}/>
 
 
-            <input id = "buttonstyling4" type = "button" value = "Update Schedule"  />
+            <input id = "buttonstyling4" type = "button" value = "Update Schedule"  onClick = {BringupSche}/>
             <input id = "buttonstyling4" type = "button" value = "Back" onClick = {GoHome} />
 
             </div>
@@ -180,6 +191,13 @@ function TutorProfile()
                 <br/>
                 <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {BringUpBio} />
                 <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile3} />
+            </form>
+
+            <form id = "editAvaform">
+                 stuffs
+                
+                <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitnewPass} />
+                <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile4} />
             </form>
 
         </div>

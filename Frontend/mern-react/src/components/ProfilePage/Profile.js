@@ -265,7 +265,6 @@ class Profile extends Component
                 <input type = "button" id = "buttonstyling2" value = "Clear All" onClick = {addclasses} />
                 <br/>
                 <input type = "button" id = "buttonstyling2" value = "Submit Changes" onClick = {BacktoProfile} />
-                <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile} />
 
 
             </form>
