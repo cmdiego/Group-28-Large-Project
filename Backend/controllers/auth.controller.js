@@ -348,16 +348,18 @@ exports.courseSetup =  async function (req, res) {
 //For profile page info
 exports.getUserInfo = async function(req, res) {  
     const UserInfo = req.user.user; 
+
     const firstName = UserInfo.firstName;
     const lastName = UserInfo.lastName;
     const schoolName = UserInfo.schoolName;
     const email = UserInfo.email; 
-     
+    const bioBox = UserInfo.bioBox;
 
     console.log("First Name: " + firstName);
     console.log("Last Name: " + lastName);
     console.log("School: " + schoolName);
     console.log("Email: " + email);
+    console.log("BioBox: " + bioBox);
 
    /* Courses.find({ }).exec((err, courses) => {
         let course = courses[0].listCourse;
@@ -372,7 +374,7 @@ exports.getUserInfo = async function(req, res) {
             return res.status(400).json({error: "No course exist w/ user"});
         }
         console.log(courses); 
-        return res.json({ firstName, lastName, schoolName, email, courses}); 
+        return res.json({ firstName, lastName, schoolName, email, courses, bioBox}); 
 
     })
 
