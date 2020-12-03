@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import StarRatingComponent from 'react-star-rating-component';
 import './Profile.css';
 import download from './download.png';
-import PopupEmail from './PopupEmail';
-import PopupPassword from './PopupPassword';
 const axios = require('axios');
 
 
@@ -22,16 +19,17 @@ function TutorProfile()
     const [isOpen2, setIsOpen2] = useState(false);
 
 
-    const togglePopup = () =>
+    function BringUpPass()
     {
-
-        setIsOpen(!isOpen);
-
+        var temp = document.getElementById("setupForm").style.display ="none";
+        var temp = document.getElementById("editPassform").style.display ="inline-block";
     }
-
-    const togglePopup2 = () =>
+ 
+    
+    function BacktoProfile2()
     {
-      setIsOpen2(!isOpen);
+        var temp = document.getElementById("editPassform").style.display ="none";
+        var temp = document.getElementById("setupForm").style.display = "inline-block";
     }
 
     const saveBioChange= async event =>
@@ -76,7 +74,7 @@ function TutorProfile()
     return(
         <div id="Profileinformation">
            
-            <form  id = "setupForm2">
+            <form  id = "setupForm">
                 <div id = "form1">
                     <span id="topofForm">Account Information</span>
                     <br/>
@@ -136,19 +134,8 @@ function TutorProfile()
 
 
 
-            <input id = "buttonstyling4" type = "button" value = "Update password" onClick={togglePopup2}/>
-            {isOpen2 && <PopupPassword
-            content={<>
-            <b>Update Password</b>
-            <br/>
-            <br/>
-            <input type="text" id="newPass" placeholder = "New Password"/>
-            <br/>
-            <input type="text" id="confirmNewPass" placeholder = "Confirm Password"/>
-            <br/>
-            <button id = "popuButton" onClick = {submitnewPass}>Submit</button>
-             <div class ="divider"/>
-            <button id = "popuButton">Cancle</button></>}handleClose={togglePopup2}/>}
+            <input id = "buttonstyling4" type = "button" value = "Update password" onClick={BringUpPass}/>
+            
 
 
             <input id = "buttonstyling4" type = "button" value = "Update Schedule"  />
@@ -157,6 +144,20 @@ function TutorProfile()
             </div>
             </form>
 
+            <form id = "editPassform">
+                Update Password
+                <br/>
+                <br/>
+                <input type="password" id="newPass" placeholder = "New Password" class ="password"/>
+                <br/>
+                <input type="password" id="confirmNewPass" placeholder = "Confirm Password"/>
+                
+                <br/>
+                <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitnewPass} />
+                <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile2} />
+
+
+            </form>
 
         </div>
 

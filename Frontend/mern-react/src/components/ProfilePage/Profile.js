@@ -2,9 +2,6 @@
 import React, { useState, Component } from 'react';
 import './Profile.css';
 import download from './download.png';
-import PopupEmail from './PopupEmail';
-import CourseCards from './CourseCards';
-import PopupPassword from './PopupPassword';
 const axios = require('axios');
 
 
