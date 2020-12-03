@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, Component } from 'react';
 import './Profile.css';
 import download from './download.png';
 import PopupEmail from './PopupEmail';
@@ -11,38 +12,22 @@ var dummyFname = 'Jon';
 var dummyLname = 'Snow';
 var dummySchool = 'Nights Watch';
 var dummyEmail = 'jonsnow@gmail.com';
+
 var courseCodes = ['COP','COP','CIS','EEL'];
 var courseNums = ['4600','4331','4910','3421'];
 var flag = false;
 var nameList ="";
 var bioFromAPI = 'hard coded string but once we get the API just set this equal to it';
 
+var isOpen = false; 
+var isOpen2 = false;
 
 const classes = [
-
     {class: 'COP 4600'},
     {class: 'COP 4331'},
     {class: 'CIS 4940'},
     {class: 'COP 3502'}
-
 ]
-
-
-
-function getinfo() {
-    axios.get('http://localhost:5000/auth/userinfo').then(() => {
-        console.log("data received!")
-    }).catch(() => {
-        alert("Error retrieving data!");  
-    })
-}
-
-function handleDeleteClick()
-{
-    alert("this works");
-
-    return;
-}
 
 function populate()
 {
@@ -57,12 +42,19 @@ function populate()
     flag = true;
     return;
 }
-    const GoHome = async event =>
-    {
+
+    const GoHome = async event => {
         event.preventDefault();
         window.location.href = "/HomePage"; 
         //alert("Shmoovin to profile page");
     };
+
+function handleDeleteClick()
+{
+    alert("this works");
+
+    return;
+}
 
 function BringUpEdit()
 {
@@ -70,7 +62,6 @@ function BringUpEdit()
     var temp = document.getElementById("editClassForm").style.display ="inline-block";
 
 }
-
 
 function BacktoProfile()
 {
@@ -92,66 +83,94 @@ function removeclasses()
     this.setState({isDisplayed: false});
 }
 
-
-function Profile()
+const togglePopup = () =>
 {
 
-    const [isOpen, setIsOpen] = useState(false);
-    const [isOpen2, setIsOpen2] = useState(false);
+    if(!isOpen) {
+        isOpen = true; 
+    }else {
+        isOpen = false; 
+    }
+   // setIsOpen(!isOpen);
 
+}
 
-    const togglePopup = () =>
-    {
+const  togglePopup2 = () =>
+{
+    if(!isOpen) {
+        isOpen = true; 
+    }else {
+        isOpen = false; 
+    }
+  //setIsOpen2(!isOpen);
+}
 
-        setIsOpen(!isOpen);
+const  saveBioChange= async event =>
+{
+    //event.preventDefault();
+    alert("Send new bio to database");
+}
 
+const  submitnewPass = async event =>
+{
+    var pass1 = document.getElementById("newPass").value;
+    var pass2 = document.getElementById("confirmNewPass").value;
+
+    if(pass1 != pass2)
+        alert("password not matching");
+
+    else
+        alert("they match");
+}
+
+const  submitnewEmail = async event =>
+{
+    var email1 = document.getElementById("newEmail").value;
+    var email2 = document.getElementById("confirmNewEmail").value;
+
+    if(email1 != email2)
+        alert("password not matching");
+
+    else
+        alert("they match");
+
+}
+//function Profile()
+class Profile extends Component 
+{
+    state = {
+        firstName: '',
+        lastName: '',
+        schoolName: '',
+        email: '',
+        courses: []
     }
 
-    const togglePopup2 = () =>
-    {
-      setIsOpen2(!isOpen);
-    }
+    async  componentDidMount() {
+        const res = await axios.get('http://localhost:5000/auth/userinfo', { headers: {Authorization: localStorage.getItem('jwtToken')}});
+        const resFirst = await res.data.firstName;
+        const resLast = await res.data.lastName;
+        const resSchool = await res.data.schoolName;
+        const resEmail = await res.data.email;
+        const resCourses = await res.data.courses; 
 
-    const saveBioChange= async event =>
-    {
-        //event.preventDefault();
-        alert("Send new bio to database");
-    }
+        this.setState(idk => ({
+            firstName: idk.firstName = resFirst,
+            lastName: idk.lastName = resLast,
+            schoolName: idk.schoolName = resSchool,
+            email: idk.email = resEmail,
+            courses: idk.courses = resCourses
+        }))
+      }
 
-    const submitnewPass = async event =>
-    {
-        var pass1 = document.getElementById("newPass").value;
-        var pass2 = document.getElementById("confirmNewPass").value;
+    //const [isOpen, setIsOpen] = useState(false);
+    //const [isOpen2, setIsOpen2] = useState(false);
+       
 
-        if(pass1 != pass2)
-            alert("password not matching");
-
-        else
-            alert("they match");
-    }
-    const GoHome = async event =>
-    {
-        event.preventDefault();
-        window.location.href = "/HomePage"; 
-        //alert("Shmoovin to profile page");
-    };
-
-    const submitnewEmail = async event =>
-    {
-        var email1 = document.getElementById("newEmail").value;
-        var email2 = document.getElementById("confirmNewEmail").value;
-
-        if(email1 != email2)
-            alert("password not matching");
-
-        else
-            alert("they match");
-
-    }
+   
     
     
-    /*componentDidMount = () => {
-    };*/
+    render() {
     return(
         <div id="Profileinformation">
            
@@ -166,13 +185,13 @@ function Profile()
             
         <div id = "bottominfo">
             
-            <lable id = 'FirstyNamey'>First Name: {dummyFname}</lable>
+            <lable id = 'FirstyNamey'>First Name: {this.state.firstName}</lable>
             <br />
-            <lable id = 'lastName'>Last Name: {dummyLname}</lable>
+            <lable id = 'lastName'>Last Name: {this.state.lastName}</lable>
             <br />
-            <lable id = 'schoolName'>School: {dummySchool}</lable>
+            <lable id = 'schoolName'>School: {this.state.schoolName}</lable>
             <br/>
-            <lable id = 'tempEmail'>Email: {dummyEmail}</lable>
+            <lable id = 'tempEmail'>Email: {this.state.email}</lable>
         </div>
         <br/>
 
@@ -183,8 +202,7 @@ function Profile()
             <br />
 
                 <ul class = "my-list" title = "Courses"> 
-                <li>COP 4600</li>
-                    {populate()}
+                <li>{this.state.courses}</li>
                 </ul>
            
 
@@ -219,7 +237,7 @@ function Profile()
             <br/>
             <button id = "popuButton" onClick = {submitnewPass}>Submit</button>
              <div class ="divider"/>
-            <button id = "popuButton">Cancle</button>
+            <button id = "popuButton">Cancel</button>
             </>}
             handleClose={togglePopup2}
             />}
@@ -255,6 +273,7 @@ function Profile()
             </form>
         </div>
 
-    );
+        );
+    }
 };
 export default Profile;

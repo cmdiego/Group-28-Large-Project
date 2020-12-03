@@ -25,10 +25,27 @@ function Activation() {
             bioBox: bioInfo.value,
             token: token
         }
-        axios.post(`http://localhost:5000/auth/email-activate/`, req);
-        //axios.post(`http://localhost:5000/auth/email-activate/`, {token});
+       axios.post(`http://localhost:5000/auth/email-activate/`, req)
+        .then(function(data) {
+            const { accessToken } = data.data;
+            localStorage.setItem('jwtToken', accessToken);
+            if(data.status == 201) {
+                window.location.href = '/CourseSetupPage';
+            }
+        })
+        .catch(err => {
+            alert(err); 
+        }) 
+
+        axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('jwtToken');
+        // .then(function(resp) {
+        //     localStorage.setItem('jwtToken', resp.jwtToken);
+        //     console.log(resp.headers);
+        // })
+    
+        
         /* for now loops back to signin*/
-        window.location.href = '/CourseSetupPage';
+        //window.location.href = '/CourseSetupPage';
     };  
     
     return (
