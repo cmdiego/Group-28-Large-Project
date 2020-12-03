@@ -48,7 +48,7 @@ form
 
 #buttonstyling4
 {
-    width: 47.84%;
+    width: 47.121%;
 }
 
 #styleText
@@ -141,10 +141,6 @@ form
     text-align: center;
 }
 
-#tutorRatingLable
-{
-
-}
 
 #submitclasses
 {
@@ -156,7 +152,7 @@ form
 }
 #saveNewBio
 {
-    width: 30%;
+    width: 35%;
     border-radius: 5px;
     border-color: rgb(88, 88, 88);
 }
@@ -171,7 +167,7 @@ ul
     
     margin-right: 10;
     margin-left: auto;
-    width: 48.80%;
+    width: 48%;
     
 }
 #newEmail

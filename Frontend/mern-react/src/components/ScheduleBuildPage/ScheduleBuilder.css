@@ -10,6 +10,15 @@
     background-color: rgb(236, 91, 75);
 }
 
+#innerPart
+{
+    padding: 10px 10px;
+    border-radius: 5px;
+    width: auto;
+    color: whitesmoke;
+    background-color: #444;
+}
+
 #timeSlotBlock {
     display: flex;
     flex-direction: row;

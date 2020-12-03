@@ -96,13 +96,13 @@ function TutorProfile()
             <lable id = 'tempEmail'>Email: {dummyEmail}</lable>
             <br/>
             <br/>
-            <label id="tutorRatingLable">Tutor Rating:</label>
+            {/*<label id="tutorRatingLable">Tutor Rating:</label>
             <br/>
             <StarRatingComponent 
             name="tutorrating" 
             starCount={5}
             value={rating}
-            />
+    />*/}
         
             
         </div>
@@ -134,23 +134,6 @@ function TutorProfile()
 
             </div>
 
-            <input id = "buttonstyling4" type = "button" value = "Update Email" onClick ={togglePopup}/>
-
-            {isOpen && <PopupEmail
-            content={<>
-            <b>Update Email</b>
-            <br/>
-            <br/>
-            <input type="email" id="newEmail" placeholder = "New Email"/>
-            <br/>
-            <input type="email" id="confirmNewEmail" placeholder = "Confirm Email"/>
-            <br/>
-            <button id = "popuButton" onClick ={submitnewEmail}>Submit</button>
-             <div class ="divider"/>
-            <button id = "popuButton">Cancle</button>
-            </>}
-            handleClose={togglePopup}
-            />}
 
 
             <input id = "buttonstyling4" type = "button" value = "Update password" onClick={togglePopup2}/>
