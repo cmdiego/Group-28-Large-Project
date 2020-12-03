@@ -4,7 +4,7 @@ import './Search.css';
 
 function TutorInfo(props) {
     return( 
-        <text>{'Tutor: ' + props.Tutor.firstName + ' ' + props.Tutor.lastName}</text>
+        <text>{'Tutor: ' + props.Tutor.firstName + ' ' + props.Tutor.lastName + ' '}</text>
     );
 }
 
@@ -23,7 +23,7 @@ function formatDate(date)
 
 function DateInfo(props) {
     return (
-        <text>{'Date: ' + formatDate(props.Date)}</text>
+        <text>{'Date: ' + formatDate(props.Date) + ' '}</text>
     );
 }
 
@@ -83,8 +83,8 @@ class SearchCard extends React.Component {
         {
             
             return (
-                <div>
-                    <div>
+                <div className="SearchCard">
+                    <div className="searchContent">
                         <TutorInfo Tutor={slotInfo.Tutor} />
                         <br/>
                         <EmailInfo Tutor={slotInfo.Tutor} />

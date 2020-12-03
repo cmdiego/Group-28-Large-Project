@@ -49,6 +49,15 @@ function SearchOutput(props)
                     email: 'robZone@gmail.com'
                 },
                 Date: new Date()
+            },
+            {
+                Tutor: 
+                {
+                    firstName: 'Robert',
+                    lastName: 'John',
+                    email: 'robZone@gmail.com'
+                },
+                Date: new Date()
             }
         ];
         var test3 = [{}];

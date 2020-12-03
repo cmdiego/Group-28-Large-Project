@@ -1,4 +1,5 @@
 import React from 'react';
+import './AppointCard.css';
 const axios = require('axios');
 /*
  var res = [
