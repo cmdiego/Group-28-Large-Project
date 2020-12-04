@@ -90,6 +90,7 @@ export.getAppointments = async function(req, res) {
         console.log("Error in getting appointments");
         return res.status(400).json({error: "did not get appointments properly"});
       }
+      res.isStudent = true;
       res.appointments = timeSlots;
     });
   }
@@ -101,6 +102,7 @@ export.getAppointments = async function(req, res) {
         console.log("Error in getting appointments");
         return res.status(400).json({error: "did not get appointments properly"});
       }
+      res.isStudent = false;
       res.appointments = timeSlots;
     });
   }
