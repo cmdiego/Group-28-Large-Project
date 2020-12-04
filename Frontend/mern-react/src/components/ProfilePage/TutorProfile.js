@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './Profile.css';
 import download from './download.png';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 const axios = require('axios');
 
 
@@ -11,12 +13,17 @@ var dummyEmail = 'jonsnow@gmail.com';
 var bioFromAPI = 'String from DB';
 var rating =2.5;
 
+// used for edit availability
+var editCount = 0;
+var editArray = [];
 
 function TutorProfile()
 {
 
     const [isOpen, setIsOpen] = useState(false);
     const [isOpen2, setIsOpen2] = useState(false);
+    // Datepicker hook
+    const [startDate,setStartDate] = useState(new Date());
 
 
     function BringUpPass()
@@ -53,6 +60,7 @@ function TutorProfile()
     {
         var temp = document.getElementById("editAvaform").style.display ="none";
         var temp = document.getElementById("setupForm").style.display = "inline-block";
+        window.location.reload(false);
     }
 
     const saveBioChange= async event =>
@@ -91,7 +99,50 @@ function TutorProfile()
             alert("they match");
 
     }
-    
+
+    function addSlot() {
+        editArray.push(startDate);
+        var editdiv = document.createElement('div');
+        editdiv.innerHTML = ('<br/><div id = "newForm'+(editCount)+'"><span id="innerPart">Time Slot '+(editCount + 1)+' :<text id="timeText">'+editArray[editCount].toLocaleDateString()+'</text>'+'<text id="dateText"> at '+editArray[(editCount)].toLocaleTimeString()+'</text>'+' <br /></span>' + '</div>');
+        if (editCount === 0)
+        {
+            document.getElementById("newForm").appendChild(editdiv);
+        }
+        else
+        {
+            document.getElementById("newForm"+(editCount - 1)).appendChild(editdiv);
+        }
+        editCount++;
+        return;
+    }
+
+    function removeSlot() {
+        if (editCount === 0) 
+        {
+            return;
+        }
+        var checkdiv = document.getElementById("newForm"+(editCount - 1));
+        checkdiv.parentNode.removeChild(checkdiv);
+        editArray.splice((editCount - 1), 1);
+        editCount--;
+        return;
+    }
+
+    function submitAva() {
+        if (editCount === 0)
+        {
+            // Make a label display or something that tells them to add atleast 1 slot
+            return;
+        }
+
+        // Would do the delete api to clear user's current slots
+
+        // Would then take the current editCount and editArray and ready them into a request for the add api and then do the api
+
+        // would then refresh page or do something to clear the editArray and editCount 
+        // so they dont have data carying over when user wants to edit again
+    }
+
     /*componentDidMount = () => {
     };*/
     return(
@@ -194,8 +245,16 @@ function TutorProfile()
             </form>
 
             <form id = "editAvaform">
-                 stuffs
-                
+                <div>
+                    <form id="newForm">
+                        <text></text>
+                    </form>
+                </div>
+                <br />
+                Select Date and Time for new Timeslots: 
+                <DatePicker id="datePicker" selected={startDate} onChange={date => setStartDate(date)} showTimeSelect />
+                <input type = "button" id = "buttonstyling2" value = "+" onClick = {addSlot}/>
+                <input type = "button" id = "buttonstyling2" value = "-" onClick = {removeSlot}/>
                 <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitnewPass} />
                 <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile4} />
             </form>
