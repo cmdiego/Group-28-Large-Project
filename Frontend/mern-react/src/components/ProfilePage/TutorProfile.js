@@ -60,6 +60,7 @@ function TutorProfile()
     {
         var temp = document.getElementById("editAvaform").style.display ="none";
         var temp = document.getElementById("setupForm").style.display = "inline-block";
+        window.location.reload(false);
     }
 
     const saveBioChange= async event =>
@@ -113,6 +114,33 @@ function TutorProfile()
         }
         editCount++;
         return;
+    }
+
+    function removeSlot() {
+        if (editCount === 0) 
+        {
+            return;
+        }
+        var checkdiv = document.getElementById("newForm"+(editCount - 1));
+        checkdiv.parentNode.removeChild(checkdiv);
+        editArray.splice((editCount - 1), 1);
+        editCount--;
+        return;
+    }
+
+    function submitAva() {
+        if (editCount === 0)
+        {
+            // Make a label display or something that tells them to add atleast 1 slot
+            return;
+        }
+
+        // Would do the delete api to clear user's current slots
+
+        // Would then take the current editCount and editArray and ready them into a request for the add api and then do the api
+
+        // would then refresh page or do something to clear the editArray and editCount 
+        // so they dont have data carying over when user wants to edit again
     }
 
     /*componentDidMount = () => {
@@ -222,10 +250,11 @@ function TutorProfile()
                         <text></text>
                     </form>
                 </div>
+                <br />
                 Select Date and Time for new Timeslots: 
                 <DatePicker id="datePicker" selected={startDate} onChange={date => setStartDate(date)} showTimeSelect />
-                <input type = "button" id = "buttonstyling2" value = "+" />
-                <input type = "button" id = "buttonstyling2" value = "-" />
+                <input type = "button" id = "buttonstyling2" value = "+" onClick = {addSlot}/>
+                <input type = "button" id = "buttonstyling2" value = "-" onClick = {removeSlot}/>
                 <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitnewPass} />
                 <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile4} />
             </form>
