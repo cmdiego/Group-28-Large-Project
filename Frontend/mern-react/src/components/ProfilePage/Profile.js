@@ -91,7 +91,7 @@ function addclasses()
 {
     var newdiv = document.createElement('span');
     count++;
-    newdiv.innerHTML = ('<span id= "inner-title"><div id = class"'+(count)+'"><text id ="testhis">Class '+(count+1)+':</text><input type= "text" id="styleText" placeholder = "ex. COP 4331" ></input></div></span>');
+    newdiv.innerHTML = ('<span id= "inner-title"><div id = "class'+(count)+'"><text id ="testhis">Class '+(count+1)+':</text><input type= "text" id="styleText" placeholder = "ex. COP 4331" ></input></div></span>');
 
     document.getElementById("endOfthis").appendChild(newdiv);
     return;
@@ -111,7 +111,14 @@ const  submitnewPass = async event =>
 
 function submitNewClasses()
 {
-    alert("call to submitNewClasses function in Components/Profile.js")
+    //var test = document.getElementById("class0").getElementsByTagName("input")[0].value;
+    var courseArray = [];
+
+    for (var i = 0; i<=count; i++)
+    {
+        courseArray[i] = document.getElementById("class"+i).getElementsByTagName("input")[0].value;
+    }
+    alert(courseArray);
 }
 
 
@@ -223,7 +230,7 @@ class Profile extends Component
                 <br />
                 <div id = "courseEditList">
 
-            <div id = "classesListEdit"><div id = "class0"></div><text id ="testhis">Class 1:</text><input type= "text" id="styleText" placeholder = "ex. COP 4331"></input></div>
+            <div id = "classesListEdit"><div id = "class0"><text id ="testhis">Class 1:</text><input type= "text" id="styleText" placeholder = "ex. COP 4331"></input></div></div>
 
                 <div id ="endOfthis"></div>
                 </div>

@@ -90,10 +90,7 @@ form
     width: 47.121%;
 }
 
-#styleText
-{
-    border:1px solid  whitesmoke;
-}
+
 #buttonstyling3
 {
     height: auto;
@@ -104,8 +101,9 @@ form
 
 #styleText
 {
-    width: auto;
+    width: 50%;
     height: auto;
+    border:1px solid  whitesmoke;
 }
 
 #courseEditList
