@@ -31,9 +31,48 @@ form
 {
     display: none;
     flex-direction: column;
-    width: 400px;
+    width: 500px;
     min-width: 100px;
     min-height: 400px;
+    padding: 20px 40px 40px 40px;
+    border-radius: 6px;
+    box-shadow: 0px 8px 36px #222;
+    background-color: rgb(236, 91, 75);
+}
+
+#editPassform
+{
+    display: none;
+    flex-direction: column;
+    width: 400px;
+    min-width: 100px;
+    min-height: 200px;
+    padding: 20px 40px 40px 40px;
+    border-radius: 6px;
+    box-shadow: 0px 8px 36px #222;
+    background-color: rgb(236, 91, 75);
+}
+
+#editBioform
+{
+    display: none;
+    flex-direction: column;
+    width: 400px;
+    min-width: 100px;
+    min-height: 200px;
+    padding: 20px 40px 40px 40px;
+    border-radius: 6px;
+    box-shadow: 0px 8px 36px #222;
+    background-color: rgb(236, 91, 75);
+}
+
+#editAvaform
+{
+    display: none;
+    flex-direction: column;
+    width: 450px;
+    min-width: 100px;
+    min-height: 200px;
     padding: 20px 40px 40px 40px;
     border-radius: 6px;
     box-shadow: 0px 8px 36px #222;
@@ -48,7 +87,7 @@ form
 
 #buttonstyling4
 {
-    width: 47.84%;
+    width: 47.121%;
 }
 
 #styleText
@@ -94,6 +133,15 @@ form
     border-radius: 6px;
     box-shadow: 0px 8px 36px #222;
 }
+#bottominfo
+{
+    padding: 10px 10px;
+    border-radius: 5px;
+    width: auto;
+    height: auto;
+    color: whitesmoke;
+    background-color: #444;
+}
 
 #bottominfo2
 {
@@ -124,6 +172,15 @@ form
     border-radius: 50%;
 }
 
+#backgroundstyle
+{
+    background-color: #444;
+    border-radius: 5px;
+    padding: 10px 10px;
+    text-align: center;
+}
+
+
 #submitclasses
 {
     
@@ -134,10 +191,11 @@ form
 }
 #saveNewBio
 {
-    width: 30%;
+    width: 35%;
     border-radius: 5px;
     border-color: rgb(88, 88, 88);
 }
+
 ul
 {
     list-style: none;
@@ -149,27 +207,18 @@ ul
     
     margin-right: 10;
     margin-left: auto;
-    width: 48.80%;
+    width: 48%;
     
-}
-#newEmail
-{
-    width: 40%;
-}
-
-#confirmNewEmail
-{
-    width: 40%;
 }
 
 #newPass
 {
-    width: 40%;
+    width: 90%;
 }
 
 #confirmNewPass
 {
-    width: 40%;
+    width: 90%;
 }
 
 .divider {
@@ -182,4 +231,10 @@ ul
 #stylesomeButtons
 {
     width: 20%;
+}
+
+#testhis
+{
+    color: whitesmoke;
+    font-weight: bold;
 }

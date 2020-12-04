@@ -3,6 +3,8 @@ import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import SearchCard from './SearchCard';
 import './Search.css';
+import otLogo from '../../otLogo.png';
+
 const axios = require('axios');
 var options = [
     {class: 'COP 4600'},
@@ -49,11 +51,22 @@ function SearchOutput(props)
                     email: 'robZone@gmail.com'
                 },
                 Date: new Date()
+            },
+            {
+                Tutor: 
+                {
+                    firstName: 'Robert',
+                    lastName: 'John',
+                    email: 'robZone@gmail.com'
+                },
+                Date: new Date()
             }
         ];
         var test3 = [{}];
         return (
             <div id="SearchDisplay">
+                <br/>
+        <span id ="avaTutorspan">Available Tutor appointments for: {props.value}</span>
                 {test2.map(searchInfo => (
                     <SearchCard info={searchInfo} />
                 ))}
@@ -84,13 +97,13 @@ function Search () {
     const [value,setValue] = useState('');
     return (
         <div id="searchPageDiv">
+            <img class = "img-thumbnail" src = {otLogo} alt ="otLogo"/>    
             <button id="backButton" onClick={backButtonProcess} >Back</button>
-            <Dropdown id="searchDrop" options={format} onChange={_onSelect} placeholder="Choose a class" 
-            itemTextStyle={{backgroundColor:"blue",textColor:"white"}}
-            textColor="#FFF"
-            />
-            <br />
+            <div id="DropdownHelper">
+            <Dropdown id="searchDrop" options={format} onChange={_onSelect} placeholder="What class do you need help with?" />
             <SearchOutput value={value.value} />
+            </div>
+            
         </div>
     );
 }

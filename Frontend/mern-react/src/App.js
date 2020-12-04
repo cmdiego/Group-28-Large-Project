@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-d
 import './App.css';
 import SignupPage from './pages/SignupPage';
 import SigninPage from './pages/SigninPage';
-import ForgotPasswordPage from './pages/ForgotPassword';
+import ForgotPasswordPage from './pages/ForgotPasswordPage';
 import Activate from './pages/Activate';
 import Request from './pages/Request'; 
 import CourseSetupPage from './pages/CourseSetupPage';

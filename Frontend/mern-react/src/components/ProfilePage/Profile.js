@@ -1,9 +1,7 @@
-import React, { useState } from 'react';
+
+import React, { useState, Component } from 'react';
 import './Profile.css';
 import download from './download.png';
-import PopupEmail from './PopupEmail';
-import CourseCards from './CourseCards';
-import PopupPassword from './PopupPassword';
 const axios = require('axios');
 
 
@@ -11,28 +9,24 @@ var dummyFname = 'Jon';
 var dummyLname = 'Snow';
 var dummySchool = 'Nights Watch';
 var dummyEmail = 'jonsnow@gmail.com';
+
 var courseCodes = ['COP','COP','CIS','EEL'];
 var courseNums = ['4600','4331','4910','3421'];
 var flag = false;
 var nameList ="";
 var bioFromAPI = 'hard coded string but once we get the API just set this equal to it';
 
-const classes = [
+var isOpen = false; 
+var isOpen2 = false;
+var count;
 
+const classes = [
     {class: 'COP 4600'},
     {class: 'COP 4331'},
     {class: 'CIS 4940'},
     {class: 'COP 3502'}
-
 ]
 
-function getinfo() {
-    axios.get('http://localhost:5000/auth/userinfo').then(() => {
-        console.log("data received!")
-    }).catch(() => {
-        alert("Error retrieving data!");  
-    })
-}
 function populate()
 {
     if(flag == true )
@@ -46,97 +40,117 @@ function populate()
     flag = true;
     return;
 }
-    const GoHome = async event =>
-    {
+
+    const GoHome = async event => {
         event.preventDefault();
         window.location.href = "/HomePage"; 
         //alert("Shmoovin to profile page");
     };
+
+
 
 function BringUpEdit()
 {
     var temp = document.getElementById("setupForm").style.display ="none";
     var temp = document.getElementById("editClassForm").style.display ="inline-block";
+    count = 0;
 
 }
 
-
-function BacktoProfile()
+function BringUpPass()
 {
-     var temp = document.getElementById("editClassForm").style.display ="none";
-     var temp = document.getElementById("setupForm").style.display = "inline-block";
+    var temp = document.getElementById("setupForm").style.display ="none";
+    var temp = document.getElementById("editPassform").style.display ="inline-block";
+}
+
+function BringUpBio()
+{
+    var temp = document.getElementById("setupForm").style.display ="none";
+    var temp = document.getElementById("editBioform").style.display ="inline-block";
+}
+
+function BacktoProfileClass()
+{
+    var temp = document.getElementById("editClassForm").style.display ="none";
+    var temp = document.getElementById("setupForm").style.display = "inline-block";
+}
+
+function BacktoProfilePass()
+{
+    var temp = document.getElementById("editPassform").style.display ="none";
+    var temp = document.getElementById("setupForm").style.display = "inline-block";
+}
+
+function BacktoProfileBio()
+{
+    var temp = document.getElementById("editBioform").style.display ="none";
+    var temp = document.getElementById("setupForm").style.display = "inline-block";
 }
 
 function addclasses()
 {
-
-
     var newdiv = document.createElement('span');
-    newdiv.innerHTML = ('<span id= "inner-title"><input type= "text" id="styleText" defaultValue = {thisclass.class} ></input><button id="buttonstyling3">X</button></span>');
+    count++;
+    newdiv.innerHTML = ('<span id= "inner-title"><div id = class"'+(count)+'"><text id ="testhis">Class '+(count+1)+':</text><input type= "text" id="styleText" placeholder = "ex. COP 4331" ></input></div></span>');
 
     document.getElementById("endOfthis").appendChild(newdiv);
     return;
 };
 
-
-function Profile()
+const  submitnewPass = async event =>
 {
+    var pass1 = document.getElementById("newPass").value;
+    var pass2 = document.getElementById("confirmNewPass").value;
 
-    const [isOpen, setIsOpen] = useState(false);
-    const [isOpen2, setIsOpen2] = useState(false);
+    if(pass1 != pass2)
+        alert("password not matching");
+
+    else
+        alert("they match");
+}
+
+function submitNewClasses()
+{
+    alert("call to submitNewClasses function in Components/Profile.js")
+}
 
 
-    const togglePopup = () =>
-    {
-
-        setIsOpen(!isOpen);
-
+//function Profile()
+class Profile extends Component 
+{
+    state = {
+        firstName: '',
+        lastName: '',
+        schoolName: '',
+        email: '',
+        courses: [],
+        bioBox: ''
     }
 
-    const togglePopup2 = () =>
-    {
-      setIsOpen2(!isOpen);
-    }
+    async  componentDidMount() {
+        const res = await axios.get('http://localhost:5000/auth/userinfo', { headers: {Authorization: localStorage.getItem('jwtToken')}});
+        const resFirst = await res.data.firstName;
+        const resLast = await res.data.lastName;
+        const resSchool = await res.data.schoolName;
+        const resEmail = await res.data.email;
+        const resCourses = await res.data.courses; 
+        const resBioBox = await res.data.bioBox; 
 
-    const saveBioChange= async event =>
-    {
-        //event.preventDefault();
-        alert("Send new bio to database");
-    }
+        this.setState(idk => ({
+            firstName: idk.firstName = resFirst,
+            lastName: idk.lastName = resLast,
+            schoolName: idk.schoolName = resSchool,
+            email: idk.email = resEmail,
+            courses: idk.courses = resCourses,
+            bioBox: idk.bioBox = resBioBox
+        }))
+      }
 
-    const submitnewPass = async event =>
-    {
-        var pass1 = document.getElementById("newPass").value;
-        var pass2 = document.getElementById("confirmNewPass").value;
 
-        if(pass1 != pass2)
-            alert("password not matching");
-
-        else
-            alert("they match");
-    }
-    const GoHome = async event =>
-    {
-        event.preventDefault();
-        window.location.href = "/HomePage"; 
-        //alert("Shmoovin to profile page");
-    };
-
-    const submitnewEmail = async event =>
-    {
-        var email1 = document.getElementById("newEmail").value;
-        var email2 = document.getElementById("confirmNewEmail").value;
-
-        if(email1 != email2)
-            alert("password not matching");
-
-        else
-            alert("they match");
-
-    }
+   
     
-    /*componentDidMount = () => {
-    };*/
+    
+    render() {
     return(
         <div id="Profileinformation">
            
@@ -151,13 +165,13 @@ function Profile()
             
         <div id = "bottominfo">
             
-            <lable id = 'FirstyNamey'>First Name: {dummyFname}</lable>
+            <lable id = 'FirstyNamey'>First Name: {this.state.firstName}</lable>
             <br />
-            <lable id = 'lastName'>Last Name: {dummyLname}</lable>
+            <lable id = 'lastName'>Last Name: {this.state.lastName}</lable>
             <br />
-            <lable id = 'schoolName'>School: {dummySchool}</lable>
+            <lable id = 'schoolName'>School: {this.state.schoolName}</lable>
             <br/>
-            <lable id = 'tempEmail'>Email: {dummyEmail}</lable>
+            <lable id = 'tempEmail'>Email: {this.state.email}</lable>
         </div>
         <br/>
 
@@ -167,13 +181,9 @@ function Profile()
 
             <br />
 
-                <ul class = "my-list" title = "Courses"> 
-                <li>COP 4600</li>
-                    {populate()}
-                </ul>
-           
 
-            <br />
+                {this.state.courses.map(thisclass => (<div id = "classesListEdit"><p>{thisclass}</p></div>))}
+
 
         </div>
 
@@ -183,47 +193,19 @@ function Profile()
 
                 <span id ="CoursesLable">Bio:</span>
                 <br/>
-                <textarea>{bioFromAPI}</textarea>
-                <input type = "button" id="saveNewBio" class="buttons" value="Save Changes" onClick={saveBioChange}/>
+                <br/>
+                <text>{this.state.bioBox}</text>
+                <br/>
+                <br/>
 
             </div>
 
-            <input id = "buttonstyling" type = "button" value = "Update Email" onClick ={togglePopup}/>
-
-            {isOpen && <PopupEmail
-            content={<>
-            <b>Update Email</b>
-            <br/>
-            <br/>
-            <input type="email" id="newEmail" placeholder = "New Email"/>
-            <br/>
-            <input type="email" id="confirmNewEmail" placeholder = "Confirm Email"/>
-            <br/>
-            <button id = "popuButton" onClick ={submitnewEmail}>Submit</button>
-             <div class ="divider"/>
-            <button id = "popuButton">Cancle</button>
-            </>}
-            handleClose={togglePopup}
-            />}
 
 
-            <input id = "buttonstyling" type = "button" value = "Update password" onClick={togglePopup2}/>
-            {isOpen2 && <PopupPassword
-            content={<>
-            <b>Update Password</b>
-            <br/>
-            <br/>
-            <input type="text" id="newPass" placeholder = "New Password"/>
-            <br/>
-            <input type="text" id="confirmNewPass" placeholder = "Confirm Password"/>
-            <br/>
-            <button id = "popuButton" onClick = {submitnewPass}>Submit</button>
-             <div class ="divider"/>
-            <button id = "popuButton">Cancle</button>
-            </>}
-            handleClose={togglePopup2}
-            />}
 
+
+            <input id = "buttonstyling" type = "button" value = "Update password" onClick={BringUpPass}/>
+            <input id = "buttonstyling" type = "button" value = "Update Bio" onClick={BringUpBio}/>
 
 
             <input id = "buttonstyling" type = "button" value = "Edit Classes" onClick = {BringUpEdit}/>
@@ -235,25 +217,52 @@ function Profile()
             </form>
 
             <form id = "editClassForm">
-            Edit Courses
-            <br />
-            <br />
-            <br />
-            <div id = "courseEditList">
+                Edit Courses
+                <br />
+                <br />
+                <br />
+                <div id = "courseEditList">
 
-                {classes.map(thisclass => (<div id = "classesListEdit"><input type= "text" id="styleText" defaultValue = {thisclass.class} ></input>
-                                             <button id="buttonstyling3">X</button></div>))}
-                                             <div id ="endOfthis"></div>
-            </div>
-            <br/>
-            <input type = "button" id = "buttonstyling2" value = "Submit Changes" onClick = {BacktoProfile} />
-            <input type = "button" id = "buttonstyling2" value = "Add Course" onClick = {addclasses} />
-            <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile} />
+            <div id = "classesListEdit"><div id = "class0"></div><text id ="testhis">Class 1:</text><input type= "text" id="styleText" placeholder = "ex. COP 4331"></input></div>
+
+                <div id ="endOfthis"></div>
+                </div>
+                
+                <input type = "button" id = "buttonstyling2" value = "Add Slot" onClick = {addclasses} />
+                
+                <br/>
+                <input type = "button" id = "buttonstyling2" value = "Submit Changes" onClick ={submitNewClasses}/>
+                <input type = "button" id = "buttonstyling2" value = "Cancle" onClick = {BacktoProfileClass} />
 
 
             </form>
+
+            <form id = "editPassform">
+                Update Password
+                <br/>
+                <br/>
+                <input type="password" id="newPass" placeholder = "New Password" class ="password"/>
+                <br/>
+                <input type="password" id="confirmNewPass" placeholder = "Confirm Password"/>
+                
+                <br/>
+                <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitnewPass} />
+                <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfilePass} />
+            </form>
+
+            <form id = "editBioform">
+                Update Bio
+                <br/>
+                <br/>
+                <textarea id="bioText" placeholder = "Bio, tell us a bit about your self" ></textarea>               
+                <br/>
+                <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitnewPass} />
+                <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfileBio} />
+            </form>
+
         </div>
 
-    );
+        );
+    }
 };
 export default Profile;

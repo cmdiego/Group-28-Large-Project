@@ -2,9 +2,10 @@ import React from 'react';
 import './Search.css';
 
 
+
 function TutorInfo(props) {
     return( 
-        <text>{'Tutor: ' + props.Tutor.firstName + ' ' + props.Tutor.lastName}</text>
+        <text>{'Tutor: ' + props.Tutor.firstName + ' ' + props.Tutor.lastName + ' '}</text>
     );
 }
 
@@ -23,7 +24,7 @@ function formatDate(date)
 
 function DateInfo(props) {
     return (
-        <text>{'Date: ' + formatDate(props.Date)}</text>
+        <text>{'Date: ' + formatDate(props.Date) + ' '}</text>
     );
 }
 
@@ -83,8 +84,9 @@ class SearchCard extends React.Component {
         {
             
             return (
-                <div>
-                    <div>
+                <div className="SearchCard" id = "CardStyle">Appointment Details
+                    <div className="searchContent">
+                    <div id = "innerStylecard">
                         <TutorInfo Tutor={slotInfo.Tutor} />
                         <br/>
                         <EmailInfo Tutor={slotInfo.Tutor} />
@@ -93,8 +95,9 @@ class SearchCard extends React.Component {
                         <br/>
                         <TimeInfo Date={slotInfo.Date} />
                     </div>
+                    </div>
                     <div>
-                        <button id = "buttonStyle" onClick={this.handleAddClick}>Add</button>
+                        <button id = "buttonStyle5" onClick={this.handleAddClick}>Schedule Now</button>
                     </div>
                 </div>
             );
