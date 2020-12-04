@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import './Profile.css';
 import download from './download.png';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 const axios = require('axios');
 
 
@@ -11,12 +13,17 @@ var dummyEmail = 'jonsnow@gmail.com';
 var bioFromAPI = 'String from DB';
 var rating =2.5;
 
+// used for edit availability
+var editCount = 0;
+var editArray = [];
 
 function TutorProfile()
 {
 
     const [isOpen, setIsOpen] = useState(false);
     const [isOpen2, setIsOpen2] = useState(false);
+    // Datepicker hook
+    const [startDate,setStartDate] = useState(new Date());
 
 
     function BringUpPass()
@@ -91,7 +98,23 @@ function TutorProfile()
             alert("they match");
 
     }
-    
+
+    function addSlot() {
+        editArray.push(startDate);
+        var editdiv = document.createElement('div');
+        editdiv.innerHTML = ('<br/><div id = "newForm'+(editCount)+'"><span id="innerPart">Time Slot '+(editCount + 1)+' :<text id="timeText">'+editArray[editCount].toLocaleDateString()+'</text>'+'<text id="dateText"> at '+editArray[(editCount)].toLocaleTimeString()+'</text>'+' <br /></span>' + '</div>');
+        if (editCount === 0)
+        {
+            document.getElementById("newForm").appendChild(editdiv);
+        }
+        else
+        {
+            document.getElementById("newForm"+(editCount - 1)).appendChild(editdiv);
+        }
+        editCount++;
+        return;
+    }
+
     /*componentDidMount = () => {
     };*/
     return(
@@ -161,14 +184,8 @@ function TutorProfile()
             <input id = "buttonstyling4" type = "button" value = "Update password" onClick={BringUpPass}/>
             <input id = "buttonstyling4" type = "button" value = "Update Bio" onClick={BringUpBio}/>
 
-<<<<<<< HEAD
-            {/*this is the update schedule button */}
-            <input id = "buttonstyling4" type = "button" value = "Update Schedule"  />
-
-=======
 
             <input id = "buttonstyling4" type = "button" value = "Update Schedule"  onClick = {BringupSche}/>
->>>>>>> upstream/main
             <input id = "buttonstyling4" type = "button" value = "Back" onClick = {GoHome} />
 
             </div>
@@ -200,8 +217,15 @@ function TutorProfile()
             </form>
 
             <form id = "editAvaform">
-                 stuffs
-                
+                <div>
+                    <form id="newForm">
+                        <text></text>
+                    </form>
+                </div>
+                Select Date and Time for new Timeslots: 
+                <DatePicker id="datePicker" selected={startDate} onChange={date => setStartDate(date)} showTimeSelect />
+                <input type = "button" id = "buttonstyling2" value = "+" />
+                <input type = "button" id = "buttonstyling2" value = "-" />
                 <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitnewPass} />
                 <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile4} />
             </form>
