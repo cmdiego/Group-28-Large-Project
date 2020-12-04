@@ -25,9 +25,9 @@ function ForgotPassword()
             axios.post('http://localhost:5000/auth/request-password', req)
             .then(function(resp) {
                 const status = resp.status; 
-                alert(status + ": Email Sent")
-                /*if(status == 200)
-                     window.location = '/HomePage';*/
+                //alert(status + ": Email Sent")
+                if(status == 200)
+                     window.location = '/SigninPage';
             })
                 .catch(err => {
                     console.log(err); 

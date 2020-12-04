@@ -23,10 +23,7 @@ function RequestPW()
             alert('Passwords don\'t match');
             console.log("Error password incorrect"); 
         } 
-        if(newpassword.value.length < 6) {
-            alert('Password has be at least 6 characters long!');
-            console.log('Password has be at least 6 characters long!'); 
-            return;        }
+        
         let req = {
             password: newpassword.value, 
             token: token
@@ -37,9 +34,8 @@ function RequestPW()
             axios.post('http://localhost:5000/auth/reset-password/', req)
             .then(function(resp) {
                 const status = resp.status; 
-                alert(status + ": Password Updated")
-                /*if(status == 200)
-                     window.location = '/HomePage';*/
+                if(status == 200)
+                     window.location = '/SigninPage';
             })
                 .catch(err => {
                     console.log(err); 

@@ -126,8 +126,8 @@ exports.resetPassword = async function(req, res) {
                         },
                         function(err, success) {
                         if(err) {
-                          console.log("Error in signup while account activation: ", err);
-                          return res.status(400), json({error: 'Error activating account'})
+                          console.log("Error in Changing Password: ", err);
+                          return res.status(400), json({error: 'Error Changing Password'})
                         }
                         res.json({ message: "Password Updated!" });
                          console.log("Password Updated!");
@@ -286,14 +286,14 @@ exports.getUserInfo = async function(req, res) {
     const lastName = UserInfo.lastName;
     const schoolName = UserInfo.schoolName;
     const email = UserInfo.email; 
-    const bioBox = UserInfo.bioBox;
+    //const bioBox = UserInfo.bioBox;
 
     console.log("First Name: " + firstName);
     console.log("Last Name: " + lastName);
     console.log("School: " + schoolName);
     console.log("Email: " + email);
-    console.log("BioBox: " + bioBox);
 
+    //Display list of courses
     Courses.findOne({user: UserInfo._id}).exec((err, crse) => {
         let courses = crse.listCourse; 
         if(!courses) {
@@ -301,26 +301,36 @@ exports.getUserInfo = async function(req, res) {
             return res.status(400).json({error: "No course exist w/ user"});
         }
         console.log(courses); 
-        return res.json({ firstName, lastName, schoolName, email, courses, bioBox}); 
 
+        User.findOne({_id: UserInfo._id}).exec((err, bio) => {
+            let bioBox = bio.bioBox;
+            console.log(bioBox); 
+
+            return res.json({ firstName, lastName, schoolName, email, courses, bioBox}); 
+        })
     })
+
+    
+
 }
 
 exports.modifyBioBox = async function(req, res) {
     const UserInfo = req.user.user; 
-    const { resBioBox } = req.body; 
-    const other = UserInfo.bioBox; 
-    console.log("Current Bio Box: " + other);
-    console.log("New Bio Box: " + resBioBox);
-
-    let s =  await User.findOneAndUpdate({_id: UserInfo._id}, {bioBox: resBioBox}, { upsert: true, new: true, returnNewDocument: true } ); 
-    console.log(s); 
-
-    try {
-          await s.save(); 
-       } catch( err ) {
-           console.log("Some bullshit error: " + err); 
+    const { oo } = req.body; 
+    console.log("New Bio Box: " + oo);
+    User.findByIdAndUpdate(UserInfo._id, {
+        $set: {
+            bioBox: oo
         }
+    },
+    function(err, success) {
+         if(err) {
+             console.log("Error in changing bio box: ", err);
+             return res.status(400).json({error: 'Error in bio box'})
+        }
+         console.log("BioBox Updated!");
+        return res.status(200).json("BioBox Updated"); 
+    });
 }
 
 exports.changePassword = async function(req, res) {
@@ -355,4 +365,26 @@ exports.changePassword = async function(req, res) {
         });
 }
 
+exports.addCourses = async function(req, res) {
+    const UserInfo = req.user.user; 
+    const { courses, count } = req.body; 
+    console.log(courses);
+    Courses.findOneAndUpdate({user: UserInfo._id}, {
+        $set: {
+            listCourse: courses,
+            count: count
+        }
+    },
+    function(err, success) {
+        console.log("User info ID: " + UserInfo._id); 
+
+         if(err) {
+             console.log(success)
+             console.log("Error in adding courses: " + err);
+             return res.status(400).json({error: 'Error in adding courses'})
+        }
+         console.log("Adding Courses Updated!");
+        return res.status(200).json("Adding Courses Updated"); 
+    });
+}
        

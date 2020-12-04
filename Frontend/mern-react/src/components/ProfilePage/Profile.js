@@ -41,13 +41,15 @@ function populate()
     return;
 }
 
-    const GoHome = async event => {
+const GoHome = async event => {
         event.preventDefault();
         window.location.href = "/HomePage"; 
         //alert("Shmoovin to profile page");
-    };
+};
 
-
+function toUpper(x) {
+    return x.toUpperCase();
+}; 
 
 function BringUpEdit()
 {
@@ -97,28 +99,70 @@ function addclasses()
     return;
 };
 
+const submitnewBio = async event => {
+    try {
+       var oo = document.getElementById("boxbio").value; 
+   } catch(err) {
+       console.log("Error: " + err);
+   }
+   axios.post('http://localhost:5000/auth/bioBox', {oo}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+       .then(function(resp) {
+           console.log(resp);
+           if(resp.status == 200) {
+               BacktoProfileBio();
+           } 
+       })
+           .catch(err => {
+               console.log(err); 
+           })
+}
+
 const  submitnewPass = async event =>
 {
     var pass1 = document.getElementById("newPass").value;
     var pass2 = document.getElementById("confirmNewPass").value;
 
     if(pass1 != pass2)
-        alert("password not matching");
+        alert("Password Not Matching");
 
-    else
-        alert("they match");
+    else {
+        axios.post('http://localhost:5000/auth/changePassword', {pass1}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+        .then(function(resp) {
+            console.log(resp);
+            if(resp.status == 200) {
+                BacktoProfilePass();
+            } 
+        })
+            .catch(err => {
+                console.log(err); 
+            })
+    }
 }
 
 function submitNewClasses()
 {
-    //var test = document.getElementById("class0").getElementsByTagName("input")[0].value;
     var courseArray = [];
 
-    for (var i = 0; i<=count; i++)
-    {
+    for (var i = 0; i<=count; i++) {
         courseArray[i] = document.getElementById("class"+i).getElementsByTagName("input")[0].value;
     }
-    alert(courseArray);
+    courseArray = courseArray.map(toUpper); 
+
+    let req = {
+        courses: courseArray,
+        count: count 
+    }
+
+    axios.post('http://localhost:5000/auth/addCourses', req, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+       .then(function(resp) {
+           console.log(resp);
+           if(resp.status == 200) {
+               BacktoProfileClass();
+           } 
+       })
+           .catch(err => {
+               console.log(err); 
+           })
 }
 
 
@@ -141,22 +185,18 @@ class Profile extends Component
         const resSchool = await res.data.schoolName;
         const resEmail = await res.data.email;
         const resCourses = await res.data.courses; 
-        const resBioBox = await res.data.bioBox; 
+        let resBioBox = await res.data.bioBox; 
 
         this.setState(idk => ({
-            firstName: idk.firstName = resFirst,
-            lastName: idk.lastName = resLast,
-            schoolName: idk.schoolName = resSchool,
-            email: idk.email = resEmail,
-            courses: idk.courses = resCourses,
-            bioBox: idk.bioBox = resBioBox
-        }))
-      }
+              firstName: idk.firstName = resFirst,
+              lastName: idk.lastName = resLast,
+              schoolName: idk.schoolName = resSchool,
+              email: idk.email = resEmail,
+              courses: idk.courses = resCourses,
+              bioBox: idk.bioBox = resBioBox
+        })) 
+    }
 
-
-   
-    
-    
     render() {
     return(
         <div id="Profileinformation">
@@ -207,10 +247,6 @@ class Profile extends Component
 
             </div>
 
-
-
-
-
             <input id = "buttonstyling" type = "button" value = "Update password" onClick={BringUpPass}/>
             <input id = "buttonstyling" type = "button" value = "Update Bio" onClick={BringUpBio}/>
 
@@ -239,7 +275,7 @@ class Profile extends Component
                 
                 <br/>
                 <input type = "button" id = "buttonstyling2" value = "Submit Changes" onClick ={submitNewClasses}/>
-                <input type = "button" id = "buttonstyling2" value = "Cancle" onClick = {BacktoProfileClass} />
+                <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfileClass} />
 
 
             </form>
@@ -261,9 +297,9 @@ class Profile extends Component
                 Update Bio
                 <br/>
                 <br/>
-                <textarea id="bioText" placeholder = "Bio, tell us a bit about your self" ></textarea>               
+                <input id="boxbio" placeholder = "Bio, tell us a bit about your self" ></input>               
                 <br/>
-                <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitnewPass} />
+                <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitnewBio} />
                 <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfileBio} />
             </form>
 
