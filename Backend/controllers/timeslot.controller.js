@@ -93,10 +93,29 @@ export.getAppointments = async function(req, res) {
       res.appointments = timeSlots;
     });
   }
+  else
+  {
+    Appointment.find({tutorEmail: user.email, date: {$gte: new Date()}}, function(err, timeSlots){
+      if(err)
+      {
+        console.log("Error in getting appointments");
+        return res.status(400).json({error: "did not get appointments properly"});
+      }
+      res.appointments = timeSlots;
+    });
+  }
 }
 
 export.getTimeslots = async function(req, res) {
   const course = req.course;
+  User.find({isTutor: true}, function(err, users){
+    if(err)
+    {
+      console.log("Error in getting users that are tutors");
+      return res.status(400).json({error: "Error in getting users that are tutors"});
+    }
+
+  });
   Appointment.find({course: course, student: ""}, function(err, timeSlots){
     if(err){
       console.log("Error in getting timeslots");
