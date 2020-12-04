@@ -75,6 +75,7 @@ function BacktoProfileClass()
 {
     var temp = document.getElementById("editClassForm").style.display ="none";
     var temp = document.getElementById("setupForm").style.display = "inline-block";
+    window.location.reload();
 }
 
 function BacktoProfilePass()
@@ -87,6 +88,7 @@ function BacktoProfileBio()
 {
     var temp = document.getElementById("editBioform").style.display ="none";
     var temp = document.getElementById("setupForm").style.display = "inline-block";
+    window.location.reload();
 }
 
 function addclasses()

@@ -12,6 +12,7 @@ var dummySchool = 'Nights Watch';
 var dummyEmail = 'jonsnow@gmail.com';
 var bioFromAPI = 'String from DB';
 var rating =2.5;
+var count;
 
 // used for edit availability
 var editCount = 0;
@@ -42,6 +43,14 @@ function TutorProfile()
         var temp = document.getElementById("setupForm").style.display ="none";
         var temp = document.getElementById("editAvaform").style.display ="inline-block";
     }
+
+    function BringUpEdit()
+{
+    var temp = document.getElementById("setupForm").style.display ="none";
+    var temp = document.getElementById("editClassForm").style.display ="inline-block";
+    count = 0;
+
+}
  
     
     function BacktoProfile2()
@@ -61,6 +70,52 @@ function TutorProfile()
         var temp = document.getElementById("editAvaform").style.display ="none";
         var temp = document.getElementById("setupForm").style.display = "inline-block";
         window.location.reload(false);
+    }
+
+    function addclasses()
+    {
+        var newdiv = document.createElement('span');
+        count++;
+        newdiv.innerHTML = ('<span id= "inner-title"><div id = "class'+(count)+'"><text id ="testhis">Class '+(count+1)+':</text><input type= "text" id="styleText" placeholder = "ex. COP 4331" ></input></div></span>');
+
+        document.getElementById("endOfthis").appendChild(newdiv);
+        return;
+    }
+    function toUpper(x)
+    {
+        return x.toUpperCase();
+    }; 
+    function BacktoProfileClass()
+    {
+        var temp = document.getElementById("editClassForm").style.display ="none";
+        var temp = document.getElementById("setupForm").style.display = "inline-block";
+        window.location.reload();
+    }
+
+    function submitNewClasses()
+    {
+        var courseArray = [];
+    
+        for (var i = 0; i<=count; i++) {
+            courseArray[i] = document.getElementById("class"+i).getElementsByTagName("input")[0].value;
+        }
+        courseArray = courseArray.map(toUpper); 
+    
+        let req = {
+            courses: courseArray,
+            count: count 
+        }
+    
+        axios.post('http://localhost:5000/auth/addCourses', req, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+           .then(function(resp) {
+               console.log(resp);
+               if(resp.status == 200) {
+                   BacktoProfileClass();
+               } 
+           })
+               .catch(err => {
+                   console.log(err); 
+               })
     }
 
     const saveBioChange= async event =>
@@ -194,6 +249,20 @@ function TutorProfile()
             <br />
 
         </div>
+        <br />
+        <div id = "bottominfo22">
+        
+            <lable id = 'FirstyNamey'>Courses</lable>
+
+            <br />
+
+
+        {/*this.state.courses.map(thisclass => (<div id = "classesListEdit">
+            <p>{thisclass}</p></div>))*/}
+            <div id = "classesListEdit">
+            <p>dummyData</p></div>
+
+        </div>
 
         <br/>
             <div id = "bottominfo3">
@@ -211,7 +280,7 @@ function TutorProfile()
 
             <input id = "buttonstyling4" type = "button" value = "Update password" onClick={BringUpPass}/>
             <input id = "buttonstyling4" type = "button" value = "Update Bio" onClick={BringUpBio}/>
-
+            <input id = "buttonstyling4" type = "button" value = "Update Classes" onClick={BringUpEdit}/>
 
             <input id = "buttonstyling4" type = "button" value = "Update Schedule"  onClick = {BringupSche}/>
             <input id = "buttonstyling4" type = "button" value = "Back" onClick = {GoHome} />
@@ -257,6 +326,26 @@ function TutorProfile()
                 <input type = "button" id = "buttonstyling2" value = "-" onClick = {removeSlot}/>
                 <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitnewPass} />
                 <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile4} />
+            </form>
+
+            <form id = "editClassForm">
+                Edit Courses
+                <br />
+                <br />
+                <br />
+                <div id = "courseEditList">
+
+            <div id = "classesListEdit"><div id = "class0"><text id ="testhis">Class 1:</text><input type= "text" id="styleText" placeholder = "ex. COP 4331"></input></div></div>
+
+                <div id ="endOfthis"></div>
+                </div>
+                
+                <input type = "button" id = "buttonstyling2" value = "Add Slot" onClick = {addclasses} />
+                
+                <br/>
+                <input type = "button" id = "buttonstyling2" value = "Submit Changes" onClick ={submitNewClasses}/>
+                <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfileClass} />
+
             </form>
 
         </div>

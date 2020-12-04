@@ -27,6 +27,8 @@ form
     background-color: rgb(236, 91, 75);
 }
 
+
+
 #editClassForm
 {
     display: none;
@@ -142,6 +144,16 @@ form
 }
 
 #bottominfo2
+{
+    padding: 10px 10px;
+    border-radius: 5px;
+    width: auto;
+    height: auto;
+    color: whitesmoke;
+    background-color: #444;
+}
+
+#bottominfo22
 {
     padding: 10px 10px;
     border-radius: 5px;
