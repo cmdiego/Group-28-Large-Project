@@ -8,6 +8,7 @@ const axios = require('axios');
 
 var count = 0;
 var dateArray = [];
+var alreadyPressed = false;
 
 function ScheduleBuilder()
 {
@@ -20,7 +21,14 @@ function ScheduleBuilder()
 
         if (count === 0)
         {
-            alert('Please add atleast 1 time Slot');
+            if (!alreadyPressed)
+            {
+                var warndiv = document.createElement('div');
+                warndiv.innerHTML = ('<div id= "confirmAppend"><span="inner">Please add atleast 1 Time Slot<br /></span></div>');
+                document.getElementById("warnForm").appendChild(warndiv);
+                alreadyPressed = true;
+            }
+            //alert('Please add atleast 1 time Slot');
             return;
         }
 
@@ -28,6 +36,7 @@ function ScheduleBuilder()
             count: count,
             dateArray: dateArray
         }
+        
         
         axios.post('http://localhost:5000/timeslot/add', req);
         
@@ -85,6 +94,11 @@ function ScheduleBuilder()
                 </div>
                 <div id="buttonForm">
                     <input type="button" id="submitBlock" value="Submit" onClick={submitBlock} />
+                </div>
+                <div id="warnDiv">
+                    <form id="warnForm">
+                        <text></text>
+                    </form>
                 </div>
             </form>
 

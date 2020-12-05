@@ -4,61 +4,9 @@ import otLogo from '../../otLogo.png';
 import './Home.css';
 
 const axios = require('axios');
-/*
-function Thingerino(props) {
-    var mockfirstName = 'Brent';
-    var mocklastName = 'Smith';
-    var mockCode = 'COP';
-    var mockNumber = '3402';
-    var mockDate = '11/10';
-    var mockTime = '9:45';
-    var isStudent = true;
-    var show = true;
-    const delet = async event =>
-    {
-        event.preventDefault();
-        show = false;
-    }
-    if (show)
-    {
-       return (
-        <div id="wrapAround">
-            <div id="mockCard">
-                <span id="coursePart">
-                    <text>Course: </text>
-                    <text>{mockCode + ' ' + mockNumber}</text>
-                </span>
-                <span id="datePart">
-                    <text>Date: </text>
-                    <text>{mockDate}</text>
-                </span>
-                <span id="tutorPart">
-                    <text>Tutor: </text>
-                    <text>{mockfirstName + ' ' + mocklastName}</text>
-                </span>
-                <span id="timePart">
-                    <text>Time: </text>
-                    <text>{mockTime}</text>
-                </span>
-            </div>
-            <button id="deleteCardButton" onClick={delet}>X</button>
-        </div>
-       );
-    }
-    else
-    {
-        return null;
-    }
-}
-*/
+
 function Home () {
     /*will be determined with data from user but for now set to student homepage look*/
-    var mockfirstName = 'Brent';
-    var mocklastName = 'Smith';
-    var mockCode = 'COP';
-    var mockNumber = '3402';
-    var mockDate = '11/10';
-    var mockTime = '9:45';
     var isStudent = true;
     var testInfo = [
         {
@@ -105,7 +53,14 @@ function Home () {
     const profileProcess = async event =>
     {
         event.preventDefault();
-        window.location.href = "/ProfilePage"; 
+        if(isStudent)
+        {
+            window.location.href = "/ProfilePage"; 
+        }
+        else
+        {
+            window.location.href = "/TutorProfilePage";
+        }
         //alert("Shmoovin to profile page");
     };
 
@@ -154,7 +109,7 @@ function Home () {
             <div id ="middleOfPage">
             {isStudent ? <input type="button" id="searchButton" class="button" value="Search for Tutors" onClick={searchProcess} /> : <div></div>}
                 {testInfo.map(infoStuff => (
-                    <AppointCard info={infoStuff} isStudent={true} />
+                    <AppointCard info={infoStuff} isStudent={isStudent} />
                 ))}
             
             </div>

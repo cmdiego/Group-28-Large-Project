@@ -16,6 +16,7 @@ var rating =2.5;
 // used for edit availability
 var editCount = 0;
 var editArray = [];
+var alreadyPressed = false;
 
 function TutorProfile()
 {
@@ -132,15 +133,27 @@ function TutorProfile()
         if (editCount === 0)
         {
             // Make a label display or something that tells them to add atleast 1 slot
+            if (!alreadyPressed)
+            {
+                var warndiv = document.createElement('div');
+                warndiv.innerHTML = ('<div id= "confirmAppend"><span="inner">Please add atleast 1 Time Slot<br /></span></div>');
+                document.getElementById("warnForm").appendChild(warndiv);
+                alreadyPressed = true;
+            }
             return;
         }
 
         // Would do the delete api to clear user's current slots
 
         // Would then take the current editCount and editArray and ready them into a request for the add api and then do the api
+        
 
         // would then refresh page or do something to clear the editArray and editCount 
         // so they dont have data carying over when user wants to edit again
+        var temp = document.getElementById("editAvaform").style.display ="none";
+        var temp = document.getElementById("setupForm").style.display = "inline-block";
+        window.location.reload(false);
+        return;
     }
 
     /*componentDidMount = () => {
@@ -255,8 +268,13 @@ function TutorProfile()
                 <DatePicker id="datePicker" selected={startDate} onChange={date => setStartDate(date)} showTimeSelect />
                 <input type = "button" id = "buttonstyling2" value = "+" onClick = {addSlot}/>
                 <input type = "button" id = "buttonstyling2" value = "-" onClick = {removeSlot}/>
-                <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitnewPass} />
+                <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitAva} />
                 <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile4} />
+                <div id="warnDiv">
+                    <form id="warnForm">
+                        <text></text>
+                    </form>
+                </div>
             </form>
 
         </div>
