@@ -75,6 +75,7 @@ function BacktoProfileClass()
 {
     var temp = document.getElementById("editClassForm").style.display ="none";
     var temp = document.getElementById("setupForm").style.display = "inline-block";
+    window.location.reload();
 }
 
 function BacktoProfilePass()
@@ -87,6 +88,7 @@ function BacktoProfileBio()
 {
     var temp = document.getElementById("editBioform").style.display ="none";
     var temp = document.getElementById("setupForm").style.display = "inline-block";
+    window.location.reload();
 }
 
 function addclasses()
@@ -206,8 +208,8 @@ class Profile extends Component
                     <span id="topofForm">Account Information</span>
                     <br/>
                     <br/>
-                 <img class = "circular--square" src = {download} alt ="Download"/>    
-                    <br/>
+                 {/*<img class = "circular--square" src = {download} alt ="Download"/>*/}    
+                    
             
             
         <div id = "bottominfo">
@@ -251,7 +253,7 @@ class Profile extends Component
             <input id = "buttonstyling" type = "button" value = "Update Bio" onClick={BringUpBio}/>
 
 
-            <input id = "buttonstyling" type = "button" value = "Edit Classes" onClick = {BringUpEdit}/>
+            <input id = "buttonstyling" type = "button" value = "Update Classes" onClick = {BringUpEdit}/>
             <input id = "buttonstyling" type = "button" value = "Back" onClick = {GoHome} />
 
             </div>
