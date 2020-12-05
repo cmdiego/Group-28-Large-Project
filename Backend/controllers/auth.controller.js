@@ -309,9 +309,14 @@ exports.getUserInfo = async function(req, res) {
             return res.json({ firstName, lastName, schoolName, email, courses, bioBox}); 
         })
     })
+}
 
-    
+exports.profileDirect = async function(req, res) {
+    const UserInfo = req.user.user; 
+    const isStudent = UserInfo.isStudent;
+    const isTutor = UserInfo.isTutor;
 
+    return res.json({ isStudent, isTutor}); 
 }
 
 exports.modifyBioBox = async function(req, res) {
@@ -365,7 +370,7 @@ exports.changePassword = async function(req, res) {
         });
 }
 
-exports.addCourses = async function(req, res) {
+exports.modifyCourses = async function(req, res) {
     const UserInfo = req.user.user; 
     const { courses, count } = req.body; 
     console.log(courses);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Component } from 'react';
 import './Profile.css';
 import download from './download.png';
 import DatePicker from 'react-datepicker';
@@ -19,16 +19,7 @@ var editCount = 0;
 var editArray = [];
 var alreadyPressed = false;
 
-function TutorProfile()
-{
-
-    const [isOpen, setIsOpen] = useState(false);
-    const [isOpen2, setIsOpen2] = useState(false);
-    // Datepicker hook
-    const [startDate,setStartDate] = useState(new Date());
-
-
-    function BringUpPass()
+function BringUpPass()
     {
         var temp = document.getElementById("setupForm").style.display ="none";
         var temp = document.getElementById("editPassform").style.display ="inline-block";
@@ -45,15 +36,12 @@ function TutorProfile()
         var temp = document.getElementById("editAvaform").style.display ="inline-block";
     }
 
-    function BringUpEdit()
-{
+function BringUpEdit() {
     var temp = document.getElementById("setupForm").style.display ="none";
     var temp = document.getElementById("editClassForm").style.display ="inline-block";
     count = 0;
-
 }
- 
-    
+   
     function BacktoProfile2()
     {
         var temp = document.getElementById("editPassform").style.display ="none";
@@ -64,6 +52,7 @@ function TutorProfile()
     {
         var temp = document.getElementById("editBioform").style.display ="none";
         var temp = document.getElementById("setupForm").style.display = "inline-block";
+        window.location.reload();
     }
 
     function BacktoProfile4()
@@ -96,7 +85,7 @@ function TutorProfile()
     function submitNewClasses()
     {
         var courseArray = [];
-    
+
         for (var i = 0; i<=count; i++) {
             courseArray[i] = document.getElementById("class"+i).getElementsByTagName("input")[0].value;
         }
@@ -107,7 +96,7 @@ function TutorProfile()
             count: count 
         }
     
-        axios.post('http://localhost:5000/auth/addCourses', req, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+        axios.post('http://localhost:5000/auth/modifyCourses', req, { headers: {Authorization: localStorage.getItem('jwtToken')}})
            .then(function(resp) {
                console.log(resp);
                if(resp.status == 200) {
@@ -119,6 +108,23 @@ function TutorProfile()
                })
     }
 
+    const submitnewBio = async event => {
+        try {
+           var oo = document.getElementById("bioText").value; 
+       } catch(err) {
+           console.log("Error: " + err);
+       }
+       axios.post('http://localhost:5000/auth/bioBox', {oo}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+           .then(function(resp) {
+               console.log(resp);
+               if(resp.status == 200) {
+                    BacktoProfile3();
+               } 
+           })
+               .catch(err => {
+                   console.log(err); 
+               })
+    }
     const saveBioChange= async event =>
     {
         //event.preventDefault();
@@ -129,12 +135,22 @@ function TutorProfile()
     {
         var pass1 = document.getElementById("newPass").value;
         var pass2 = document.getElementById("confirmNewPass").value;
-
+    
         if(pass1 != pass2)
-            alert("password not matching");
-
-        else
-            alert("they match");
+            alert("Password Not Matching");
+    
+        else {
+            axios.post('http://localhost:5000/auth/changePassword', {pass1}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+            .then(function(resp) {
+                console.log(resp);
+                if(resp.status == 200) {
+                    BacktoProfile2();
+                } 
+            })
+                .catch(err => {
+                    console.log(err); 
+                })
+        }
     }
     const GoHome = async event =>
     {
@@ -157,7 +173,6 @@ function TutorProfile()
     }
 
     function addSlot() {
-        editArray.push(startDate);
         var editdiv = document.createElement('div');
         editdiv.innerHTML = ('<br/><div id = "newForm'+(editCount)+'"><span id="innerPart">Time Slot '+(editCount + 1)+' :<text id="timeText">'+editArray[editCount].toLocaleDateString()+'</text>'+'<text id="dateText"> at '+editArray[(editCount)].toLocaleTimeString()+'</text>'+' <br /></span>' + '</div>');
         if (editCount === 0)
@@ -211,8 +226,38 @@ function TutorProfile()
         return;
     }
 
-    /*componentDidMount = () => {
-    };*/
+class TutorProfile extends Component
+{
+
+    state = {
+        firstName: '',
+        lastName: '',
+        schoolName: '',
+        email: '',
+        courses: [],
+        bioBox: ''
+    }
+
+ async  componentDidMount() {
+        const res = await axios.get('http://localhost:5000/auth/userinfo', { headers: {Authorization: localStorage.getItem('jwtToken')}});
+        const resFirst = await res.data.firstName;
+        const resLast = await res.data.lastName;
+        const resSchool = await res.data.schoolName;
+        const resEmail = await res.data.email;
+        const resCourses = await res.data.courses; 
+        let resBioBox = await res.data.bioBox; 
+
+        this.setState(idk => ({
+              firstName: idk.firstName = resFirst,
+              lastName: idk.lastName = resLast,
+              schoolName: idk.schoolName = resSchool,
+              email: idk.email = resEmail,
+              courses: idk.courses = resCourses,
+              bioBox: idk.bioBox = resBioBox
+        })) 
+    }
+
+    render() {
     return(
         <div id="Profileinformation">
            
@@ -227,13 +272,13 @@ function TutorProfile()
             
         <div id = "bottominfo">
             
-            <lable id = 'FirstyNamey'>First Name: {dummyFname}</lable>
+            <lable id = 'FirstyNamey'>First Name: {this.state.firstName}</lable>
             <br />
-            <lable id = 'lastName'>Last Name: {dummyLname}</lable>
+            <lable id = 'lastName'>Last Name: {this.state.lastName}</lable>
             <br />
-            <lable id = 'schoolName'>School: {dummySchool}</lable>
+            <lable id = 'schoolName'>School: {this.state.schoolName}</lable>
             <br/>
-            <lable id = 'tempEmail'>Email: {dummyEmail}</lable>
+            <lable id = 'tempEmail'>Email: {this.state.email}</lable>
             <br/>
             <br/>
             {/*<label id="tutorRatingLable">Tutor Rating:</label>
@@ -269,11 +314,7 @@ function TutorProfile()
 
             <br />
 
-
-        {/*this.state.courses.map(thisclass => (<div id = "classesListEdit">
-            <p>{thisclass}</p></div>))*/}
-            <div id = "classesListEdit">
-            <p>dummyData</p></div>
+             {this.state.courses.map(thisclass => (<div id = "classesListEdit"><p>{thisclass}</p></div>))}
 
         </div>
 
@@ -284,7 +325,7 @@ function TutorProfile()
                 <span id ="CoursesLable">Bio:</span>
                 <br/>
                 <br/>
-                <text>{bioFromAPI}</text>
+                <text>{this.state.bioBox}</text>
                 <br/>
 
             </div>
@@ -322,7 +363,7 @@ function TutorProfile()
                 <br/>
                 <textarea id="bioText" placeholder = "Bio, tell us a bit about your self" ></textarea>               
                 <br/>
-                <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {BringUpBio} />
+                <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitnewBio} />
                 <input type = "button" id = "buttonstyling2" value = "Cancel" onClick = {BacktoProfile3} />
             </form>
 
@@ -334,7 +375,7 @@ function TutorProfile()
                 </div>
                 <br />
                 Select Date and Time for new Timeslots: 
-                <DatePicker id="datePicker" selected={startDate} onChange={date => setStartDate(date)} showTimeSelect />
+
                 <input type = "button" id = "buttonstyling2" value = "+" onClick = {addSlot}/>
                 <input type = "button" id = "buttonstyling2" value = "-" onClick = {removeSlot}/>
                 <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitAva} />
@@ -369,5 +410,6 @@ function TutorProfile()
         </div>
 
     );
+  }
 };
 export default TutorProfile;
