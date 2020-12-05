@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tuter/Components/rounded_button.dart';
 import 'package:tuter/Components/rounded_input_field.dart';
@@ -6,6 +7,12 @@ import 'package:tuter/ProfileCreation/profile_information.dart';
 import 'package:tuter/Signup/email_confirmation.dart';
 import 'package:tuter/Components/student_course.dart';
 import 'package:tuter/HomePage/home_page.dart';
+import 'package:tuter/constants.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tuter/constants.dart';
+
 
 class Availability extends StatefulWidget {
 
@@ -14,14 +21,16 @@ class Availability extends StatefulWidget {
 }
 
 class AvailabilityState extends State<Availability>{
-
-  int courseCount = 1;
+  List<Widget> timeSlots = [];
+  List<DateTime> timeSlotData = [];
+  int count = 1;
   @override
   Widget build(BuildContext context){
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       body: Container(
         height: size.height,
+        color: darkBackground,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
@@ -33,7 +42,21 @@ class AvailabilityState extends State<Availability>{
             ),
             RoundedButton(
               text: "Submit",
-              press: () {
+              press: () async {
+              for (var i = 0; i < count; i++){
+                var url = 'http://10.0.2.2:5000/timeslot/add';
+                SharedPreferences pref = await SharedPreferences.getInstance();
+                String jwt = (pref.getString('jwt') ?? "");
+                print("Date: "+timeSlotData[i].toString());
+                var response = await http.post(url,
+                    headers: {"content-type": "application/json",
+                      "Authorization": jwt},
+                    body: jsonEncode({"date": timeSlotData[i].toString()})
+                );
+                print('Response status: ${response.statusCode}');
+                print('Response body: ${response.body}');
+              }
+
                 Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -51,16 +74,49 @@ class AvailabilityState extends State<Availability>{
   }
 
   List<Widget> getTimeSlots(){
-    List<Widget> mCourses = [];
-    for (var i = 1; i <= courseCount; i++) {
-      mCourses.add(TimeSlot());
+    timeSlots = [];
+    timeSlotData =[];
+    for (var i = 1; i <= count; i++) {
+      TimeSlot newSlot = TimeSlot(
+        onDateTimeSelect: (DateTime date){
+          timeSlotData.add(date);
+        },
+      );
+      timeSlots.add(
+          Container(
+              margin: EdgeInsets.all(10.0),
+              padding: EdgeInsets.only(top: 10.0, left: 10.0),
+              color: kPrimaryLightColor,
+              child: newSlot
+          ));
     }
-    mCourses.add(IconButton(icon: Icon(Icons.add_circle_outline), onPressed: addCourse, iconSize: 40.0,));
-    return mCourses;
+    if (count > 1) {
+      timeSlots.add(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              IconButton(icon: Icon(Icons.add_circle_outline), onPressed: addTimeslot, iconSize: 40.0, color: kPrimaryColor),
+              IconButton(icon: Icon(Icons.remove_circle_outline), onPressed: deleteTimeslot, iconSize: 40.0, color: kPrimaryColor)
+            ],
+          ));
+    }
+    else{
+      timeSlots.add(
+        IconButton(icon: Icon(Icons.add_circle_outline), onPressed: addTimeslot, iconSize: 40.0, color: kPrimaryColor),
+      );
+    }
+    return timeSlots;
   }
-  void addCourse() {
+
+  void addTimeslot() {
     setState(() {
-      courseCount = courseCount + 1;
+      count = count + 1;
+    });
+  }
+
+  void deleteTimeslot() {
+    setState(() {
+      count = count - 1;
     });
   }
 }

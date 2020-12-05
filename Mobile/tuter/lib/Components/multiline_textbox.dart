@@ -6,11 +6,13 @@ class MultilineTextbox extends StatelessWidget {
   final String hintText;
   final IconData icon;
   final ValueChanged<String> onChanged;
+  final TextEditingController controller;
   const MultilineTextbox({
     Key key,
     this.hintText,
     this.icon,
     this.onChanged,
+    this.controller
   }) : super(key: key);
 
   @override
@@ -22,6 +24,7 @@ class MultilineTextbox extends StatelessWidget {
         keyboardType: TextInputType.multiline,
         maxLines: null,
         minLines: 4,
+        controller: controller,
         decoration: InputDecoration(
           icon: Icon(
             icon,

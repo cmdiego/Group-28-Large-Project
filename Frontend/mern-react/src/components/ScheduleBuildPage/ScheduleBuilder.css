@@ -10,6 +10,15 @@
     background-color: rgb(236, 91, 75);
 }
 
+#innerPart
+{
+    padding: 10px 10px;
+    border-radius: 5px;
+    width: auto;
+    color: whitesmoke;
+    background-color: #444;
+}
+
 #timeSlotBlock {
     display: flex;
     flex-direction: row;
@@ -25,11 +34,23 @@
     padding: 10px;
 }
 #submitBlock{
-    color: black;
-    background-color: rgb(236, 91, 75);
+    color: white;
+    background-color:#444;
+    font-size: medium;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 #buttonForm
 {
     align-items: center;
+}
+
+
+
+#styleDropdown
+{
+    background-color: #444;
+    color: red;
 }

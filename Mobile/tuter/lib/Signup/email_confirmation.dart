@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tuter/Components/rounded_button.dart';
 import 'package:tuter/Components/rounded_input_field.dart';
 import 'package:tuter/ProfileCreation/student_or_tutor.dart';
+import 'package:tuter/constants.dart';
 
 class EmailConfirmation extends StatelessWidget {
   @override
@@ -11,6 +12,7 @@ class EmailConfirmation extends StatelessWidget {
       body: Container(
         height: size.height,
         width: double.infinity,
+        color: darkBackground,
         child: Stack(
           alignment: Alignment.center,
           children: <Widget>[
@@ -19,26 +21,8 @@ class EmailConfirmation extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    "A confirmation code has been sent to your email",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: size.height * 0.03),
-                  RoundedInputField(
-                    hintText: "Confirmation Code",
-                    onChanged: (value) {},
-                  ),
-                  RoundedButton(
-                    text: "SUBMIT",
-                    press: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) {
-                              return StudentOrTutor();
-                            }
-                        )
-                      );
-                    },
+                    "A confirmation link has been sent to your email",
+                    style: TextStyle(fontWeight: FontWeight.bold, color: kPrimaryColor),
                   ),
                 ],
               ),

@@ -6,7 +6,6 @@ const SigninPage = () =>
 {
     return(
         <div>
-            <PageTitle />
             <Signin />
         </div>
     );

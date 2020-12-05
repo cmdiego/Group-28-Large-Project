@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './SignUp.css';
+import otLogo from '../../otLogo.png';
 const axios = require('axios'); 
 var alreadyPressed = false;
 
@@ -16,22 +17,26 @@ function Signup()
 
         //User is on the Signup page
         if (state.button === 1){
-
             if (!(signupPassword.value === confirmPassword.value))
             {
                 alert('Passwords don\'t match');
                 return;
             }
-            //Get the email & password value
-            let req = {
-                email: signupEmail.value, 
-                password: signupPassword.value
+            if(signupPassword.value < 6) {
+                alert('Password has be at least 6 characters long!');
+                console.log('Password has be at least 6 characters long!'); 
+                return;
             }
-
                                         //Student
             if(document.getElementById('radiobutton1').checked)
             {
-                console.log("Student");
+                //Get the email, password, student, and tutor value
+                let req = {
+                    email: signupEmail.value, 
+                    password: signupPassword.value,
+                    student: true, 
+                    tutor: false
+                }
                 axios.post('http://localhost:5000/auth/signup', req)
                 .catch(err => {
                     console.log(err); 
@@ -48,6 +53,13 @@ function Signup()
                                             //Tutor
             else if(document.getElementById('radiobutton2').checked)
             {
+                //Get the email, password, student, and tutor value
+                let req = {
+                    email: signupEmail.value, 
+                    password: signupPassword.value,
+                    student: false, 
+                    tutor: true
+                }
                 axios.post('http://localhost:5000/auth/signup', req)
                 .catch(err => {
                     console.log(err); 
@@ -72,6 +84,9 @@ function Signup()
     };
     return (
         <div id="signupDiv">
+            <img class = "img-rounded" src = {otLogo} alt ="otLogo"/>    
+            <br></br>
+
             <form method="post" action="/email-activate" onSubmit={signupProcess} id = "formID">
                 <span id="inner-title">Sign Up</span><br />
                 <input type="email" id="signupEmail" placeholder="Type Email" ref={ (c) => signupEmail = c} /><br />

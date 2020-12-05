@@ -5,39 +5,27 @@ import 'package:tuter/constants.dart';
 class RoundedPasswordField extends StatefulWidget {
   final ValueChanged<String> onChanged;
   final String hintText;
-  bool hideText;
-
+  final TextEditingController controller;
   RoundedPasswordField({
     this.onChanged,
     this.hintText,
-    this.hideText
+    this.controller
   });
   @override
-  RoundedPasswordFieldState createState() => new RoundedPasswordFieldState(
-    onChanged: onChanged,
-    hintText: hintText,
-    hideText: hideText,
-  );
+  RoundedPasswordFieldState createState() => new RoundedPasswordFieldState();
 }
 class RoundedPasswordFieldState extends State<RoundedPasswordField>{
-  final ValueChanged<String> onChanged;
-  final String hintText;
-  bool hideText;
-
-  RoundedPasswordFieldState({
-    this.onChanged,
-    this.hintText,
-    this.hideText
-  });
+  bool hideText = true;
   @override
   Widget build(BuildContext context) {
     return TextFieldContainer(
       child: TextField(
         obscureText: hideText,
-        onChanged: onChanged,
+        onChanged: widget.onChanged,
         cursorColor: kPrimaryColor,
+        controller: widget.controller,
         decoration: InputDecoration(
-          hintText: hintText,
+          hintText: widget.hintText,
           icon: Icon(
             Icons.lock,
             color: kPrimaryColor,

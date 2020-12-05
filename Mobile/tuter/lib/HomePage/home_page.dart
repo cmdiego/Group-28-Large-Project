@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuter/Components/appointment.dart';
 import 'package:tuter/Components/rounded_button.dart';
 import 'package:tuter/Components/tutor.dart';
@@ -7,8 +10,15 @@ import 'package:tuter/HomePage/appointments.dart';
 import 'package:tuter/constants.dart';
 import 'package:tuter/HomePage/search_page.dart';
 import 'package:tuter/HomePage/view_profile.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  HomePageState createState() => new HomePageState();
+}
+
+class HomePageState extends State<HomePage>{
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +27,49 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
           leading: IconButton(
             icon: Icon(Icons.person_outline, color: Colors.white),
-            onPressed: (){
+            onPressed: () async{
+
+              var url = 'http://10.0.2.2:5000/auth/userinfo';
+              SharedPreferences pref = await SharedPreferences.getInstance();
+              String jwt = (pref.getString('jwt') ?? "");
+              var response = await http.get(url,
+                    headers: {"content-type": "application/json",
+                    "Authorization": jwt},
+                );
+              print('Response status: ${response.statusCode}');
+              print('Response body: ${response.body}');
+              var parsedJSON = jsonDecode(response.body);
+              String firstName = parsedJSON['firstName'];
+              String lastName = parsedJSON['lastName'];
+              String school = parsedJSON['schoolName'];
+              String email = parsedJSON['email'];
+              List<dynamic> courses = parsedJSON['courses'];
+              String bio = parsedJSON['bioBox'];
+
+              Map<String, dynamic> jsonDecoded = parseJwt(jwt);
+              print("JWT:");
+              print(jsonDecoded.toString());
+              print(jsonDecoded['user'].toString());
+              print(jsonDecoded['user']['isTutor'].toString());
+              bool isTutor = jsonDecoded['user']['isTutor'];
               Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) {
-                      return ViewProfile();
+                      return ViewProfile(
+                        firstName: firstName,
+                        lastName: lastName,
+                        schoolName: school,
+                        email: email,
+                        courses: courses,
+                        bio: bio,
+                        isTutor: isTutor
+                      );
                     }
                 )
             );},
           ),
-          title: Text("Tuter"),
+          title: Text("Open Tutor"),
           actions: <Widget>[
             IconButton(
                 icon: Icon(Icons.search, color: Colors.white),
@@ -43,15 +85,21 @@ class HomePage extends StatelessWidget {
                 })
           ],
       ),
-      body: ListView(
-        children: [
-          Container(
-            height: size.height * 0.2,
-            margin: EdgeInsets.all(10.0),
-            color: Colors.black12,
-            child: Appointment(),
-          ),
-        ],
+      body:
+      Container(
+        height: size.height,
+        width: double.infinity,
+        color: darkBackground,
+        child: ListView(
+          children: [
+            Container(
+              height: size.height * 0.2,
+              margin: EdgeInsets.all(10.0),
+              color: kPrimaryLightColor,
+              child: Appointment(),
+            ),
+          ],
+        ),
       ),
       /*endDrawer: Drawer(
         // Add a ListView to the drawer. This ensures the user can scroll
@@ -137,5 +185,39 @@ class HomePage extends StatelessWidget {
         ),
       ), */
     );
+  }
+
+  Map<String, dynamic> parseJwt(String token) {
+    final parts = token.split('.');
+    if (parts.length != 3) {
+      throw Exception('invalid token');
+    }
+
+    final payload = _decodeBase64(parts[1]);
+    final payloadMap = json.decode(payload);
+    if (payloadMap is! Map<String, dynamic>) {
+      throw Exception('invalid payload');
+    }
+
+    return payloadMap;
+  }
+
+  String _decodeBase64(String str) {
+    String output = str.replaceAll('-', '+').replaceAll('_', '/');
+
+    switch (output.length % 4) {
+      case 0:
+        break;
+      case 2:
+        output += '==';
+        break;
+      case 3:
+        output += '=';
+        break;
+      default:
+        throw Exception('Illegal base64url string!"');
+    }
+
+    return utf8.decode(base64Url.decode(output));
   }
 }

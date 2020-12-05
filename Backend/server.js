@@ -1,21 +1,18 @@
-// Run 'nodemon server' or 'npm start'
-const express = require('express'); // middle-wear
+const express = require('express');
 const cors = require('cors');
-const app = express();
-const authRoutes = require("./routes/auth.routes");
-const courseRoutes = require("./routes/course.routes");
-const timeslotRoutes = require("./routes/timeslot.routes")
-require("./database/connection.js");
+
+//Allow to use environmental variables
 require('dotenv').config();
 
-app.use(cors());
+//Connect to database
+require("./database/connection.js");
+
+const app = express();
+
+const authRoutes = require("./routes/auth.routes");
+const timeslotRoutes = require("./routes/timeslot.routes");
 app.use(express.json());
-
-const port = process.env.PORT;
-
-app.use('/auth', authRoutes);
-app.use('/timeslot', timeslotRoutes);
-app.use('/course', courseRoutes);
+app.use(cors());
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
@@ -23,25 +20,10 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods','GET, POST, PATCH, DELETE, OPTIONS');
     next();
 });
+app.use('/auth', authRoutes);
+app.use('/timeslot', timeslotRoutes);
+const port = process.env.PORT || 5000;
 
-
-// start Node + Express server on port
 app.listen(port, () => {
-  console.log(`Server is running on port: + ${port}`);
+    console.log(`Server is running on port: ${port}`);
 });
-
-
-//NOTE: Code from professor for connection to web server
-// app.use((req, res, next) =>
-// {
-//   res.setHeader('Access-Control-Allow-Origin', '*');
-//   res.setHeader(
-//     'Access-Control-Allow-Headers',
-//     'Origin, X-Requested-With, Content-Type, Accept, Authorization'
-//   );
-//   res.setHeader(
-//     'Access-Control-Allow-Methods',
-//     'GET, POST, PATCH, DELETE, OPTIONS'
-//   );
-//   next();
-// });

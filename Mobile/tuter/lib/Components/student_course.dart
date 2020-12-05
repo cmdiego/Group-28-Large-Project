@@ -6,11 +6,13 @@ class StudentCourse extends StatelessWidget {
   final String courseLabel;
   final IconData icon;
   final ValueChanged<String> onChanged;
+  final TextEditingController cController;
   const StudentCourse({
     Key key,
     this.courseLabel,
     this.icon,
     this.onChanged,
+    this.cController,
   }) : super(key: key);
 
   @override
@@ -39,30 +41,21 @@ class StudentCourse extends StatelessWidget {
                   children:[
                     SizedBox(width: 20.0),
                     Text(
-                      "Subject Code:",
+                      "Subject Code and Course Number:",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
-                    SizedBox(width: 60.0),
-                    Text(
-                      "Course Number:",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ]
+                    ]
                 ),
                 Row(
                     children:[
                       SizedBox(width: 20.0),
                       Container(
-                        width: size.width * .22,
+                        width: size.width * .60,
                         child: TextField(
-
-                        ),
-                      ),
-                      SizedBox(width: 60.0),
-                      Container(
-                        width: size.width * .24,
-                        child: TextField(
-
+                          decoration: InputDecoration(
+                            hintText: "Ex. ENC1102"
+                          ),
+                          controller: cController,
                         ),
                       ),
                     ]
