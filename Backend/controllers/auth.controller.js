@@ -533,12 +533,13 @@ exports.checkUserTutorCourse = async function(req, res) {
                     //Return the tutor appointments  
     const { studentCourse } = req.body; 
     
-    Courses.find({listCourse: studentCourse} && {isTutor: true}).exec((err, crse) => {
+     Courses.find({$and: [{isTutor: true}, {listCourse: studentCourse}]}).exec((err, crse) => {
         if(err) {
             console.log("Error: " + err);
         }
-
-        console.log("Success: " + crse);
+        console.log(crse); 
+        return res.json({crse}); 
+        //console.log("Success: " + crse);
     
     })
 

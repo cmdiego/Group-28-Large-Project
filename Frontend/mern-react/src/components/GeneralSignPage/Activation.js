@@ -34,7 +34,7 @@ function Activation() {
             }
         })
         .catch(err => {
-            alert(err); 
+            console.log(err);
         }) 
 
         axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('jwtToken');

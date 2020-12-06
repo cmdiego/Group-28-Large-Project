@@ -12,6 +12,13 @@ var options = [{
 }];
 
 var classesTest = []; 
+var placeHolder = [{ Tutor: {
+        /*firstName: '',
+        lastName: '',
+        email: '',*/
+        courses: []
+    },
+}]; 
 
 function SearchOutput(props)
 {
@@ -27,14 +34,28 @@ function SearchOutput(props)
                     //Return the tutor appointments  
                     
         let studentCourse = props.value; 
-        const res =  axios.post('http://localhost:5000/auth/checkUserTutorCourse', {studentCourse}, { headers: {Authorization: localStorage.getItem('jwtToken')}});
-       // let c =  await res.data.courses ;
+            axios.post('http://localhost:5000/auth/checkUserTutorCourse', {studentCourse}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+            .then(function(data) {
+                const { crse } = data.data;
+                console.log(crse[0].listCourse); //First tutor
 
-        
+               for(let i = 0; i < crse.length; i++) {
+                    placeHolder[i] = [{ Tutor: {
+                        courses: crse[0].listCourse[0]
+                     },
+                  }];
+
+               }     
+
+
+            })
+            .catch(err => {
+                console.log(err);
+            }) 
 
 
         // Would fill this array with information from search api and display with search card
-        var test2 = [
+       /* var test2 = [
             {
                 Tutor: 
                 {
@@ -53,12 +74,12 @@ function SearchOutput(props)
                 },
                 Date: new Date()
             }
-        ];
+        ];*/
         return (
             <div id="SearchDisplay">
                 <br/>
         <span id ="avaTutorspan">Available Tutor appointments for: {props.value}</span>
-                {test2.map(searchInfo => (
+                {placeHolder.map(searchInfo => (
                     <SearchCard info={searchInfo} />
                 ))}
             </div>

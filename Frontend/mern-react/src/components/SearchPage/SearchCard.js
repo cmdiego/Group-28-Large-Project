@@ -15,6 +15,12 @@ function EmailInfo(props) {
     );
 }
 
+function CourseInfo(props) {
+    return(
+        <text>{'Courses: ' + props.Tutor.courses}</text>
+    );
+}
+
 function formatDate(date)
 {
     return (
@@ -91,9 +97,11 @@ class SearchCard extends React.Component {
                         <br/>
                         <EmailInfo Tutor={slotInfo.Tutor} />
                         <br />
-                        <DateInfo Date={slotInfo.Date} />
+                        <CourseInfo Tutor={slotInfo.Tutor} />
+
+                       {/* <DateInfo Date={slotInfo.Date} /> */}
                         <br/>
-                        <TimeInfo Date={slotInfo.Date} />
+                       {/* <TimeInfo Date={slotInfo.Date} />*/}
                     </div>
                     </div>
                     <div>
