@@ -3,11 +3,10 @@ const mongoose = require('mongoose');
 //**************** Availability Collection ***********************
 //*** defining schemas ********/
 const availabilitySchema = new mongoose.Schema({
-    day: Date,
-    time: String,
-    tutor: {
+    date: [Date],
+    user: {
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Tutor'
+        ref: 'User'
     },
 });
 

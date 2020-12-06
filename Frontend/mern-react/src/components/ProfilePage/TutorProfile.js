@@ -1,18 +1,15 @@
 import React, { useState, Component } from 'react';
 import './Profile.css';
+import StarRatingComponent from 'react-star-rating-component'
 import download from './download.png';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 const axios = require('axios');
 
 
-var dummyFname = 'Tutor';
-var dummyLname = 'Snow';
-var dummySchool = 'Nights Watch';
-var dummyEmail = 'jonsnow@gmail.com';
-var bioFromAPI = 'String from DB';
 var rating =2.5;
 var count;
+var startDate; 
 
 // used for edit availability
 var editCount = 0;
@@ -64,6 +61,7 @@ function BringUpEdit() {
 
     function addclasses()
     {
+        setStartDate(new Date());
         var newdiv = document.createElement('span');
         count++;
         newdiv.innerHTML = ('<span id= "inner-title"><div id = "class'+(count)+'"><text id ="testhis">Class '+(count+1)+':</text><input type= "text" id="styleText" placeholder = "ex. COP 4331" ></input></div></span>');
@@ -173,6 +171,11 @@ function BringUpEdit() {
     }
 
     function addSlot() {
+        if(startDate == null) {
+            startDate = new Date(); 
+        }
+        editArray.push(startDate);
+        console.log(editArray);
         var editdiv = document.createElement('div');
         editdiv.innerHTML = ('<br/><div id = "newForm'+(editCount)+'"><span id="innerPart">Time Slot '+(editCount + 1)+' :<text id="timeText">'+editArray[editCount].toLocaleDateString()+'</text>'+'<text id="dateText"> at '+editArray[(editCount)].toLocaleTimeString()+'</text>'+' <br /></span>' + '</div>');
         if (editCount === 0)
@@ -183,6 +186,8 @@ function BringUpEdit() {
         {
             document.getElementById("newForm"+(editCount - 1)).appendChild(editdiv);
         }
+        console.log(editArray[editCount]);
+
         editCount++;
         return;
     }
@@ -210,22 +215,38 @@ function BringUpEdit() {
                 document.getElementById("warnForm").appendChild(warndiv);
                 alreadyPressed = true;
             }
-            return;
         }
-
+        else {
+            axios.post('http://localhost:5000/auth/modifyAvailability', {editArray}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+            .then(function(resp) {
+                console.log(resp);
+                if(resp.status == 200) {
+                    goBackProfileAvail();
+                } 
+            })
+                .catch(err => {
+                    console.log(err); 
+                })
+            
+        }
         // Would do the delete api to clear user's current slots
 
         // Would then take the current editCount and editArray and ready them into a request for the add api and then do the api
-        
 
         // would then refresh page or do something to clear the editArray and editCount 
         // so they dont have data carying over when user wants to edit again
-        var temp = document.getElementById("editAvaform").style.display ="none";
-        var temp = document.getElementById("setupForm").style.display = "inline-block";
-        window.location.reload(false);
-        return;
+        
+        //window.location.reload(false);
     }
 
+    function goBackProfileAvail() {
+        var temp = document.getElementById("editAvaform").style.display ="none";
+        var temp = document.getElementById("setupForm").style.display = "inline-block";
+        window.location.reload(true); 
+    }
+    function  setStartDate(date) {
+        startDate = date; 
+    }
 class TutorProfile extends Component
 {
 
@@ -235,17 +256,19 @@ class TutorProfile extends Component
         schoolName: '',
         email: '',
         courses: [],
-        bioBox: ''
+        bioBox: '',
+        time: [],
     }
 
  async  componentDidMount() {
-        const res = await axios.get('http://localhost:5000/auth/userinfo', { headers: {Authorization: localStorage.getItem('jwtToken')}});
+        const res = await axios.get('http://localhost:5000/auth/tutorProfile', { headers: {Authorization: localStorage.getItem('jwtToken')}});
         const resFirst = await res.data.firstName;
         const resLast = await res.data.lastName;
         const resSchool = await res.data.schoolName;
         const resEmail = await res.data.email;
         const resCourses = await res.data.courses; 
         let resBioBox = await res.data.bioBox; 
+        let resAvail = await res.data.time; 
 
         this.setState(idk => ({
               firstName: idk.firstName = resFirst,
@@ -253,7 +276,8 @@ class TutorProfile extends Component
               schoolName: idk.schoolName = resSchool,
               email: idk.email = resEmail,
               courses: idk.courses = resCourses,
-              bioBox: idk.bioBox = resBioBox
+              bioBox: idk.bioBox = resBioBox,
+              time: idk.time = resAvail
         })) 
     }
 
@@ -266,7 +290,7 @@ class TutorProfile extends Component
                     <span id="topofForm">Account Information</span>
                     <br/>
                     <br/>
-                 <img class = "circular--square" src = {download} alt ="Download"/>    
+                {/* <img class = "circular--square" src = {download} alt ="Download"/> */}   
                     <br/>
             
             
@@ -281,13 +305,13 @@ class TutorProfile extends Component
             <lable id = 'tempEmail'>Email: {this.state.email}</lable>
             <br/>
             <br/>
-            {/*<label id="tutorRatingLable">Tutor Rating:</label>
+                        {/*
+            <label id="tutorRatingLable">Tutor Rating:</label>
             <br/>
-            <StarRatingComponent 
+<StarRatingComponent 
             name="tutorrating" 
             starCount={5}
-            value={rating}
-    />*/}
+            value={rating}*/}
         
             
         </div>
@@ -295,13 +319,10 @@ class TutorProfile extends Component
 
         <div id = "bottominfo2">
             
-            <lable id = 'FirstyNamey'>Schedule </lable>
+            <lable id = 'FirstyNamey'>Time Availability</lable>
 
             <br />
-
-                <ul class = "my-list" id ="ScheduleList" title = "Schedule"> 
-                <li>12/9/2020 @ 3:00pm with Arya Stark</li>
-                </ul>
+            {this.state.time.map(time => (<div id = "ScheduleList"><p>{time}</p></div>))}
            
 
             <br />
@@ -375,7 +396,7 @@ class TutorProfile extends Component
                 </div>
                 <br />
                 Select Date and Time for new Timeslots: 
-
+                <DatePicker id="datePicker" selected={startDate} onChange={date => setStartDate(date)} showTimeSelect />
                 <input type = "button" id = "buttonstyling2" value = "+" onClick = {addSlot}/>
                 <input type = "button" id = "buttonstyling2" value = "-" onClick = {removeSlot}/>
                 <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitAva} />

@@ -1,6 +1,5 @@
 const User = require('../models/user');
 const Tutor = require('../models/tutor'); 
-const Student = require('../models/student'); 
 const Courses = require('../models/course'); 
 const Availability = require('../models/availability'); 
 const Appointment = require('../models/appointment'); 
@@ -12,7 +11,7 @@ const course = require('../models/course');
 const { callbackPromise } = require('nodemailer/lib/shared');
 const { db } = require('../models/user');
 
-//Create a user w/ email account verification
+//Create a User w/ email account verification
 exports.signup = async function(req, res) {
     const {email, password, student, tutor} = req.body;
    
@@ -278,7 +277,32 @@ exports.courseSetup =  async function (req, res) {
         }
     })
 }
-//For profile page info
+//Tutor Adds Availability Time 
+exports.timeslots = async function(req, res) {
+    const { count, dateArray } = req.body; 
+    const UserInfo = req.user.user; 
+
+    Availability.findOne({user: UserInfo._id}).exec((err, avail) => {
+        if(avail) {
+            console.log("Duplicate Time Availability");
+            return res.status(400).json({error: "Duplicate Time Availability"});
+        }
+        const tutorAvail = new Availability({
+            date: dateArray,
+            user: UserInfo._id
+        });
+        console.log(tutorAvail.date); 
+
+        tutorAvail.save(function(err) {
+            if(err){
+                console.log("Error: " + err);
+            }  
+            console.log("Availability Added!"); 
+            return res.sendStatus(200); 
+        })
+    })
+}
+//For Profile Page Info
 exports.getUserInfo = async function(req, res) {  
     const UserInfo = req.user.user; 
 
@@ -300,17 +324,65 @@ exports.getUserInfo = async function(req, res) {
             console.log("No course exist w/ user");
             return res.status(400).json({error: "No course exist w/ user"});
         }
-        console.log(courses); 
 
         User.findOne({_id: UserInfo._id}).exec((err, bio) => {
             let bioBox = bio.bioBox;
-            console.log(bioBox); 
 
-            return res.json({ firstName, lastName, schoolName, email, courses, bioBox}); 
-        })
+        return res.json({ firstName, lastName, schoolName, email, courses, bioBox}); 
+
+      })
     })
 }
+//For Tutor Profile Page Info
+exports.getTutorProfile = async function(req, res) {  
+    const UserInfo = req.user.user; 
 
+    const firstName = UserInfo.firstName;
+    const lastName = UserInfo.lastName;
+    const schoolName = UserInfo.schoolName;
+    const email = UserInfo.email; 
+    //const bioBox = UserInfo.bioBox;
+
+    console.log("First Name: " + firstName);
+    console.log("Last Name: " + lastName);
+    console.log("School: " + schoolName);
+    console.log("Email: " + email);
+
+    //Display list of courses
+    Courses.findOne({user: UserInfo._id}).exec((err, crse) => {
+        let courses = crse.listCourse; 
+        if(!courses) {
+            console.log("No course exist w/ user");
+            return res.status(400).json({error: "No course exist w/ user"});
+        }
+
+        User.findOne({_id: UserInfo._id}).exec((err, bio) => {
+            let bioBox = bio.bioBox;
+
+        Availability.findOne({user: UserInfo._id}).exec((err, avail) => {
+                let time = avail.date;
+            
+                /*  
+                    if(avail.date === null) {
+                        let time = " ";
+
+                    }
+                else {
+
+                    //for loop
+                }
+                
+                */
+                for(let i = 0; i < time.length; i++) {
+                    time[i] = time[i].toLocaleDateString() + " " +time[(i)].toLocaleTimeString();
+                }
+            
+            return res.json({ firstName, lastName, schoolName, email, courses, time, bioBox}); 
+        })
+      })
+    })
+}
+//Directs User to the Correct Profile Page - Student or Tutor
 exports.profileDirect = async function(req, res) {
     const UserInfo = req.user.user; 
     const isStudent = UserInfo.isStudent;
@@ -318,7 +390,7 @@ exports.profileDirect = async function(req, res) {
 
     return res.json({ isStudent, isTutor}); 
 }
-
+//User Modifies Bio Box 
 exports.modifyBioBox = async function(req, res) {
     const UserInfo = req.user.user; 
     const { oo } = req.body; 
@@ -337,7 +409,7 @@ exports.modifyBioBox = async function(req, res) {
         return res.status(200).json("BioBox Updated"); 
     });
 }
-
+//User Changes Password API
 exports.changePassword = async function(req, res) {
     const UserInfo = req.user.user; 
     const { pass1 } = req.body; 
@@ -392,4 +464,42 @@ exports.modifyCourses = async function(req, res) {
         return res.status(200).json("Adding Courses Updated"); 
     });
 }
-       
+
+exports.modifyAvailability = async function(req, res) {
+    const { editArray } = req.body; 
+    const UserInfo = req.user.user;
+
+    console.log(editArray);
+    //This is an API for updating the user courses
+    Availability.findOneAndUpdate({user: UserInfo._id}, {
+        $set: {
+            date: editArray,
+        }
+    },
+    function(err, success) {
+
+         if(err) {
+             console.log(success)
+             console.log("Error in adding timeslots: " + err);
+             return res.status(400).json({error: 'Error in adding timeslots'})
+        }
+         console.log("Adding Timeslots Updated!");
+        return res.status(200).json("Adding Timeslots Updated"); 
+    });      
+        
+}
+
+exports.getCourse = async function(req, res) {
+    const UserInfo = req.user.user;
+
+    Courses.findOne({user: UserInfo._id}).exec((err, crse) => {
+        let courses = crse.listCourse; 
+        if(!courses) {
+            console.log("No course exist w/ user");
+            return res.status(400).json({error: "No course exist w/ user"});
+        }
+        console.log(courses);
+        return res.json({courses}); 
+    })
+
+}

@@ -12,13 +12,10 @@ var alreadyPressed = false;
 
 function ScheduleBuilder()
 {
-
-
     const [startDate,setStartDate] = useState(new Date());
     
     function submitBlock()
     {
-
         if (count === 0)
         {
             if (!alreadyPressed)
@@ -36,9 +33,17 @@ function ScheduleBuilder()
             count: count,
             dateArray: dateArray
         }
-        
-        
-        axios.post('http://localhost:5000/timeslot/add', req);
+        console.log("Date Array: " + req.dateArray);
+        axios.post('http://localhost:5000/auth/timeslots', req, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+        .then(function(resp) {
+            const status = resp.status; 
+            if(status == 200)
+                window.location = '/HomePage';
+        })
+            .catch(err => {
+                console.log(err); 
+            })
+
         
     }
 

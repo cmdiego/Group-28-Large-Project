@@ -4,6 +4,10 @@ const mongoose = require('mongoose');
 //*** defining schemas ********/
 
 const tutorSchema = new mongoose.Schema({
+    availability : {
+        type : mongoose.Schema.Types.ObjectId, 
+        ref : 'Availability'
+    }, 
     schedule : {
         type : mongoose.Schema.Types.ObjectId, 
         ref : 'Appointments'
