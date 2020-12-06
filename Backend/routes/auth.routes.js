@@ -3,7 +3,7 @@ const router = express.Router();
 //Import controller of signup 
 const {signup, signin, requestPassword, authenticateToken, resetPassword, activateAccount, courseSetup, timeslots,  
     getUserInfo, modifyBioBox, changePassword , profileDirect, modifyCourses, 
-    modifyAvailability, getTutorProfile, getCourse } = require("../controllers/auth.controller");
+    modifyAvailability, getTutorProfile, getCourse, checkUserTutorCourse } = require("../controllers/auth.controller");
 
 //API Endpoint for localhost:5000/signup directed to the signup method
 router.post('/signup', signup); 
@@ -21,6 +21,6 @@ router.post('/changePassword', authenticateToken, changePassword);
 router.post('/modifyCourses', authenticateToken, modifyCourses); 
 router.post('/modifyAvailability', authenticateToken, modifyAvailability);
 router.get('/getCourse', authenticateToken, getCourse);
-
+router.post('/checkUserTutorCourse', authenticateToken, checkUserTutorCourse )
 //Export features for other to transfer
 module.exports = router; 

@@ -7,7 +7,11 @@ import './Search.css';
 import otLogo from '../../otLogo.png';
 const axios = require('axios');
 
-var options = [{ class: ""}];
+var options = [{ 
+    class: ""
+}];
+
+var classesTest = []; 
 
 function SearchOutput(props)
 {
@@ -17,6 +21,18 @@ function SearchOutput(props)
     }
     else 
     {  
+        //props.value -> user course currently selected
+             //get axios endpoint {props.value} 
+                //Grabs user course, and search the DB for the tutor courses, and check which tutor has it
+                    //Return the tutor appointments  
+                    
+        let studentCourse = props.value; 
+        const res =  axios.post('http://localhost:5000/auth/checkUserTutorCourse', {studentCourse}, { headers: {Authorization: localStorage.getItem('jwtToken')}});
+       // let c =  await res.data.courses ;
+
+        
+
+
         // Would fill this array with information from search api and display with search card
         var test2 = [
             {
@@ -38,7 +54,6 @@ function SearchOutput(props)
                 Date: new Date()
             }
         ];
-        var test3 = [{}];
         return (
             <div id="SearchDisplay">
                 <br/>
@@ -59,27 +74,21 @@ const backButtonProcess = async event =>
 
 async function getCourse() {
     const res = await axios.get('http://localhost:5000/auth/getCourse', { headers: {Authorization: localStorage.getItem('jwtToken')}});
-    let course =  await res.data.courses ;
-    options.class = course;
-    console.log(options.class[0]);
+    let c =  await res.data.courses;
+    
+    for(let i = 0; i < c.length; i++) {
+        classesTest[i] = c[i];
+    }
+
 }
 
   function Search () {
-    // converts object array of class into strings in order to use with dropdown menu
-    // couldn't quite figure out how to make object arrays work with dropdown so next best thing
-    //const course =  res.data.courses; 
+
     getCourse();
-
-
-    var format  =  options.map(function(item)
-    {
-        return item['class']
-    });
-    
-
     const _onSelect=(e)=>{
         console.log(e);
         setValue(e);
+        
     }
 
     const [value,setValue] = useState('');
@@ -88,7 +97,7 @@ async function getCourse() {
             <img class = "img-thumbnail" src = {otLogo} alt ="otLogo"/>    
             <button id="backButton" onClick={backButtonProcess} >Back</button>
             <div id="DropdownHelper">
-            <Dropdown id="searchDrop" options={format} onChange={_onSelect} placeholder="What class do you need help with?" />
+            <Dropdown id="searchDrop" options={classesTest} onChange={_onSelect} placeholder="What class do you need help with?" />
             <SearchOutput value={value.value} />
             </div>
             

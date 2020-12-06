@@ -249,6 +249,7 @@ exports.authenticateToken = function(req, res, next) {
 exports.courseSetup =  async function (req, res) {
     const { count, courses } = req.body; 
     const UserInfo = req.user.user; 
+    const isTutorTrue = UserInfo.isTutor; 
 
     //If courses are null, we need to create one, and then append 
     Courses.findOne({listCourse: courses}).exec((err, crse) => {
@@ -259,7 +260,8 @@ exports.courseSetup =  async function (req, res) {
         const userCourses = new Courses({
             listCourse: courses, 
             count: count,
-            user: UserInfo._id
+            user: UserInfo._id,
+            isTutor: isTutorTrue,
         });
         userCourses.save(function(err) {
             if(err){
@@ -277,7 +279,7 @@ exports.courseSetup =  async function (req, res) {
         }
     })
 }
-//Tutor Adds Availability Time 
+//Tutor Adds Availability Time & automatically add appointment 
 exports.timeslots = async function(req, res) {
     const { count, dateArray } = req.body; 
     const UserInfo = req.user.user; 
@@ -292,14 +294,35 @@ exports.timeslots = async function(req, res) {
             user: UserInfo._id
         });
         console.log(tutorAvail.date); 
-
+       
         tutorAvail.save(function(err) {
             if(err){
                 console.log("Error: " + err);
             }  
-            console.log("Availability Added!"); 
-            return res.sendStatus(200); 
+        //Create Appointment 
+            Appointment.findOne({user: UserInfo._id}).exec((err, app) => {
+                console.log("Availability Added!"); 
+               if(app) {
+                   console.log("Existing appointment"); 
+               }
+               let tutorName = UserInfo.firstName + " " + UserInfo.lastName;
+
+               const appt = new Appointment({ 
+                   isOccupied: false, 
+                   tutor: tutorName, 
+                   time: dateArray,
+                   user: UserInfo._id,
+               });
+              
+               appt.save(function(err) {
+                if(err){
+                    console.log("Error: " + err);
+                }  
+
+                    return res.sendStatus(200); 
+            })
         })
+    })
     })
 }
 //For Profile Page Info
@@ -498,8 +521,47 @@ exports.getCourse = async function(req, res) {
             console.log("No course exist w/ user");
             return res.status(400).json({error: "No course exist w/ user"});
         }
-        console.log(courses);
         return res.json({courses}); 
     })
 
 }
+
+exports.checkUserTutorCourse = async function(req, res) {
+    //props.value -> user course currently selected
+             //get axios endpoint {props.value} 
+                //Grabs user course, and search the DB for the tutor courses, and check which tutor has it
+                    //Return the tutor appointments  
+    const { studentCourse } = req.body; 
+    
+    Courses.find({listCourse: studentCourse} && {isTutor: true}).exec((err, crse) => {
+        if(err) {
+            console.log("Error: " + err);
+        }
+
+        console.log("Success: " + crse);
+    
+    })
+
+   /* Courses.find({$and: [{isTutor: true}, {listCourse: studentCourse}]}).exec((err, crse) => {
+        if(err) {
+            console.log("Error: " + err);
+        }
+
+        console.log("Success: " + crse);
+    
+    })*/
+}
+
+  /*  User.find({isTutor: true}).exec((err, success) => {
+        if(err) {
+            console.log("Error: " + err); 
+        }
+        Courses.find({listCourse: studentCourse}).exec((err, crse) => {
+            if(err) {
+                console.log("Error in searching courses: " + err); 
+            }
+            if()
+            console.log("Course: " + crse); 
+
+        })
+    }) */
