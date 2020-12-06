@@ -7,6 +7,7 @@ import 'package:tuter/Components/rounded_button.dart';
 import 'package:tuter/Components/tutor.dart';
 import 'package:tuter/HomePage/edit_profile.dart';
 import 'package:tuter/HomePage/appointments.dart';
+import 'package:tuter/HomePage/view_tutor_profile.dart';
 import 'package:tuter/constants.dart';
 import 'package:tuter/HomePage/search_page.dart';
 import 'package:tuter/HomePage/view_profile.dart';
@@ -28,46 +29,84 @@ class HomePageState extends State<HomePage>{
           leading: IconButton(
             icon: Icon(Icons.person_outline, color: Colors.white),
             onPressed: () async{
-
-              var url = 'http://10.0.2.2:5000/auth/userinfo';
               SharedPreferences pref = await SharedPreferences.getInstance();
               String jwt = (pref.getString('jwt') ?? "");
-              var response = await http.get(url,
-                    headers: {"content-type": "application/json",
-                    "Authorization": jwt},
-                );
-              print('Response status: ${response.statusCode}');
-              print('Response body: ${response.body}');
-              var parsedJSON = jsonDecode(response.body);
-              String firstName = parsedJSON['firstName'];
-              String lastName = parsedJSON['lastName'];
-              String school = parsedJSON['schoolName'];
-              String email = parsedJSON['email'];
-              List<dynamic> courses = parsedJSON['courses'];
-              String bio = parsedJSON['bioBox'];
-
               Map<String, dynamic> jsonDecoded = parseJwt(jwt);
               print("JWT:");
               print(jsonDecoded.toString());
               print(jsonDecoded['user'].toString());
               print(jsonDecoded['user']['isTutor'].toString());
               bool isTutor = jsonDecoded['user']['isTutor'];
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) {
-                      return ViewProfile(
-                        firstName: firstName,
-                        lastName: lastName,
-                        schoolName: school,
-                        email: email,
-                        courses: courses,
-                        bio: bio,
-                        isTutor: isTutor
-                      );
-                    }
-                )
-            );},
+
+              if (isTutor){
+
+                // HTTP call to get availibility
+                var url = 'http://10.0.2.2:5000/auth/tutorProfile';
+                var response = await http.get(url,
+                  headers: {"content-type": "application/json",
+                    "Authorization": jwt},
+                );
+                print('Response status: ${response.statusCode}');
+                print('Response body: ${response.body}');
+                var parsedJSON = jsonDecode(response.body);
+                String firstName = parsedJSON['firstName'];
+                String lastName = parsedJSON['lastName'];
+                String school = parsedJSON['schoolName'];
+                String email = parsedJSON['email'];
+                List<dynamic> courses = parsedJSON['courses'];
+                String bio = parsedJSON['bioBox'];
+                List<dynamic> availability = parsedJSON['time'];
+
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) {
+                          return ViewTutorProfile(
+                              firstName: firstName,
+                              lastName: lastName,
+                              schoolName: school,
+                              email: email,
+                              courses: courses,
+                              availability: availability,
+                              bio: bio
+                          );
+                        }
+                    )
+                );
+              }
+              else{
+                var url = 'http://10.0.2.2:5000/auth/userinfo';
+                var response = await http.get(url,
+                  headers: {"content-type": "application/json",
+                    "Authorization": jwt},
+                );
+                print('Response status: ${response.statusCode}');
+                print('Response body: ${response.body}');
+                var parsedJSON = jsonDecode(response.body);
+                String firstName = parsedJSON['firstName'];
+                String lastName = parsedJSON['lastName'];
+                String school = parsedJSON['schoolName'];
+                String email = parsedJSON['email'];
+                List<dynamic> courses = parsedJSON['courses'];
+                String bio = parsedJSON['bioBox'];
+
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) {
+                          return ViewProfile(
+                              firstName: firstName,
+                              lastName: lastName,
+                              schoolName: school,
+                              email: email,
+                              courses: courses,
+                              bio: bio
+                          );
+                        }
+                    )
+                );
+              }
+              },
           ),
           title: Text("Open Tutor"),
           actions: <Widget>[

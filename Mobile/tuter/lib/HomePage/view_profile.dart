@@ -10,15 +10,13 @@ class ViewProfile extends StatefulWidget {
   final String email;
   final List<dynamic> courses;
   final String bio;
-  final bool isTutor;
   ViewProfile({
     this.firstName,
     this.lastName,
     this.schoolName,
     this.email,
     this.courses,
-    this.bio,
-    this.isTutor
+    this.bio
   });
   @override
   ViewProfileState createState() => new ViewProfileState();

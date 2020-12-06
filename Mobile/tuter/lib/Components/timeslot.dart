@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:tuter/components/text_field_container.dart';
 import 'package:tuter/constants.dart';
@@ -6,8 +8,10 @@ import 'package:intl/intl.dart';
   class TimeSlot extends StatefulWidget {
 
     final Function(DateTime) onDateTimeSelect;
+    DateTime initialDateTime;
     TimeSlot({
-      this.onDateTimeSelect
+      this.onDateTimeSelect,
+      this.initialDateTime
     });
     @override
     TimeSlotState createState() => new TimeSlotState();
@@ -18,6 +22,8 @@ import 'package:intl/intl.dart';
     DateTime selectedDate = DateTime.now();
     TimeOfDay selectedTime = TimeOfDay.now();
     String selectedDuration = "1:00";
+    bool isInitialDate = true;
+    bool isInitialTime = true;
 
   @override
   Widget build(BuildContext context) {
@@ -87,6 +93,10 @@ import 'package:intl/intl.dart';
   }
 
   selectDate (BuildContext context) async {
+    if (isInitialDate && selectedDate != widget.initialDateTime) {
+        selectedDate = widget.initialDateTime;
+        isInitialDate = false;
+      }
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: selectedDate,
@@ -99,6 +109,11 @@ import 'package:intl/intl.dart';
   }
 
   selectTime (BuildContext context) async{
+    TimeOfDay initTime = TimeOfDay.fromDateTime(widget.initialDateTime);
+    if (isInitialTime && selectedTime != initTime) {
+      selectedTime = initTime;
+      isInitialTime = false;
+    }
     final TimeOfDay picked = await showTimePicker(
         context: context,
         initialTime: selectedTime);
@@ -111,7 +126,6 @@ import 'package:intl/intl.dart';
   Iterable<TimeOfDay> getTimes(TimeOfDay startTime, TimeOfDay endTime, Duration step) sync* {
     var hour = startTime.hour;
     var minute = startTime.minute;
-
     do {
       yield TimeOfDay(hour: hour, minute: minute);
       minute += step.inMinutes;
@@ -136,6 +150,11 @@ import 'package:intl/intl.dart';
   }
 
   DateTime getSelectedDateTime(){
+    if (isInitialDate && isInitialTime)
+      {
+        DateTime combined = new DateTime(widget.initialDateTime.year,widget.initialDateTime.month,widget.initialDateTime.day,widget.initialDateTime.hour,widget.initialDateTime.minute);
+        return combined;
+      }
     DateTime combined = new DateTime(selectedDate.year,selectedDate.month,selectedDate.day,selectedTime.hour,selectedTime.minute);
     return combined;
   }

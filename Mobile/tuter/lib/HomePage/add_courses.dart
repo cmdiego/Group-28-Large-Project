@@ -3,6 +3,7 @@ import 'package:tuter/Components/rounded_button.dart';
 import 'package:tuter/Components/rounded_input_field.dart';
 import 'package:tuter/HomePage/home_page.dart';
 import 'package:tuter/HomePage/view_profile.dart';
+import 'package:tuter/HomePage/view_tutor_profile.dart';
 import 'package:tuter/ProfileCreation/availability_creation.dart';
 import 'package:tuter/ProfileCreation/profile_information.dart';
 import 'package:tuter/Signup/email_confirmation.dart';
@@ -20,6 +21,7 @@ class AddCourses extends StatefulWidget {
   final String email;
   final String bio;
   final bool isTutor;
+  final List<dynamic> availability;
   AddCourses({
     this.currentCourses,
     this.firstName,
@@ -27,7 +29,8 @@ class AddCourses extends StatefulWidget {
     this.schoolName,
     this.email,
     this.bio,
-    this.isTutor
+    this.isTutor,
+    this.availability
   });
   @override
   AddCoursesState createState() => new AddCoursesState();
@@ -65,7 +68,7 @@ class AddCoursesState extends State<AddCourses>{
                 bool isTutor = (pref.getBool("isTutor") ?? false);
                 String jwt = (pref.getString('jwt') ?? "");
 
-                var url = 'http://10.0.2.2:5000/auth/addCourses';
+                var url = 'http://10.0.2.2:5000/auth/modifyCourses';
                 var response = await http.post(url,
                     headers: {"content-type": "application/json",
                       "Authorization": jwt},
@@ -77,6 +80,7 @@ class AddCoursesState extends State<AddCourses>{
                 print('Response status: ${response.statusCode}');
                 print('Response body: ${response.body}');
 
+                if (!isTutor) {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -86,14 +90,31 @@ class AddCoursesState extends State<AddCourses>{
                               firstName: widget.firstName,
                               lastName: widget.lastName,
                               schoolName: widget.schoolName,
-                              isTutor: widget.isTutor,
                               courses: courses,
                               email: widget.email,
                             );
                           }
                       )
                   );
-
+                }
+                else{
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) {
+                            return ViewTutorProfile(
+                              bio: widget.bio,
+                              firstName: widget.firstName,
+                              lastName: widget.lastName,
+                              schoolName: widget.schoolName,
+                              courses: courses,
+                              availability: widget.availability,
+                              email: widget.email,
+                            );
+                          }
+                      )
+                  );
+                }
               },
             )
           ],

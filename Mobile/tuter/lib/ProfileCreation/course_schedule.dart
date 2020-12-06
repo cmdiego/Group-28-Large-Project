@@ -62,7 +62,7 @@ class CourseScheduleState extends State<CourseSchedule>{
                 print('Response body: ${response.body}');
 
 
-                if (response.statusCode == 202){
+                if (response.statusCode == 201){
                   Navigator.push(
                       context,
                       MaterialPageRoute(

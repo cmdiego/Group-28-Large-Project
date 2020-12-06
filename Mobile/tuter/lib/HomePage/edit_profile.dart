@@ -6,6 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tuter/HomePage/add_courses.dart';
 import 'package:tuter/HomePage/change_password.dart';
 import 'package:tuter/HomePage/view_profile.dart';
+import 'package:tuter/HomePage/view_tutor_profile.dart';
 import 'package:tuter/constants.dart';
 import 'package:http/http.dart' as http;
 
@@ -185,6 +186,8 @@ class EditProfileState extends State<EditProfile>{
                 bio: widget.bio,
                 schoolName: widget.schoolName,
                 email: widget.email,
+                availability: [],
+                isTutor: false
               );
             }
         )
