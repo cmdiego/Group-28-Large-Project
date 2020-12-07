@@ -530,6 +530,7 @@ var tutorProto = [{
     name: '',
     email: '',
     userID: '',
+    date: ['']
 }]
 
 exports.checkUserTutorCourse = async function(req, res)
@@ -539,7 +540,6 @@ exports.checkUserTutorCourse = async function(req, res)
                 //Grabs user course, and search the DB for the tutor courses, and check which tutor has it
                     //Return the tutor appointments  
     const { studentCourse } = req.body; 
-    const main = []; 
     //Search through the database and look for only tutors that have the same course the student requests
      await Courses.find({$and: [{isTutor: true}, {listCourse: studentCourse}]}).exec(async function (err, tut) {
        //Error while searching
@@ -565,16 +565,20 @@ exports.checkUserTutorCourse = async function(req, res)
                     userID: tempID
                 }
                
-                //console.log('this is the second: ' + tutorProto[1]);
-              // console.log("Inside: " + tutorProto[i].name);
-                //main[i] = tutorProto[i]; 
+                console.log("Before Email: " + tutorProto[0].email); 
+
+               await  Availability.find({user: tempID}, async function(err, suc1) {
+                    let dt = suc1[i].date; 
+                    tutorProto[i] = { 
+                        date: [dt] 
+                    }
+                    console.log("Printing Date: " + tutorProto[i].date); 
+                });
             });
 
-            //console.log(tutorProto[0]);
-               
-        }
+        } //For Loop
 
-       // console.log("Outside: " + tutorProto[0].name);
+        console.log("After Date: " + tutorProto[0].date); 
 
         return res.json({tutorProto});
 

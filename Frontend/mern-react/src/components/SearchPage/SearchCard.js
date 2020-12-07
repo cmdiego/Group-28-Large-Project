@@ -26,8 +26,11 @@ function formatDate(date)
 
 function DateInfo(props) {
     return (
-        <text>{'Date: ' + formatDate(props.Date) + ' '}</text>
+        <text>{'Date: ' + props.date + ' '}</text>
     );
+   /* return (
+        <text>{'Date: ' + formatDate(props.Date) + ' '}</text>
+    );*/
 }
 
 function formatTime(date) {
@@ -74,6 +77,7 @@ class SearchCard extends React.Component {
 
     render() {
         var slotInfo = this.info;
+        console.log("Slotinfo: " + slotInfo);
         if (Object.entries(slotInfo).length === 0)
         {
             return (
@@ -93,6 +97,7 @@ class SearchCard extends React.Component {
                         <br/>
                         <EmailInfo Tutor={slotInfo.Tutor} />
                         <br />
+                        <DateInfo Tutor={slotInfo.Tutor} />
 
                        {/* <DateInfo Date={slotInfo.Date} /> */}
                         <br/>

@@ -27,22 +27,7 @@ async function helper(props)
             await axios.post('http://localhost:5000/auth/checkUserTutorCourse', {studentCourse}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
             .then(function(data) {
                 const {tutorProto } = data.data;
-                
-              /*placeHolder[0] = [{
-                   Tutor: {
-                       firstName: tutorProto[0].firstName,
-                       lastName: tutorProto[0].lastName,
-                       email: tutorProto[0].email
-                   }
-               }]*/
-
-           /* var obj = {
-                Tutor:{
-                    firstName: tutorProto[1].firstName,
-                    lastName: tutorProto[1].lastName,
-                    email: tutorProto[1].email
-                }
-            }*/
+             console.log(tutorProto[0].date);
             placeHolder.splice(0);
             for(let i = 0; i< tutorProto.length; i++)
             {
@@ -50,12 +35,12 @@ async function helper(props)
                     Tutor:{
                         firstName: tutorProto[i].firstName,
                         lastName: tutorProto[i].lastName,
-                        email: tutorProto[i].email
+                        email: tutorProto[i].email, 
+                        date: tutorProto[i].date
                     }
                 }
                 placeHolder.push(obj);
             }
-            
             //placeHolder.push(obj);
 
             })
@@ -78,7 +63,14 @@ function SearchOutput(props)
                 //Grabs user course, and search the DB for the tutor courses, and check which tutor has it
                     //Return the tutor appointments  
                 helper(props);
-            
+                try {
+                    console.log("Placeholder: " + placeHolder[0].Tutor.email);
+                    console.log("Placeholder: " + placeHolder[0].Tutor.date);
+
+                }
+                catch(err) {
+                    console.log("Error: " + err); 
+                }
             
             // Would fill this array with information from search api and display with search card
        /* var test2 = [
@@ -121,6 +113,7 @@ const backButtonProcess = async event =>
     window.location.href = '/HomePage';
 }
 
+
 async function getCourse() {
     const res = await axios.get('http://localhost:5000/auth/getCourse', { headers: {Authorization: localStorage.getItem('jwtToken')}});
     let c =  await res.data.courses;
@@ -132,15 +125,17 @@ async function getCourse() {
 }
 
   function Search () {
+    const [value,setValue] = useState('');
 
-    getCourse();
     const _onSelect=(e)=>{
         //console.log(e);
         setValue(e);
         
     }
+    getCourse();
 
-    const [value,setValue] = useState('');
+
+
     return (
         <div id="searchPageDiv">
             <img class = "img-thumbnail" src = {otLogo} alt ="otLogo"/>    
