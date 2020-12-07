@@ -9,7 +9,11 @@ import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SearchPage extends StatefulWidget {
+  final List<String> courses;
 
+  SearchPage({
+    this.courses
+  });
   @override
   SearchPageState createState() => new SearchPageState();
 }
@@ -49,7 +53,7 @@ class SearchPageState extends State<SearchPage>{
                 iconDisabledColor: kPrimaryColor,
                 dropdownColor: kPrimaryLightColor,
                 hint: Text("${dropDownValue}", style: TextStyle(color: kPrimaryColor)),
-                items: <String>["Course 1", "Course 2", "Course 3"].map((String val) {
+                items: widget.courses.map((String val) {
                   return new DropdownMenuItem<String>(
                       value: val,
                       child: new Text(val)
@@ -58,7 +62,7 @@ class SearchPageState extends State<SearchPage>{
                 onChanged: (String data) async {
                   dropDownValue = data;
                   timeSlots = [];
-                  var url = 'http://10.0.2.2:5000/auth/search';
+                  /*var url = 'http://10.0.2.2:5000/auth/search';
                   var response = await http.post(url,
                       headers: {"content-type": "application/json"},
                       body: {"course": dropDownValue}
@@ -66,6 +70,8 @@ class SearchPageState extends State<SearchPage>{
                   print('Response status: ${response.statusCode}');
                   print('Response body: ${response.body}');
                   print(dropDownValue);
+
+                   */
                   setState(() {
                     dropDownValue = data;
                 });},

@@ -112,12 +112,29 @@ class HomePageState extends State<HomePage>{
           actions: <Widget>[
             IconButton(
                 icon: Icon(Icons.search, color: Colors.white),
-                onPressed: (){
+                onPressed: () async{
+                  SharedPreferences pref = await SharedPreferences.getInstance();
+                  String jwt = (pref.getString('jwt') ?? "");
+                  var url = 'http://10.0.2.2:5000/auth/getCourse';
+                  var response = await http.get(url,
+                    headers: {"content-type": "application/json",
+                      "Authorization": jwt},
+                  );
+                  print('Response status: ${response.statusCode}');
+                  print('Response body: ${response.body}');
+                  var parsedJSON = jsonDecode(response.body);
+                  List<dynamic> courses = parsedJSON['courses'];
+                  List<String> coursesStrings = [];
+                  for (var i = 0; i<courses.length; i++) {
+                    coursesStrings.add(courses[i].toString());
+                    }
                   Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {
-                        return SearchPage();
+                        return SearchPage(
+                          courses: coursesStrings,
+                        );
                       }
                     )
                   );
