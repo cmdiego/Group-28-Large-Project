@@ -17,15 +17,7 @@ var FirstNames = [];
 
 var classesTest = []; 
 var placeHolder = [
-    {
-        Tutor: 
-        {
-            firstName: 'asd',
-            lastName: 'asd',
-            email: 'robZone@gmail.com'
-        }
-       
-    }
+
 ];
 
 async function helper(props)
@@ -36,26 +28,35 @@ async function helper(props)
             .then(function(data) {
                 const {tutorProto } = data.data;
                 
-              /* placeHolder[0] = [{
+              /*placeHolder[0] = [{
                    Tutor: {
                        firstName: tutorProto[0].firstName,
                        lastName: tutorProto[0].lastName,
                        email: tutorProto[0].email
                    }
                }]*/
-            placeHolder[0].Tutor.firstName = tutorProto[0].firstName;  
-            placeHolder[0].Tutor.lastName = tutorProto[0].lastName;  
-            placeHolder[0].Tutor.email = tutorProto[0].email;
 
-            var obj = {
+           /* var obj = {
                 Tutor:{
                     firstName: tutorProto[1].firstName,
                     lastName: tutorProto[1].lastName,
                     email: tutorProto[1].email
                 }
+            }*/
+            placeHolder.splice(0);
+            for(let i = 0; i< tutorProto.length; i++)
+            {
+                var obj = {
+                    Tutor:{
+                        firstName: tutorProto[i].firstName,
+                        lastName: tutorProto[i].lastName,
+                        email: tutorProto[i].email
+                    }
+                }
+                placeHolder.push(obj);
             }
             
-            placeHolder.push(obj);
+            //placeHolder.push(obj);
 
             })
             .catch(err => {
@@ -65,6 +66,7 @@ async function helper(props)
 
 function SearchOutput(props)
 {
+    //alert("first");
     if(props.value === undefined)
     {
         return <text></text>;
@@ -99,14 +101,15 @@ function SearchOutput(props)
                 Date: new Date()
             }
         ];*/
-
+        //alert("second");
         return (
             <div id="SearchDisplay">
                 <br/>
         <span id ="avaTutorspan">Available Tutor appointments for: {props.value}</span>
                 {placeHolder.map(searchInfo => (
                     <SearchCard info={searchInfo} />
-                ))}
+                ))} 
+                
             </div>
         );
     }
