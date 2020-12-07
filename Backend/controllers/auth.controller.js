@@ -532,17 +532,72 @@ exports.checkUserTutorCourse = async function(req, res) {
                 //Grabs user course, and search the DB for the tutor courses, and check which tutor has it
                     //Return the tutor appointments  
     const { studentCourse } = req.body; 
-    
-     Courses.find({$and: [{isTutor: true}, {listCourse: studentCourse}]}).exec((err, crse) => {
+    const main = []; 
+    //Search through the database and look for only tutors that have the same course the student requests
+     Courses.find({$and: [{isTutor: true}, {listCourse: studentCourse}]}).exec((err, tut) => {
+       //Error while searching
         if(err) {
             console.log("Error: " + err);
         }
-        console.log(crse); 
-        return res.json({crse}); 
-        //console.log("Success: " + crse);
-    
-    })
+        let tutorProto = [{
+            name: '',
+            email: '',
+            userID: '',
+        }]
 
+        //How many tutors exists in search 
+        const tutorLength = tut.length;
+
+        for(let i = 0; i < tutorLength; i++) {
+            let tempID = tut[i].user; 
+
+            User.findById({_id: tempID}, function(err, succ) {
+                let tName = succ.firstName + " " + succ.lastName; 
+                let tEmail = succ.email;
+
+                tutorProto[i] = {
+                    name: tName,
+                    email: tEmail,
+                    userID: tempID
+                }
+
+
+                //main[i] = tutorProto[i]; 
+            });
+            console.log(tutorProto[0]);
+
+        }
+
+        /*
+        for(let i = 0; i < tutorLength; i++) {
+            let tempID = tut[i].user; 
+            tutorProto[i] = {
+                userID: tempID, 
+            }
+        }
+        for(let i = 0; i < tutorLength; i++) {
+            let tutID = tutorProto[i].userID;
+            User.findById({_id: tutID}, function(err, succ) {
+                let tName = succ.firstName + " " + succ.lastName; 
+                let tEmail = succ.email;
+
+                tutorProto[i] = {
+                    name: tName,
+                    email: tEmail,
+                    userID: tutID
+                }
+                console.log(tutorProto)
+                //return res.json({tutorProto}); 
+            });
+        }*/
+    }) //Ends: Searching through Tutor
+}
+        //return res.json({tutorProto}); 
+
+        
+        //return res.sendStatus(200).json({tutorProto}); 
+    
+ 
    /* Courses.find({$and: [{isTutor: true}, {listCourse: studentCourse}]}).exec((err, crse) => {
         if(err) {
             console.log("Error: " + err);
@@ -551,7 +606,10 @@ exports.checkUserTutorCourse = async function(req, res) {
         console.log("Success: " + crse);
     
     })*/
-}
+
+
+
+
 
   /*  User.find({isTutor: true}).exec((err, success) => {
         if(err) {

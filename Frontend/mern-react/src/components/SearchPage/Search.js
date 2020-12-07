@@ -36,16 +36,22 @@ function SearchOutput(props)
         let studentCourse = props.value; 
             axios.post('http://localhost:5000/auth/checkUserTutorCourse', {studentCourse}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
             .then(function(data) {
-                const { crse } = data.data;
-                console.log(crse[0].listCourse); //First tutor
+                const {tutorProto } = data.data;
+                console.log("Tutor Proto: " + tutorProto[0]);
+                //console.log("First Tutor: " + tut[0].listCourse); //First tutor
+                //console.log("Tutor length: " + tut.length);
 
-               for(let i = 0; i < crse.length; i++) {
-                    placeHolder[i] = [{ Tutor: {
+
+
+
+              /* for(let i = 0; i < crse.length; i++) {
+                   placeHolder = [{ 
+                        Tutor: {
                         courses: crse[0].listCourse[0]
                      },
                   }];
 
-               }     
+               } */
 
 
             })
@@ -54,7 +60,7 @@ function SearchOutput(props)
             }) 
 
 
-        // Would fill this array with information from search api and display with search card
+            // Would fill this array with information from search api and display with search card
        /* var test2 = [
             {
                 Tutor: 
@@ -107,7 +113,7 @@ async function getCourse() {
 
     getCourse();
     const _onSelect=(e)=>{
-        console.log(e);
+        //console.log(e);
         setValue(e);
         
     }
