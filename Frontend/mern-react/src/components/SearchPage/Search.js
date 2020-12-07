@@ -11,64 +11,73 @@ var options = [{
     class: ""
 }];
 
-var classesTest = []; 
-var placeHolder = [{ 
-    Tutor: {
-        firstName: 'dsada',
-        lastName: 'fdafd',
-        email: 'gsgsgs',
-    },
-}]; 
+var randomBandaid = true;
 
- async function SearchOutput(props)
+var FirstNames = [];
+
+var classesTest = []; 
+var placeHolder = [
+    {
+        Tutor: 
+        {
+            firstName: 'asd',
+            lastName: 'asd',
+            email: 'robZone@gmail.com'
+        }
+       
+    }
+];
+
+async function helper(props)
+{
+    randomBandaid = false;
+            let studentCourse = props.value; 
+            await axios.post('http://localhost:5000/auth/checkUserTutorCourse', {studentCourse}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+            .then(function(data) {
+                const {tutorProto } = data.data;
+                
+              /* placeHolder[0] = [{
+                   Tutor: {
+                       firstName: tutorProto[0].firstName,
+                       lastName: tutorProto[0].lastName,
+                       email: tutorProto[0].email
+                   }
+               }]*/
+            placeHolder[0].Tutor.firstName = tutorProto[0].firstName;  
+            placeHolder[0].Tutor.lastName = tutorProto[0].lastName;  
+            placeHolder[0].Tutor.email = tutorProto[0].email;
+
+            var obj = {
+                Tutor:{
+                    firstName: tutorProto[1].firstName,
+                    lastName: tutorProto[1].lastName,
+                    email: tutorProto[1].email
+                }
+            }
+            
+            placeHolder.push(obj);
+
+            })
+            .catch(err => {
+                console.log(err);
+            }) 
+}
+
+function SearchOutput(props)
 {
     if(props.value === undefined)
     {
         return <text></text>;
     }
     else 
-    {  
-        alert("Enter else");
-
+    { 
         //props.value -> user course currently selected
              //get axios endpoint {props.value} 
                 //Grabs user course, and search the DB for the tutor courses, and check which tutor has it
                     //Return the tutor appointments  
-                    
-        let studentCourse = props.value; 
-           await axios.post('http://localhost:5000/auth/checkUserTutorCourse', {studentCourse}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
-            .then(function(data) {
-                const {tutorProto } = data.data;
-
-                alert("Enter axios");
-               placeHolder = [{
-                   Tutor: {
-                       firstName: tutorProto[0].firstName,
-                       lastName: tutorProto[0].lastName,
-                       email: tutorProto[0].email
-                   }
-               }]
-                
-                //Object 
-
-               console.log(placeHolder);
-
-              /* for(let i = 0; i < crse.length; i++) {
-                   placeHolder = [{ 
-                        Tutor: {
-                        courses: crse[0].listCourse[0]
-                     },
-                  }];
-
-               } */
-
-
-            })
-            .catch(err => {
-                console.log(err);
-            }) 
-
-
+                helper(props);
+            
+            
             // Would fill this array with information from search api and display with search card
        /* var test2 = [
             {
@@ -90,7 +99,6 @@ var placeHolder = [{
                 Date: new Date()
             }
         ];*/
-        alert("Enter After");
 
         return (
             <div id="SearchDisplay">
