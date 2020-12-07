@@ -525,8 +525,13 @@ exports.getCourse = async function(req, res) {
     })
 
 }
-
-exports.checkUserTutorCourse = async function(req, res) {
+let tutorProto = [{
+    name: '',
+    email: '',
+    userID: '',
+}]
+exports.checkUserTutorCourse = async function(req, res)
+{
     //props.value -> user course currently selected
              //get axios endpoint {props.value} 
                 //Grabs user course, and search the DB for the tutor courses, and check which tutor has it
@@ -539,11 +544,7 @@ exports.checkUserTutorCourse = async function(req, res) {
         if(err) {
             console.log("Error: " + err);
         }
-        let tutorProto = [{
-            name: '',
-            email: '',
-            userID: '',
-        }]
+        
 
         //How many tutors exists in search 
         const tutorLength = tut.length;
@@ -560,67 +561,17 @@ exports.checkUserTutorCourse = async function(req, res) {
                     email: tEmail,
                     userID: tempID
                 }
-
+                //console.log('this is the second: ' + tutorProto[1]);
 
                 //main[i] = tutorProto[i]; 
             });
-            console.log(tutorProto[0]);
+            //console.log(tutorProto[0]);
 
         }
 
-        /*
-        for(let i = 0; i < tutorLength; i++) {
-            let tempID = tut[i].user; 
-            tutorProto[i] = {
-                userID: tempID, 
-            }
-        }
-        for(let i = 0; i < tutorLength; i++) {
-            let tutID = tutorProto[i].userID;
-            User.findById({_id: tutID}, function(err, succ) {
-                let tName = succ.firstName + " " + succ.lastName; 
-                let tEmail = succ.email;
+        console.log(tutorProto);
+        return res.json({tutorProto});
 
-                tutorProto[i] = {
-                    name: tName,
-                    email: tEmail,
-                    userID: tutID
-                }
-                console.log(tutorProto)
-                //return res.json({tutorProto}); 
-            });
-        }*/
     }) //Ends: Searching through Tutor
 }
-        //return res.json({tutorProto}); 
-
-        
-        //return res.sendStatus(200).json({tutorProto}); 
-    
- 
-   /* Courses.find({$and: [{isTutor: true}, {listCourse: studentCourse}]}).exec((err, crse) => {
-        if(err) {
-            console.log("Error: " + err);
-        }
-
-        console.log("Success: " + crse);
-    
-    })*/
-
-
-
-
-
-  /*  User.find({isTutor: true}).exec((err, success) => {
-        if(err) {
-            console.log("Error: " + err); 
-        }
-        Courses.find({listCourse: studentCourse}).exec((err, crse) => {
-            if(err) {
-                console.log("Error in searching courses: " + err); 
-            }
-            if()
-            console.log("Course: " + crse); 
-
-        })
-    }) */
+     

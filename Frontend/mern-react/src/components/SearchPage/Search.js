@@ -37,8 +37,8 @@ function SearchOutput(props)
             axios.post('http://localhost:5000/auth/checkUserTutorCourse', {studentCourse}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
             .then(function(data) {
                 const {tutorProto } = data.data;
-                console.log("Tutor Proto: " + tutorProto[0]);
-                //console.log("First Tutor: " + tut[0].listCourse); //First tutor
+                console.log("Tutor Proto: " + tutorProto);
+                console.log("First Tutor: " + tut[0].listCourse); //First tutor
                 //console.log("Tutor length: " + tut.length);
 
 
