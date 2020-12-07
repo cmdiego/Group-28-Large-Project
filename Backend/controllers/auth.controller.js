@@ -525,11 +525,13 @@ exports.getCourse = async function(req, res) {
     })
 
 }
-let tutorProto = [{
+
+var tutorProto = [{
     name: '',
     email: '',
     userID: '',
 }]
+
 exports.checkUserTutorCourse = async function(req, res)
 {
     //props.value -> user course currently selected
@@ -539,37 +541,41 @@ exports.checkUserTutorCourse = async function(req, res)
     const { studentCourse } = req.body; 
     const main = []; 
     //Search through the database and look for only tutors that have the same course the student requests
-     Courses.find({$and: [{isTutor: true}, {listCourse: studentCourse}]}).exec((err, tut) => {
+     await Courses.find({$and: [{isTutor: true}, {listCourse: studentCourse}]}).exec(async function (err, tut) {
        //Error while searching
         if(err) {
             console.log("Error: " + err);
         }
         
-
         //How many tutors exists in search 
         const tutorLength = tut.length;
 
         for(let i = 0; i < tutorLength; i++) {
             let tempID = tut[i].user; 
 
-            User.findById({_id: tempID}, function(err, succ) {
-                let tName = succ.firstName + " " + succ.lastName; 
+           await User.findById({_id: tempID}, async function(err, succ) {
+                let fName = succ.firstName;
+                let lName = succ.lastName; 
                 let tEmail = succ.email;
 
                 tutorProto[i] = {
-                    name: tName,
+                    firstName: fName,
+                    lastName: lName,
                     email: tEmail,
                     userID: tempID
                 }
+               
                 //console.log('this is the second: ' + tutorProto[1]);
-
+              // console.log("Inside: " + tutorProto[i].name);
                 //main[i] = tutorProto[i]; 
             });
-            //console.log(tutorProto[0]);
 
+            //console.log(tutorProto[0]);
+               
         }
 
-        console.log(tutorProto);
+       // console.log("Outside: " + tutorProto[0].name);
+
         return res.json({tutorProto});
 
     }) //Ends: Searching through Tutor

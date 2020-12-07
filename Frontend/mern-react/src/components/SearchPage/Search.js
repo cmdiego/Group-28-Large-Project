@@ -12,15 +12,15 @@ var options = [{
 }];
 
 var classesTest = []; 
-var placeHolder = [{ Tutor: {
-        /*firstName: '',
-        lastName: '',
-        email: '',*/
-        courses: []
+var placeHolder = [{ 
+    Tutor: {
+        firstName: 'dsada',
+        lastName: 'fdafd',
+        email: 'gsgsgs',
     },
 }]; 
 
-function SearchOutput(props)
+ async function SearchOutput(props)
 {
     if(props.value === undefined)
     {
@@ -28,21 +28,30 @@ function SearchOutput(props)
     }
     else 
     {  
+        alert("Enter else");
+
         //props.value -> user course currently selected
              //get axios endpoint {props.value} 
                 //Grabs user course, and search the DB for the tutor courses, and check which tutor has it
                     //Return the tutor appointments  
                     
         let studentCourse = props.value; 
-            axios.post('http://localhost:5000/auth/checkUserTutorCourse', {studentCourse}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+           await axios.post('http://localhost:5000/auth/checkUserTutorCourse', {studentCourse}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
             .then(function(data) {
                 const {tutorProto } = data.data;
-                console.log("Tutor Proto: " + tutorProto);
-                console.log("First Tutor: " + tut[0].listCourse); //First tutor
-                //console.log("Tutor length: " + tut.length);
 
+                alert("Enter axios");
+               placeHolder = [{
+                   Tutor: {
+                       firstName: tutorProto[0].firstName,
+                       lastName: tutorProto[0].lastName,
+                       email: tutorProto[0].email
+                   }
+               }]
+                
+                //Object 
 
-
+               console.log(placeHolder);
 
               /* for(let i = 0; i < crse.length; i++) {
                    placeHolder = [{ 
@@ -81,6 +90,8 @@ function SearchOutput(props)
                 Date: new Date()
             }
         ];*/
+        alert("Enter After");
+
         return (
             <div id="SearchDisplay">
                 <br/>
