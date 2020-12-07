@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tuter/Components/appointment.dart';
+import 'package:tuter/Components/searchedTutor.dart';
 import 'package:tuter/Components/tutor.dart';
 import 'package:tuter/HomePage/home_page.dart';
 import 'package:tuter/constants.dart';
@@ -23,6 +24,7 @@ class SearchPageState extends State<SearchPage>{
   String holder = '';
   String dropDownValue = 'Select Course';
   List<Widget> timeSlots = [];
+  List<SearchedTutor> tutors = [];
   @override
   Widget build(BuildContext context){
     Size size = MediaQuery.of(context).size;
@@ -62,32 +64,108 @@ class SearchPageState extends State<SearchPage>{
                 onChanged: (String data) async {
                   dropDownValue = data;
                   timeSlots = [];
-                  /*var url = 'http://10.0.2.2:5000/auth/search';
+                  tutors = [];
+                  SharedPreferences pref = await SharedPreferences.getInstance();
+                  String jwt = (pref.getString('jwt') ?? "");
+                  var url = 'http://10.0.2.2:5000/auth/checkUserTutorCourse';
                   var response = await http.post(url,
-                      headers: {"content-type": "application/json"},
-                      body: {"course": dropDownValue}
+                      headers: {"content-type": "application/json","Authorization": jwt},
+                      body: jsonEncode({"studentCourse": dropDownValue})
                   );
                   print('Response status: ${response.statusCode}');
                   print('Response body: ${response.body}');
+                  var parsedJSON = jsonDecode(response.body);
+                  List<dynamic> courseUsers = parsedJSON['tut'];
+                  print("courseUsers: ${courseUsers}");
+                  print("${courseUsers.length}");
+                  for (var i = 0; i < courseUsers.length; i++) {
+                    var currentTutor = jsonEncode(courseUsers[i]);
+                    print(currentTutor);
+                    var parse2 = jsonDecode(currentTutor);
+                    String id = parse2["user"];
+                    var url = 'http://10.0.2.2:5000/auth/getTutorInfo';
+                    var response = await http.post(url,
+                        headers: {"content-type": "application/json","Authorization": jwt},
+                        body: jsonEncode({"tutorID": id})
+                    );
+                    print('Response status: ${response.statusCode}');
+                    print('Response body: ${response.body}');
+                    var parsedJSON = jsonDecode(response.body);
+                    String firstName = parsedJSON["firstName"];
+                    String lastName = parsedJSON["lastName"];
+                    String email = parsedJSON["email"];
+                    print("${firstName} ${lastName} ${email}");
+                    tutors.add(new SearchedTutor(
+                      firstName: firstName,
+                      lastName: lastName,
+                      email: email,
+                      id: id
+                    ));
+                  }
+                  print("TL: ${tutors.length}");
+                  print("Tutors: ${tutors}");
+                  for (var j = 0; j < tutors.length; j++) {
+                      String id = tutors[j].id;
+                      var url = 'http://10.0.2.2:5000/auth/getTutorAvailability';
+                      var response = await http.post(url,
+                          headers: {"content-type": "application/json","Authorization": jwt},
+                          body: jsonEncode({"tutorID": id})
+                      );
+                      print('Response status: ${response.statusCode}');
+                      print('Response body: ${response.body}');
+                      var parsedJSON = jsonDecode(response.body);
+                      List<dynamic> datesDynamic = parsedJSON["date"];
+                      List<DateTime> dates = [];
+                      for (var z = 0; z < datesDynamic.length; z++){
+                        dates.add(DateTime.parse(datesDynamic[z].toString()));
+                      }
+                      for (var y = 0; y < dates.length; y++) {
+                        print("Tutor to add for: ${tutors[j].firstName}");
+                        timeSlots.add(Container(
+                            height: size.height * 0.2,
+                            margin: EdgeInsets.all(10.0),
+                            color: kPrimaryLightColor,
+                            child: Tutor(
+                                firstName: tutors[j].firstName,
+                                lastName: tutors[j].lastName,
+                                email: tutors[j].email,
+                                date: dates[y],
+                                otherTimes: getOtherDates(dates, dates[y]),
+                        )));
+                      }
+
+
+
+                    }
+                  /*
+
+                    String id = parse2["userID"];
+                    tutors.add(new SearchedTutor(firstName: firstName, lastName: lastName, email: email, id: id));
+                    print(tutors[i].firstName);
+                  */
+
                   print(dropDownValue);
 
-                   */
+
                   setState(() {
                     dropDownValue = data;
                 });},
               ),
             ),
             Flexible(child: ListView(
-              children: [Container(
-                height: size.height * 0.2,
-                margin: EdgeInsets.all(10.0),
-                color: kPrimaryLightColor,
-                child: Tutor(),
-              ),]
-              /* timeSlots */
+              children: timeSlots
             ),)
           ],
         ),
       );
+  }
+
+  List<DateTime> getOtherDates(List<DateTime> ref, DateTime toPull){
+    List<DateTime> others = [];
+    for (var i = 0; i < ref.length; i++) {
+        others.add(ref[i]);
+    }
+    others.remove(toPull);
+    return others;
   }
 }

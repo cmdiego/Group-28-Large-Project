@@ -66,7 +66,7 @@ class LoginPageState extends State<LoginPage> {
                     await pref.setString('jwt', accessToken);
                     if (response.statusCode == 200)
                       {
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                             builder: (context) {

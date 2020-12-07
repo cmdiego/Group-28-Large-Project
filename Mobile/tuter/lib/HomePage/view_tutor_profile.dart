@@ -1,6 +1,8 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:tuter/HomePage/edit_profile.dart';
 import 'package:tuter/HomePage/home_page.dart';
+import 'package:tuter/Login/login_page.dart';
 import 'package:tuter/constants.dart';
 
 import 'edit_tutor_profile.dart';
@@ -102,6 +104,26 @@ class ViewTutorProfileState extends State<ViewTutorProfile>{
                                 alignment: Alignment.center,
                                 color: kPrimaryLightColor,
                                 child: Text("${widget.schoolName}")
+                            ),
+                            SizedBox(height: size.height * 0.01),
+                            Container(
+                                child: new RichText(
+                                  text: TextSpan(
+                                    text: 'Log Out',
+                                    style: new TextStyle(color: Colors.blue),
+                                    recognizer: new TapGestureRecognizer()
+                                      ..onTap = () {
+                                        Navigator.pushReplacement(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) {
+                                                  return LoginPage();
+                                                }
+                                            )
+                                        );
+                                      },
+                                  ),
+                                )
                             )
                           ]
                       )

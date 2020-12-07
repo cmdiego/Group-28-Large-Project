@@ -53,7 +53,7 @@ class StudentCourse extends StatelessWidget {
                         width: size.width * .60,
                         child: TextField(
                           decoration: InputDecoration(
-                            hintText: "Ex. ENC1102"
+                            hintText: "Ex. ENC 1102"
                           ),
                           controller: cController,
                         ),

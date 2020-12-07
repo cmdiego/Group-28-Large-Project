@@ -1,21 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:tuter/constants.dart';
 
 class Tutor extends StatelessWidget {
-  final String name;
-  final String days;
-  final String timeRange;
+  final String firstName;
+  final String lastName;
+  final String email;
+  final DateTime date;
   final double rating;
+  final List<DateTime> otherTimes;
   const Tutor({
     Key key,
-    this.name,
-    this.timeRange,
-    this.days,
-    this.rating
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.date,
+    this.rating,
+    this.otherTimes
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    String formattedDate = DateFormat('MM-dd-yyyy').format(date);
+    String formattedTime = DateFormat().add_jm().format(date);
     return Container(
       width: double.infinity,
       child: Stack(
@@ -32,7 +40,7 @@ class Tutor extends StatelessWidget {
                       "Tutor: ",
                     ),
                     Text(
-                      "Tutor Name",
+                      "${firstName} ${lastName}",
                       style: TextStyle(fontWeight: FontWeight.bold),
                     )
                   ],
@@ -42,11 +50,11 @@ class Tutor extends StatelessWidget {
                     children:[
                       SizedBox(width: 20.0),
                       Text(
-                        "Days: MonTueWedThrFriSatSun",
+                        "Date: ${formattedDate}",
                       ),
                       SizedBox(width: 10.0),
                       Text(
-                        "Times: 8am - 5pm",
+                        "Start Time: ${formattedTime}",
                       ),
                     ]
                 ),
@@ -54,7 +62,7 @@ class Tutor extends StatelessWidget {
                 Row(
                     children:[
                       SizedBox(width: 20.0),
-                      Text(
+                      /*Text(
                         "Rating: "
                       ),
                       Row(
@@ -63,8 +71,17 @@ class Tutor extends StatelessWidget {
                             .star_outline);
                       }
                       ),
-                      )
+                      ),*/
+                      FlatButton(
+                        padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                        color: kPrimaryColor,
+                        onPressed:() async{ },
+                        child: Text( "Schedule",
+                          style: TextStyle(color: kPrimaryLightColor),
+                        ),
+                      ),
                     ]
+
                 ),
                 SizedBox(height: size.height * 0.03),
               ],

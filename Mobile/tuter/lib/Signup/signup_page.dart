@@ -108,7 +108,7 @@ class SignUpPageState extends State<SignUpPage>{
                         print('Response status: ${response.statusCode}');
                         print('Response body: ${response.body}');
                       }
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) {
