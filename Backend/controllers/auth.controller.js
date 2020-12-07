@@ -566,17 +566,20 @@ exports.checkUserTutorCourse = async function(req, res)
                 }
                
                 console.log("Before Email: " + tutorProto[0].email); 
-
-               await  Availability.find({user: tempID}, async function(err, suc1) {
-                    let dt = suc1[i].date; 
-                    tutorProto[i] = { 
-                        date: [dt] 
-                    }
-                    console.log("Printing Date: " + tutorProto[i].date); 
-                });
             });
 
         } //For Loop
+
+        for(let i = 0; i < tutorLength; i++)  {
+            let tempID = tut[i].user;
+            await  Availability.find({user: tempID}, async function(err, suc1) {
+                let dt = suc1[i].date; 
+                tutorProto[i] = { 
+                    date: [dt] 
+                }
+                console.log("Printing Date: " + tutorProto[i].date); 
+            });
+        }
 
         console.log("After Date: " + tutorProto[0].date); 
 

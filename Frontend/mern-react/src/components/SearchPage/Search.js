@@ -27,7 +27,8 @@ async function helper(props)
             await axios.post('http://localhost:5000/auth/checkUserTutorCourse', {studentCourse}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
             .then(function(data) {
                 const {tutorProto } = data.data;
-             console.log(tutorProto[0].date);
+
+            console.log(tutorProto[0].date);
             placeHolder.splice(0);
             for(let i = 0; i< tutorProto.length; i++)
             {
@@ -36,13 +37,14 @@ async function helper(props)
                         firstName: tutorProto[i].firstName,
                         lastName: tutorProto[i].lastName,
                         email: tutorProto[i].email, 
-                        date: tutorProto[i].date
-                    }
+                    }, 
+                    date: tutorProto[i].date
+
                 }
                 placeHolder.push(obj);
             }
             //placeHolder.push(obj);
-
+ 
             })
             .catch(err => {
                 console.log(err);
@@ -65,7 +67,7 @@ function SearchOutput(props)
                 helper(props);
                 try {
                     console.log("Placeholder: " + placeHolder[0].Tutor.email);
-                    console.log("Placeholder: " + placeHolder[0].Tutor.date);
+                    //console.log("Placeholder: " + placeHolder);
 
                 }
                 catch(err) {
