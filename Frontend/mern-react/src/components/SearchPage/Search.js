@@ -86,24 +86,25 @@ async function helper(props) {
     }
 
     //Let's start putting it all into an Tutor Object! 
-    tutorHolder.splice(0);
+    tutorHolder.splice(0,tutorHolder);
     //Create a Tutor Object
     for(let i = 0; i < tutorLength; i++) {
-        for(let j = 0; j < tutorAvail.length; j++) {
+        console.log("reeeee"+tutorAvail.length);
+        for(let j = 0; j <= tutorAvail.length; j++) {
             var obj = {
                 Tutor:{
                     firstName: tutorInfo[i].firstName,
                     lastName: tutorInfo[i].lastName,
                     email: tutorInfo[i].email, 
                 }, 
-                Date: tutorAvail[j].date
+                Date: tutorAvail[i].date[j]
             }
             tutorHolder.push(obj);
         }
         console.log("Email: " + obj.Tutor.email); 
         console.log("FirstName: " + obj.Tutor.firstName); 
         console.log("LastName: " + obj.Tutor.lastName); 
-        console.log("Date: " + obj.Date[0]); 
+        //console.log("Date: " + obj.Date[0]); 
         console.log(obj); 
     }
 
