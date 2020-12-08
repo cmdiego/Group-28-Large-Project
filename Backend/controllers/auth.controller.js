@@ -299,6 +299,7 @@ exports.timeslots = async function(req, res) {
             if(err){
                 console.log("Error: " + err);
             }
+        return res.sendStatus(200);
         //Create Appointment
         /*    Appointment.findOne({user: UserInfo._id}).exec((err, app) => {
                 console.log("Availability Added!");

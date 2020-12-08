@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { Component, useState } from 'react';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import SearchCard from './SearchCard';
@@ -11,7 +11,10 @@ var options = [{
     class: ""
 }];
 
+var hold;
+
 var randomBandaid = true;
+var bandaid2 = true;
 
 var FirstNames = [];
 
@@ -116,6 +119,7 @@ async function helper(props) {
         console.log("TutorID: " + obj.Tutor.tutorID); 
         console.log("Tutor Course: " + obj.Course); 
     }
+    bandaid2 = false;
 
     
 }
@@ -131,6 +135,10 @@ function SearchOutput(props)
     else 
     { 
         helper(props);
+        var coun = 0;
+       
+        
+
         return (
             <div id="SearchDisplay">
                 <br/>
@@ -160,30 +168,41 @@ async function getCourse() {
     }
 
 }
+const searchStuff = async event =>
+{
+    event.preventDefault();
+    
+    var stuff = hold;
+    console.log("hello" + stuff);
+    return (
+        <text>{stuff}</text>
+    );
+}
 
-  function Search () {
+  function Search() {
     const [value,setValue] = useState('');
 
     const _onSelect=(e)=>{
         //console.log(e);
         setValue(e);
-        
     }
     getCourse();
 
 
+    
+        return (
+            <div id="searchPageDiv">
+                <img class = "img-thumbnail" src = {otLogo} alt ="otLogo"/>    
+                <button id="backButton" onClick={backButtonProcess} >Back</button>
+                <div id="DropdownHelper">
+                <Dropdown id="searchDrop" options={classesTest} onChange={_onSelect} placeholder="What class do you need help with?" />
+                {/*<button onClick={searchStuff}>search</button>*/}
 
-    return (
-        <div id="searchPageDiv">
-            <img class = "img-thumbnail" src = {otLogo} alt ="otLogo"/>    
-            <button id="backButton" onClick={backButtonProcess} >Back</button>
-            <div id="DropdownHelper">
-            <Dropdown id="searchDrop" options={classesTest} onChange={_onSelect} placeholder="What class do you need help with?" />
-            <SearchOutput value={value.value} />
+                <SearchOutput value={value.value} />
+                </div>
+                
             </div>
-            
-        </div>
-    );
+        );
 }
 
 export default Search;
