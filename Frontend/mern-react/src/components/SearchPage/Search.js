@@ -87,26 +87,29 @@ async function helper(props) {
 
     //Let's start putting it all into an Tutor Object! 
     tutorHolder.splice(0,tutorHolder);
+    console.log("TutorDate length: " + tutorAvail);
     //Create a Tutor Object
     for(let i = 0; i < tutorLength; i++)
     {
         for(let j = 0; j <= tutorAvail.length; j++)
         {
-            var obj = {
+            var obj = { 
                 Tutor:{
                     firstName: tutorInfo[i].firstName,
                     lastName: tutorInfo[i].lastName,
                     email: tutorInfo[i].email, 
+                    tutorID: tutorID[i],
                 }, 
-                Date: new Date (tutorAvail[i].date[j])
+                Date: new Date (tutorAvail[i].date[j]),
+                Course: props.value, 
             }
             tutorHolder.push(obj);
-
         }
        var myDate = new Date(obj.Date);
         console.log("Date: " + myDate); 
         console.log(obj); 
-
+        console.log("TutorID: " + obj.Tutor.tutorID); 
+        console.log("Tutor Course: " + obj.Course); 
     }
 
     
@@ -122,42 +125,7 @@ function SearchOutput(props)
     }
     else 
     { 
-        //props.value -> user course currently selected
-             //get axios endpoint {props.value} 
-                //Grabs user course, and search the DB for the tutor courses, and check which tutor has it
-                    //Return the tutor appointments  
-                helper(props);
-               /* try {
-                    console.log("Placeholder: " + placeHolder[0].Tutor.email);
-                    //console.log("Placeholder: " + placeHolder);
-
-                }
-                catch(err) {
-                    console.log("Error: " + err); 
-                }*/
-            
-            // Would fill this array with information from search api and display with search card
-       /* var test2 = [
-            {
-                Tutor: 
-                {
-                    firstName: 'Robert',
-                    lastName: 'Johnson',
-                    email: 'robZone@gmail.com'
-                },
-                Date: new Date()
-            },
-            {
-                Tutor: 
-                {
-                    firstName: 'Robert',
-                    lastName: 'John',
-                    email: 'robZone@gmail.com'
-                },
-                Date: new Date()
-            }
-        ];*/
-        //alert("second");
+        helper(props);
         return (
             <div id="SearchDisplay">
                 <br/>

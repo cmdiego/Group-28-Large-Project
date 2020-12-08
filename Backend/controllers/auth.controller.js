@@ -580,13 +580,12 @@ exports.createAppointment = async function(req, res) {
     const StudentName = StudentInfo.firstName + " " + StudentInfo.lastName; 
     const StudentEmail = StudentInfo.email; 
                              //Specific Date                  //List of Tutor Dates
-    const { tutorID, courseName, dateObj, tutorName, tutorEmail, tutorAvail} = req.body; 
+    const {tutorID, courseName, dateObj, tutorName, tutorEmail} = req.body; 
       //Create Appointment
        Appointment.findOne({student: StudentID}).exec((err, appointment) => {
               if(appointment) {
                    console.log("Existing appointment");
                }
-
                const appt = new Appointment({
                    class: courseName,
                    tutorName: tutorName, 
@@ -603,13 +602,12 @@ exports.createAppointment = async function(req, res) {
                     console.log("Error: " + err);
                 }
 
-                console.log("TutorAvail: " + tutorAvail);
-
-                Availability.update({user: tutorID}, {$pull : date.dateobj},  function(err, success) {    
+                Availability.updateOne({user: tutorID}, {$pull: {'date': dateObj}}, function(err, success) {    
                      if(err) {
                          console.log("Error in TutorAvail: " + err);
                          return res.status(400).json({error: 'Error in TutorAvail:'})
                     }
+                    
                      console.log("Updating Avail: " + success);
                     return res.status(200).json("Updating Avail");
                 });

@@ -1,5 +1,6 @@
 import React from 'react';
 import './Search.css';
+const axios = require('axios');
 
 
 
@@ -72,8 +73,22 @@ class SearchCard extends React.Component {
         this.info = props.info;
         this.handleAddClick = this.handleAddClick.bind(this);
     }
-    handleAddClick(){
-        //to handle adding to appointments when button clicked
+    async handleAddClick(){
+        const tutor = this.info; 
+        const tutorID = tutor.Tutor.tutorID; 
+        const courseName = tutor.Course; 
+        const dateObj = tutor.Date; 
+        const tutorName = tutor.Tutor.firstName + " " + tutor.Tutor.lastName; 
+        const tutorEmail = tutor.Tutor.email; 
+
+        //Creates Appointment once schedule button is clicked
+        await axios.post('http://localhost:5000/auth/createAppointment', {tutorID, courseName, dateObj, tutorName, tutorEmail}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+        .then(function(anotha) {
+            console.log("Appointment Added! " + anotha); 
+        }) 
+        .catch(err => {
+            console.log("Error: " + err); 
+        })
     }
 
     render() {
