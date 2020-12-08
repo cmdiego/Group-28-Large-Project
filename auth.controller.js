@@ -300,7 +300,7 @@ exports.timeslots = async function(req, res) {
                 console.log("Error: " + err);
             }
         //Create Appointment
-            Appointment.findOne({user: UserInfo._id}).exec((err, app) => {
+        /*    Appointment.findOne({user: UserInfo._id}).exec((err, app) => {
                 console.log("Availability Added!");
                if(app) {
                    console.log("Existing appointment");
@@ -321,7 +321,7 @@ exports.timeslots = async function(req, res) {
 
                     return res.sendStatus(200);
             })
-        })
+        })*/
     })
     })
 }
@@ -500,7 +500,6 @@ exports.modifyAvailability = async function(req, res) {
         }
     },
     function(err, success) {
-
          if(err) {
              console.log(success)
              console.log("Error in adding timeslots: " + err);
@@ -526,22 +525,10 @@ exports.getCourse = async function(req, res) {
 
 }
 
-
-
 exports.checkUserTutorCourse = async function(req, res)
 {
-  var tutorProto = [{
-      firstName: '',
-      lastName: '',
-      email: '',
-      userID: '',
-      //date: ['']
-  }];
-    //props.value -> user course currently selected
-             //get axios endpoint {props.value}
-                //Grabs user course, and search the DB for the tutor courses, and check which tutor has it
-                    //Return the tutor appointments
     const { studentCourse } = req.body;
+
     //Search through the database and look for only tutors that have the same course the student requests
      return Courses.find({$and: [{isTutor: true}, {listCourse: studentCourse}]}).exec(async function (err, tut) {
        //Error while searching
@@ -549,72 +536,145 @@ exports.checkUserTutorCourse = async function(req, res)
             console.log("Error: " + err);
         }
 
-        //How many tutors exists in search
-        const tutorLength = tut.length;
-
-      /*  for(let i = 0; i < tutorLength; i++) {
-            let tempID = tut[i].user;
-
-           await User.findById({_id: tempID}, async function(err, succ) {
-                let fName = succ.firstName;
-                let lName = succ.lastName;
-                let tEmail = succ.email;
-
-                tutorProto[i] = {
-                    firstName: fName,
-                    lastName: lName,
-                    email: tEmail,
-                    userID: tempID
-                }
-
-                console.log("Before Email: " + tutorProto[0].email);
-            });
-
-        } //For Loop
-
-        for(let i = 0; i < tutorLength; i++)  {
-            let tempID = tut[i].user;
-            tutorProto[i].date = await Availability.find({user: tempID}, async function(err, suc1) {
-                console.log("suc1");
-                console.log(suc1);
-                let dt = suc1[0].date;
-                console.log("dt: "+ dt);
-                return dt;
-            });
-        }*/
-
-        console.log("After Date");
+        console.log("Print out Tutor Object");
         console.log(tut);
-
+        //Returns Tutor Object
         return res.json({tut});
 
     }) //Ends: Searching through Tutor
 }
-
+//Grabs a list of tutor information
 exports.getTutorInfo = async function(req, res){
-  const  { tutorID } = req.body;
-   User.findById({_id: tutorID}, async function(err, succ) {
+  const  { tempID } = req.body;
+  console.log("TutorID: " + tempID);
+   User.findById({_id: tempID}, async function(err, succ) {
        let fName = succ.firstName;
        let lName = succ.lastName;
        let tEmail = succ.email;
 
-       var tutorinfo = {
+       let tutorinfo = {
            firstName: fName,
            lastName: lName,
            email: tEmail,
        }
-
+       console.log("TutorInfo: " + tutorinfo);
        return res.json(tutorinfo);
    });
 }
 
 exports.getTutorAvailability = async function(req, res){
-  const  { tutorID } = req.body;
-  Availability.find({user: tutorID}, async function(err, suc1) {
+  const  { tempID } = req.body;
+  Availability.find({user: tempID}, async function(err, suc1) {
       console.log("suc1");
       console.log(suc1);
       let dt = {date: suc1[0].date};
-      console.log("dt: "+ dt);
+      console.log("dt: "+ dt.date);
       return res.json(dt);
   });
+}
+
+//Create Appointment
+exports.createAppointment = async function(req, res) {
+    const StudentInfo = req.user.user;
+    const StudentID = StudentInfo._id;
+    const StudentName = StudentInfo.firstName + " " + StudentInfo.lastName;
+    const StudentEmail = StudentInfo.email;
+                             //Specific Date                  //List of Tutor Dates
+    const { tutorID, courseName, dateObj, tutorName, tutorEmail, tutorAvail} = req.body;
+      //Create Appointment
+       Appointment.findOne({student: StudentID}).exec((err, appointment) => {
+              if(appointment) {
+                   console.log("Existing appointment");
+               }
+
+               const appt = new Appointment({
+                   class: courseName,
+                   tutorName: tutorName,
+                   studentName: StudentName,
+                   time: dateObj,
+                   studentEmail: StudentEmail,
+                   tutorEmail: tutorEmail,
+                   tutor: tutorID,
+                   student: StudentID
+               });
+               //Save Appointment Object to DB
+               appt.save(function(err) {
+                if(err){
+                    console.log("Error: " + err);
+                }
+
+                console.log("TutorAvail: " + tutorAvail);
+
+                Availability.update({user: tutorID}, {$pull: {'date': dateObj}},  function(err, success) {
+                     if(err) {
+                         console.log("Error in TutorAvail: " + err);
+                         return res.status(400).json({error: 'Error in TutorAvail:'})
+                    }
+                     console.log("Updating Avail: " + success);
+                    return res.status(200).json("Updating Avail");
+                });
+            })
+        })
+
+
+}
+
+//Fetch Appointment
+exports.getAppointment = async function(req, res) {
+    const UserInfo = req.user.user;
+    const UserID = UserInfo._id;
+    const studentTrue = UserInfo.isStudent;
+    const tutorTrue = UserInfo.isTutor;
+
+    //If Student is True
+    if(studentTrue) {
+        Appointment.find({student: UserID}).exec((err, appt) => {
+            if(!appt) {
+                console.log("Appointment doesn't exists!");
+                return res.sendStatus(400).json("Appointment doesn't exists!");
+            }
+
+            console.log("Appointment: " + appt);
+
+            return res.json({appt});
+        })
+    }
+    //If Tutor is True
+    if(tutorTrue) {
+        Appointment.find({tutor: UserID}).exec((err, appt) => {
+            if(!appt) {
+                console.log("Appointment doesn't exists!");
+                return res.sendStatus(400).json("Appointment doesn't exists!");
+            }
+
+            console.log("Appointment: " + appt);
+
+            return res.json({appt});
+        })
+    }
+}
+
+exports.cancelAppointment = async function(req, res) {
+    const UserInfo = req.user.user;
+    const UserID = UserInfo._id;
+    const studentTrue = UserInfo.isStudent;
+    const tutorTrue = UserInfo.isTutor;
+    const { apptID, tutorID, dateObj } = req.body;
+
+    Appointment.remove({_id: apptID},function(err, success) {
+      if (err){
+        console.log("Err: "+err);
+      }
+
+        console.log("Appointment Deleted?: " + success);
+    })
+
+    Availability.updateOne({user: tutorID}, {$push: {'date': dateObj}},  function(err, success) {
+         if(err) {
+             console.log("Error in AppDel: " + err);
+             return res.status(400).json({error: 'Error in TutorAvail:'})
+        }
+         console.log("Updating AppDel: " + success);
+        return res.status(200).json("Updating Avail");
+    });
 }
