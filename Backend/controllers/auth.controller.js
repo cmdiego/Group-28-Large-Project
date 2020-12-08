@@ -619,15 +619,26 @@ exports.getAppointment = async function(req, res) {
     if(studentTrue) {
         Appointment.findById({student: UserID}).exec((err, appt) => {
             if(!appt) {
-
+                console.log("Appointment doesn't exists!"); 
+                return res.sendStatus(400).json("Appointment doesn't exists!");
             }
+
+            console.log("Appointment: " + appt); 
+            
+            return res.json({appt}); 
         })
     }
 
     if(tutorTrue) {
         Appointment.findById({tutor: UserID}).exec((err, appt) => {
+            if(!appt) {
+                console.log("Appointment doesn't exists!"); 
+                return res.sendStatus(400).json("Appointment doesn't exists!");
+            }
 
+            console.log("Appointment: " + appt); 
+            
+            return res.json({appt}); 
         })
     }
-
 }
