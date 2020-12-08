@@ -572,15 +572,17 @@ exports.getTutorAvailability = async function(req, res){
   });
 }
 
+//Create Appointment
 exports.createAppointment = async function(req, res) {
     const StudentInfo = req.user.user;
     const StudentID = StudentInfo._id; 
-    const StudentName = StudentID.firstName + " " + StudentID.lastName; 
-    const { tutorID, courseName, dateObj, tutorName } = req.body; 
+    const StudentName = StudentInfo.firstName + " " + StudentInfo.lastName; 
+    const StudentEmail = StudentInfo.email; 
 
-    //Create Appointment
+    const { tutorID, courseName, dateObj, tutorName, tutorEmail } = req.body; 
+
+      //Create Appointment
        Appointment.findOne({student: StudentID}).exec((err, appointment) => {
-             
               if(appointment) {
                    console.log("Existing appointment");
                }
@@ -590,6 +592,8 @@ exports.createAppointment = async function(req, res) {
                    tutorName: tutorName, 
                    studentName: StudentName, 
                    time: dateObj, 
+                   studentEmail: StudentEmail, 
+                   tutorEmail: tutorEmail, 
                    tutor: tutorID, 
                    student: StudentID
                });
@@ -602,5 +606,28 @@ exports.createAppointment = async function(req, res) {
                 return res.json("Success");
             })
         })
-    
+}
+
+//Fetch Appointment 
+exports.getAppointment = async function(req, res) {
+    const UserInfo = req.user.user;
+    const UserID = UserInfo._id; 
+    const studentTrue = UserID.isStudent; 
+    const tutorTrue = UserID.isTutor; 
+
+    //Is 
+    if(studentTrue) {
+        Appointment.findById({student: UserID}).exec((err, appt) => {
+            if(!appt) {
+
+            }
+        })
+    }
+
+    if(tutorTrue) {
+        Appointment.findById({tutor: UserID}).exec((err, appt) => {
+
+        })
+    }
+
 }

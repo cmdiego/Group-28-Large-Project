@@ -7,6 +7,8 @@ const appointmentSchema = new mongoose.Schema({
     tutorName: String,
     studentName: String,
     time: Date,
+    studentEmail: String, 
+    tutorEmail: String, 
     //rating : Number,
     tutor: {
         type: mongoose.Schema.Types.ObjectId, 
