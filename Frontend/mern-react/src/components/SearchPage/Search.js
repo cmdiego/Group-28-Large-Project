@@ -22,6 +22,8 @@ var placeHolder = [];
 const tutorID = []; 
 //Global list of TutorInfo
 const tutorInfo = []; 
+//Global list of Tutor Avail 
+const tutorAvail = []; 
 
 async function helper(props) {
     randomBandaid = false;
@@ -63,9 +65,24 @@ async function helper(props) {
         tutorInfo[i] = tempTutor[i];
     }
 
-    //Grab the list of tutorAvailability
+    //Grab the list of tutorAvailability -------------------------------------------------------------------------------------------------------------------------------------------------------
+    let tempAvail = [];
+    for(let i = 0; i < tutorLength; i++) {
+        let tempID = tutorID[i];
+        await axios.post('http://localhost:5000/auth/getTutorAvailability', {tempID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+        .then(function(anotha) {
+            const dt  = anotha.data; 
+            tempAvail[i] = dt;
+        }) 
+        .catch(err => {
+            console.log("Error in returning list of tutorAvail: " + err);
+        })
+    }
 
-
+    //Assign the array of tutor Availabilities to tutorAvail
+    for(let i = 0; i < tempAvail.length; i++) {
+        tutorAvail[i] = tempAvail[i];
+    }
 }
 
     /*await axios.post('http://localhost:5000/auth/getTutorInfo', {tutorID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})

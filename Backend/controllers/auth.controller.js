@@ -563,12 +563,12 @@ exports.getTutorInfo = async function(req, res){
 }
 
 exports.getTutorAvailability = async function(req, res){
-  const  { tutorID } = req.body;
-  Availability.find({user: tutorID}, async function(err, suc1) {
+  const  { tempID } = req.body;
+  Availability.find({user: tempID}, async function(err, suc1) {
       console.log("suc1");
       console.log(suc1);
       let dt = {date: suc1[0].date};
-      console.log("dt: "+ dt);
+      console.log("dt: "+ dt.date);
       return res.json(dt);
   });
 }
