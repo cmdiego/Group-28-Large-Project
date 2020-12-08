@@ -500,7 +500,6 @@ exports.modifyAvailability = async function(req, res) {
         }
     },
     function(err, success) {
-
          if(err) {
              console.log(success)
              console.log("Error in adding timeslots: " + err);
@@ -578,8 +577,8 @@ exports.createAppointment = async function(req, res) {
     const StudentID = StudentInfo._id; 
     const StudentName = StudentInfo.firstName + " " + StudentInfo.lastName; 
     const StudentEmail = StudentInfo.email; 
-
-    const { tutorID, courseName, dateObj, tutorName, tutorEmail } = req.body; 
+                                                                  //List of tutordates
+    const { tutorID, courseName, dateObj, tutorName, tutorEmail, tutorAvail} = req.body; 
 
       //Create Appointment
        Appointment.findOne({student: StudentID}).exec((err, appointment) => {
@@ -603,9 +602,23 @@ exports.createAppointment = async function(req, res) {
                     console.log("Error: " + err);
                 }
 
-                return res.json("Success");
+                Availability.findOneAndUpdate({user: tutorID}, {
+                    $set: {
+                        date: tutorAvail,
+                    }
+                },
+                function(err, success) {    
+                     if(err) {
+                         console.log("Error in TutorAvail: " + err);
+                         return res.status(400).json({error: 'Error in TutorAvail:'})
+                    }
+                     console.log("Updating Avail: " + success);
+                    return res.status(200).json("Updating Avail");
+                });
             })
         })
+
+       
 }
 
 //Fetch Appointment 
