@@ -22,13 +22,14 @@ var placeHolder = [
 
 async function helper(props)
 {
-    randomBandaid = false;
+            randomBandaid = false;
             let studentCourse = props.value; 
             await axios.post('http://localhost:5000/auth/checkUserTutorCourse', {studentCourse}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
             .then(function(data) {
                 const {tutorProto } = data.data;
 
-            console.log(tutorProto[0].date);
+                //console.log("Retr Date: " + tutorProto[0].date.toLocaleDateString());
+
             placeHolder.splice(0);
             for(let i = 0; i< tutorProto.length; i++)
             {
@@ -38,17 +39,57 @@ async function helper(props)
                         lastName: tutorProto[i].lastName,
                         email: tutorProto[i].email, 
                     }, 
-                    date: tutorProto[i].date
-
+                    //Date: tutorProto[i].date
                 }
+                console.log("Email: " + tutorProto[i].email); 
+                console.log("firstName: " + tutorProto[i].firstName); 
+                console.log("lastName: " + tutorProto[i].lastName); 
+               // console.log("Date: " + tutorProto[i].date); 
+
                 placeHolder.push(obj);
             }
             //placeHolder.push(obj);
- 
+            
             })
             .catch(err => {
                 console.log(err);
             }) 
+
+
+            let ID = placeHolder[0].Tutor.userID
+
+            await axios.post('http://localhost:5000/auth/checkDate', {ID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+            .then(function(data) {
+                const {tutorProto } = data.data;
+
+                //console.log("Retr Date: " + tutorProto[0].date.toLocaleDateString());
+
+
+             for(let i = 0; i< tutorProto.length; i++)
+            {
+                var obj = {
+                    Tutor:{
+                        firstName: tutorProto[i].firstName,
+                        lastName: tutorProto[i].lastName,
+                        email: tutorProto[i].email, 
+                    }, 
+                    //Date: tutorProto[i].date
+                }
+                console.log("Email: " + tutorProto[i].email); 
+                console.log("firstName: " + tutorProto[i].firstName); 
+                console.log("lastName: " + tutorProto[i].lastName); 
+               // console.log("Date: " + tutorProto[i].date); 
+
+                placeHolder.push(obj);
+            }
+            //placeHolder.push(obj);
+            
+            })
+            .catch(err => {
+                console.log(err);
+            }) 
+
+
 }
 
 function SearchOutput(props)

@@ -4,15 +4,18 @@ const mongoose = require('mongoose');
 //*** defining schemas ********/
 const appointmentSchema = new mongoose.Schema({
     class: String,
-    tutor: String,
-    student: String,
-    time: [String],
-    isOccupied: Boolean,
+    tutorName: String,
+    studentName: String,
+    time: Date,
     //rating : Number,
-    user: {
+    tutor: {
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'User'
     },
+    student: {
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'User'
+    },  
 });
 
 module.exports = mongoose.model('Appointment', appointmentSchema);
