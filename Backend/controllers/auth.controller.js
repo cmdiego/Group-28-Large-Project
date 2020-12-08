@@ -602,6 +602,8 @@ exports.createAppointment = async function(req, res) {
                     console.log("Error: " + err);
                 }
 
+                console.log("TutorAvail: " + tutorAvail);
+
                 Availability.findOneAndUpdate({user: tutorID}, {
                     $set: {
                         date: tutorAvail,
@@ -628,7 +630,7 @@ exports.getAppointment = async function(req, res) {
     const studentTrue = UserID.isStudent; 
     const tutorTrue = UserID.isTutor; 
 
-    //Is 
+    //If Student is True
     if(studentTrue) {
         Appointment.findById({student: UserID}).exec((err, appt) => {
             if(!appt) {
@@ -641,7 +643,7 @@ exports.getAppointment = async function(req, res) {
             return res.json({appt}); 
         })
     }
-
+    //If Tutor is True
     if(tutorTrue) {
         Appointment.findById({tutor: UserID}).exec((err, appt) => {
             if(!appt) {
@@ -652,6 +654,35 @@ exports.getAppointment = async function(req, res) {
             console.log("Appointment: " + appt); 
             
             return res.json({appt}); 
+        })
+    }
+}
+
+exports.cancelAppointment = async function(req, res) {
+    const UserInfo = req.user.user;
+    const UserID = UserInfo._id; 
+    const studentTrue = UserID.isStudent; 
+    const tutorTrue = UserID.isTutor; 
+
+     //If Student is True
+     if(studentTrue) {
+        Appointment.remove({student: UserID},function(err, success) {
+            if(!appt) {
+                console.log("Appointment doesn't exists!"); 
+                return res.sendStatus(400).json("Appointment doesn't exists!");
+            }
+
+            console.log("Appointment Deleted?: " + success); 
+        })
+    }
+    //If Tutor is True
+    if(tutorTrue) {
+        Appointment.remove({tutor: UserID},function(err, success) {
+            if(!appt) {
+                console.log("Appointment doesn't exists!"); 
+                return res.sendStatus(400).json("Appointment doesn't exists!");
+            }
+            console.log("Appointment Deleted?: " + success); 
         })
     }
 }
