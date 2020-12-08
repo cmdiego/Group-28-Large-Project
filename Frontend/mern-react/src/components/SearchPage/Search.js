@@ -16,8 +16,9 @@ var randomBandaid = true;
 var FirstNames = [];
 
 var classesTest = []; 
-var placeHolder = [];
 
+//Global list of Tutors
+const tutorHolder = [];
 //Global list of TutorID's
 const tutorID = []; 
 //Global list of TutorInfo
@@ -83,35 +84,32 @@ async function helper(props) {
     for(let i = 0; i < tempAvail.length; i++) {
         tutorAvail[i] = tempAvail[i];
     }
-}
 
-    /*await axios.post('http://localhost:5000/auth/getTutorInfo', {tutorID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
-    .then(function(dataInfo) {
-        const { tutorinfo } = dataInfo.data;
-
-        console.log("TutorInfo: " + tutorinfo); 
-        console.log("Tutor Email: " + tutorinfo[0].email);
-
-    }) 
-    .catch(err => {
-        console.log("Error in the TutorInfo: " + err); 
-    })
-})*/
-    /*placeHolder.splice(0);
-    for(let i = 0; i < TutorLength; i++) {
-        var obj = {
-            Tutor:{
-                firstName: tut[i].Tutor.firstName,
-                lastName: tut[i].Tutor.lastName,
-                email: tut[i].Tutor.email, 
-            }, 
+    //Let's start putting it all into an Tutor Object! 
+    tutorHolder.splice(0);
+    //Create a Tutor Object
+    for(let i = 0; i < tutorLength; i++) {
+        for(let j = 0; j < tutorAvail.length; j++) {
+            var obj = {
+                Tutor:{
+                    firstName: tutorInfo[i].firstName,
+                    lastName: tutorInfo[i].lastName,
+                    email: tutorInfo[i].email, 
+                }, 
+                Date: tutorAvail[j].date
+            }
+            tutorHolder.push(obj);
         }
-        console.log("Email: " + tut[i].Tutor.email); 
-        console.log("firstName: " + tut[i].Tutor.firstName); 
-        console.log("lastName: " + tut[i].Tutor.lastName); 
+        console.log("Email: " + obj.Tutor.email); 
+        console.log("FirstName: " + obj.Tutor.firstName); 
+        console.log("LastName: " + obj.Tutor.lastName); 
+        console.log("Date: " + obj.Date[0]); 
+        console.log(obj); 
+    }
 
-        placeHolder.push(obj);
-    }*/
+    console.log("TutorHolder FirstName: " + tutorHolder[0].Tutor.firstName);
+}
+    
     
 
 
@@ -198,7 +196,7 @@ function SearchOutput(props)
             <div id="SearchDisplay">
                 <br/>
         <span id ="avaTutorspan">Available Tutor appointments for: {props.value}</span>
-                {placeHolder.map(searchInfo => (
+                {tutorHolder.map(searchInfo => (
                     <SearchCard info={searchInfo} />
                 ))} 
                 

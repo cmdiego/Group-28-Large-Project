@@ -26,7 +26,7 @@ function formatDate(date)
 
 function DateInfo(props) {
     return (
-        <text>{'Date: ' + props.date + ' '}</text>
+        <text>{'Date: ' + props.Date + ' '}</text>
     );
    /* return (
         <text>{'Date: ' + formatDate(props.Date) + ' '}</text>
@@ -97,7 +97,7 @@ class SearchCard extends React.Component {
                         <br/>
                         <EmailInfo Tutor={slotInfo.Tutor} />
                         <br />
-                        <DateInfo Tutor={slotInfo.Tutor} />
+                        <DateInfo Tutor={slotInfo.Date} />
 
                        {/* <DateInfo Date={slotInfo.Date} /> */}
                         <br/>
