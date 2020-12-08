@@ -39,6 +39,8 @@ var testInfo = [
         Date: new Date()
     }
 ];
+var test = [];
+var hold = [];
 const searchProcess = async event =>
 {
     event.preventDefault();
@@ -87,14 +89,54 @@ class Home extends Component {
     }
 
     async componentDidMount() {
-        const res = await  axios.get('http://localhost:5000/auth/profile', { headers: {Authorization: localStorage.getItem('jwtToken')}})
+        const res = await  axios.get('http://localhost:5000/auth/profile', { headers: {Authorization: localStorage.getItem('jwtToken')}});
+        const resAppt = await axios.get('http://localhost:5000/auth/getAppointment', { headers: {Authorization: localStorage.getItem('jwtToken')}});
+        console.log("whole thing: ");
+        //console.log(resAppt.data.appt[0]._id);
+        var length = resAppt.data.appt.length;
+        console.log("number of appt: " + length)
+        /* appt structure
+            appt : [{
+                _id: id of appointment,
+                class: class String,
+                student: id of student,
+                studentName: name of student,
+                studentEmail: email of student,
+                tutor: id of tutor,
+                tutorName: name of tutor,
+                tutorEmail: email of tutor,
+                time: date that needs to be formatted new Date (info in appt)
+
+            },
+        ]
+        */
+        
+        for (let i = 0; i < length; i++)
+        {
+            
+            var things = {
+                id : resAppt.data.appt[i]._id,
+                course: resAppt.data.appt[i].course,
+                Date: new Date(resAppt.data.appt[i].time), 
+                tutor: resAppt.data.appt[i].tutor,
+                tutorName: resAppt.data.appt[i].tutorName,
+                tutorEmail: resAppt.data.appt[i].tutorEmail,
+                student: resAppt.data.appt[i].student,
+                studentName: resAppt.data.appt[i].studentName,
+                studentEmail: resAppt.data.appt[i].studentEmail
+            }
+            hold.push(things);
+            
+        }
+        console.log("hold");
+        console.log(hold[0]);
+        
         const stud = await res.data.isStudent;
 
         this.setState((state) => {
             return {stu: state.stu = stud};
         });
-
-
+        
     }
 
    render() {
@@ -106,7 +148,7 @@ class Home extends Component {
             
             <div id ="middleOfPage">
             {this.state.stu ? <input type="button" id="searchButton" class="button" value="Search for Tutors" onClick={searchProcess} /> : <div></div>}
-                {testInfo.map(infoStuff => (
+                {hold.map(infoStuff => (
                     <AppointCard info={infoStuff} isStudent={this.state.stu} />
                 ))}
             

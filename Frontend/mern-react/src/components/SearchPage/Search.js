@@ -72,7 +72,7 @@ async function helper(props) {
     //Grab the list of tutorAvailability -------------------------------------------------------------------------------------------------------------------------------------------------------
     let tempAvail = [];
     tempAvail.splice(0); 
-
+    console.log("tutorLength: " + tutorLength);
     for(let i = 0; i < tutorLength; i++) {
         let tempID = tutorID[i];
         await axios.post('http://localhost:5000/auth/getTutorAvailability', {tempID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
@@ -111,6 +111,12 @@ async function helper(props) {
                 Date: new Date (tutorAvail[i].date[j]),
                 Course: props.value, 
             }
+            
+            if(isNaN(obj.Date))
+            {
+                continue;
+            }
+            
             tutorHolder.push(obj);
         }
        var myDate = new Date(obj.Date);
