@@ -85,6 +85,9 @@ class SearchCard extends React.Component {
         await axios.post('http://localhost:5000/auth/createAppointment', {tutorID, courseName, dateObj, tutorName, tutorEmail}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
         .then(function(anotha) {
             console.log("Appointment Added! " + anotha); 
+            if(anotha.status == 200) {
+                window.location.href = '/HomePage';
+            }
         }) 
         .catch(err => {
             console.log("Error: " + err); 

@@ -25,7 +25,7 @@ const tutorID = [];
 const tutorInfo = []; 
 //Global list of Tutor Avail 
 const tutorAvail = []; 
-
+var lengthDate; 
 async function helper(props) {
     randomBandaid = false;
     //Grabs the current selected course from user
@@ -68,30 +68,35 @@ async function helper(props) {
 
     //Grab the list of tutorAvailability -------------------------------------------------------------------------------------------------------------------------------------------------------
     let tempAvail = [];
+    tempAvail.splice(0); 
+
     for(let i = 0; i < tutorLength; i++) {
         let tempID = tutorID[i];
         await axios.post('http://localhost:5000/auth/getTutorAvailability', {tempID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
         .then(function(anotha) {
             const dt  = anotha.data; 
             tempAvail[i] = dt;
+            lengthDate = dt.date.length; 
+            console.log("DT: " + dt.date.length); 
         }) 
         .catch(err => {
             console.log("Error in returning list of tutorAvail: " + err);
         })
     }
 
+    console.log("TempAvailLength: " + tempAvail.length); 
     //Assign the array of tutor Availabilities to tutorAvail
     for(let i = 0; i < tempAvail.length; i++) {
         tutorAvail[i] = tempAvail[i];
     }
 
     //Let's start putting it all into an Tutor Object! 
-    tutorHolder.splice(0,tutorHolder);
+    tutorHolder.splice(0, tutorHolder.length);
     console.log("TutorDate length: " + tutorAvail);
     //Create a Tutor Object
     for(let i = 0; i < tutorLength; i++)
     {
-        for(let j = 0; j <= tutorAvail.length; j++)
+        for(let j = 0; j <= tempAvail.length; j++)
         {
             var obj = { 
                 Tutor:{
