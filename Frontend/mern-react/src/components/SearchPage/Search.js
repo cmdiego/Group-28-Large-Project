@@ -43,17 +43,29 @@ async function helper(props) {
         console.log("Error in retrieving list of Tutor IDs: " + err);
     })
 
-    //for(let i = 0; i < )
     //Returns a list of tutor objects info: firstName, lastName, email ------------------------------------------------------------------------------------------------------------------------
-    await axios.post('http://localhost:5000/auth/getTutorInfo', {tutorID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
-    .then(function(data) {
-        const { tutorinfo } = data.data; 
-        console.log("TutorInfo: " + tutorinfo); 
+    const tutorLength = tutorID.length; 
+    let tempTutor = []; 
+    for(let i = 0; i < tutorLength; i++) {
+        let tempID = tutorID[i];
+        await axios.post('http://localhost:5000/auth/getTutorInfo', {tempID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+        .then(function(other) {
+            const tutorinfo  = other.data; 
+            tempTutor[i] = tutorinfo;
+        }) 
+        .catch(err => {
+            console.log("Error in returning list of tutorInformation: " + err);
+        })
+    }
 
-    }) 
-    .catch(err => {
-        console.log("Error in returning list of tutorInformation: " + err);
-    })
+    //Assign the tutorObjects into the tutorInfo Array
+    for(let i = 0; i < tempTutor.length; i++) {
+        tutorInfo[i] = tempTutor[i];
+    }
+
+    //Grab the list of tutorAvailability
+
+
 }
 
     /*await axios.post('http://localhost:5000/auth/getTutorInfo', {tutorID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
@@ -134,14 +146,14 @@ function SearchOutput(props)
                 //Grabs user course, and search the DB for the tutor courses, and check which tutor has it
                     //Return the tutor appointments  
                 helper(props);
-                try {
+               /* try {
                     console.log("Placeholder: " + placeHolder[0].Tutor.email);
                     //console.log("Placeholder: " + placeHolder);
 
                 }
                 catch(err) {
                     console.log("Error: " + err); 
-                }
+                }*/
             
             // Would fill this array with information from search api and display with search card
        /* var test2 = [

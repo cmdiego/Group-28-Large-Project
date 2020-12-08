@@ -545,14 +545,14 @@ exports.checkUserTutorCourse = async function(req, res)
 }
 //Grabs a list of tutor information 
 exports.getTutorInfo = async function(req, res){
-  const  { tutorID } = req.body;
-  console.log("TutorID: " + tutorID);
-   User.findById({_id: tutorID}, async function(err, succ) {
+  const  { tempID } = req.body;
+  console.log("TutorID: " + tempID);
+   User.findById({_id: tempID}, async function(err, succ) {
        let fName = succ.firstName;
        let lName = succ.lastName;
        let tEmail = succ.email;
 
-       var tutorinfo = {
+       let tutorinfo = {
            firstName: fName,
            lastName: lName,
            email: tEmail,
