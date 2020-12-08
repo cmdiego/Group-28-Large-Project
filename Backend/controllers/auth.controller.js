@@ -605,7 +605,7 @@ exports.createAppointment = async function(req, res) {
 
                 console.log("TutorAvail: " + tutorAvail);
 
-                Availability.update({user: tutorID}, {$pull: dateObj},  function(err, success) {    
+                Availability.update({user: tutorID}, {$pull : date.dateobj},  function(err, success) {    
                      if(err) {
                          console.log("Error in TutorAvail: " + err);
                          return res.status(400).json({error: 'Error in TutorAvail:'})
