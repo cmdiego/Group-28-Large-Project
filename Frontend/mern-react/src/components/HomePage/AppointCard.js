@@ -22,14 +22,14 @@ const axios = require('axios');
 
 function CourseInfo(props) {
     return (
-        <text>{'Course: ' + props.Course}</text>
+        <text>{'Course: ' + props.course}</text>
     );
 }
 
 // gonna pass prop in as props.Tutor
 function TutorInfo(props) {
     return (
-        <text>{'Tutor: ' + props.Tutor.firstName + ' ' + props.Tutor.lastName}</text>
+        <text>{'Tutor: ' + props.tutorName}</text>
     );
 }
 
@@ -41,7 +41,7 @@ function EmailInfo(props) {
 
 function StudentInfo(props) {
     return (
-        <text>{'Student: ' + props.Student.firstName + ' ' + props.Student.lastName}</text>
+        <text>{'Student: ' + props.studentName}</text>
     );
 
 }
@@ -53,7 +53,7 @@ function formatDate(date) {
 
 function DateInfo(props) {
     return (
-    <text>{'Date: ' + formatDate(props.Date)}</text>
+    <text>{'Date: ' + formatDate(props.Date) + ' at ' + props.Date.toLocaleTimeString()}</text>
     );
 }
 
@@ -95,10 +95,16 @@ class AppointCard extends React.Component {
         this.state = {isDisplayed: true};
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
     }
-    handleDeleteClick() {
+    async handleDeleteClick() {
         var choice = window.confirm("Are you sure you want to cancel this Appointment?");
+        
         if (choice)
         {
+            var apptID = this.info.id;
+            var tutorID = this.info.tutor;
+            var dateObj = this.info.Date;
+            const res = await  axios.post('http://localhost:5000/auth/cancelAppointment', {apptID, tutorID, dateObj}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+            console.log("response: " + res);
             this.setState({isDisplayed: false});
         }
     }
@@ -121,13 +127,14 @@ class AppointCard extends React.Component {
             return (
                 <div id = "CardStyle">Appointment Info
                     <div id = "innerStylecard">
-                    <CourseInfo Course={stuff.Course} />
+                    <CourseInfo course={stuff.course} />
                     <br/>
                     <DateInfo Date={stuff.Date} />
                     <br />
-                    {isStudent ? <TutorInfo Tutor={stuff.Tutor} /> : <StudentInfo Student={stuff.Student} />}<br/>
-                    {isStudent ? <EmailInfo email={stuff.Tutor.email} /> : <EmailInfo email={stuff.Student.email} />}<br/>
-                    <TimeInfo Date={stuff.Date} />
+                    
+                    {isStudent ? <TutorInfo tutorName={stuff.tutorName} /> : <StudentInfo studentName={stuff.studentName} />}<br/>
+                    {isStudent ? <EmailInfo email={stuff.tutorEmail} /> : <EmailInfo email={stuff.studentEmail} />}<br/>
+                    
                     <br />
                     </div>
                     <button id= "deleteCardButton"onClick={this.handleDeleteClick}>X</button>

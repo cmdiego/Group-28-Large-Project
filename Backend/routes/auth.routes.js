@@ -27,7 +27,7 @@ router.post('/getTutorInfo',authenticateToken, getTutorInfo);
 router.post('/getTutorAvailability',authenticateToken,getTutorAvailability);
 router.post('/createAppointment', authenticateToken, createAppointment); 
 router.get('/getAppointment', authenticateToken, getAppointment); 
-router.delete('/cancelAppointment', authenticateToken, cancelAppointment); 
+router.post('/cancelAppointment', authenticateToken, cancelAppointment); 
 
 //Export features for other to transfer
 module.exports = router;

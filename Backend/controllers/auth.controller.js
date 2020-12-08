@@ -588,7 +588,7 @@ exports.createAppointment = async function(req, res) {
                    console.log("Existing appointment");
                }
                const appt = new Appointment({
-                   class: courseName,
+                   course: courseName,
                    tutorName: tutorName, 
                    studentName: StudentName, 
                    time: dateObj, 
@@ -658,8 +658,26 @@ exports.cancelAppointment = async function(req, res) {
     const UserID = UserInfo._id; 
     const studentTrue = UserInfo.isStudent; 
     const tutorTrue = UserInfo.isTutor; 
+    const { apptID, tutorID, dateObj } = req.body;
 
+
+    Appointment.remove({_id: apptID}, function(err, success) {
+        if (err) {
+            console.log("Err: " + err);
+        }
+        console.log ("Appointment Deleted?: " + success);
+    })
+
+    Availability.updateOne({user: tutorID}, {$push: {'date': dateObj}}, function(err, success) {
+        if (err) {
+            console.log("Error in AppDel: " + err);
+            return res.status(400).json({error: 'Error in TutorAvail:'})
+        }
+        console.log("Updating AppDel: " + success);
+        return res.status(200).json("Updating Avail");
+    });
      //If Student is True
+     /*
      if(studentTrue) {
         Appointment.remove({student: UserID},function(err, success) {
             if(!appt) {
@@ -680,4 +698,5 @@ exports.cancelAppointment = async function(req, res) {
             console.log("Appointment Deleted?: " + success); 
         })
     }
+    */
 }
