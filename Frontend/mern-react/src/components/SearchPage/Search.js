@@ -100,12 +100,14 @@ async function helper(props) {
                 Date: tutorAvail[i].date[j]
             }
             tutorHolder.push(obj);
+
         }
         console.log("Email: " + obj.Tutor.email); 
         console.log("FirstName: " + obj.Tutor.firstName); 
         console.log("LastName: " + obj.Tutor.lastName); 
-        //console.log("Date: " + obj.Date[0]); 
+        console.log("Date: " + obj.Date); 
         console.log(obj); 
+
     }
 
     console.log("TutorHolder FirstName: " + tutorHolder[0].Tutor.firstName);

@@ -97,7 +97,7 @@ class SearchCard extends React.Component {
                         <br/>
                         <EmailInfo Tutor={slotInfo.Tutor} />
                         <br />
-                        <DateInfo Tutor={slotInfo.Date} />
+                        <DateInfo Date={slotInfo.Date} />
 
                        {/* <DateInfo Date={slotInfo.Date} /> */}
                         <br/>
