@@ -88,67 +88,30 @@ async function helper(props) {
     //Let's start putting it all into an Tutor Object! 
     tutorHolder.splice(0,tutorHolder);
     //Create a Tutor Object
-    for(let i = 0; i < tutorLength; i++) {
-        console.log("reeeee"+tutorAvail.length);
-        for(let j = 0; j <= tutorAvail.length; j++) {
+    for(let i = 0; i < tutorLength; i++)
+    {
+        for(let j = 0; j <= tutorAvail.length; j++)
+        {
             var obj = {
                 Tutor:{
                     firstName: tutorInfo[i].firstName,
                     lastName: tutorInfo[i].lastName,
                     email: tutorInfo[i].email, 
                 }, 
-                Date: tutorAvail[i].date[j]
+                Date: new Date (tutorAvail[i].date[j])
             }
             tutorHolder.push(obj);
 
         }
-        console.log("Email: " + obj.Tutor.email); 
-        console.log("FirstName: " + obj.Tutor.firstName); 
-        console.log("LastName: " + obj.Tutor.lastName); 
-        console.log("Date: " + obj.Date); 
+       var myDate = new Date(obj.Date);
+        console.log("Date: " + myDate); 
         console.log(obj); 
 
     }
 
-    console.log("TutorHolder FirstName: " + tutorHolder[0].Tutor.firstName);
+    
 }
     
-    
-
-
-            /*let ID = placeHolder[0].Tutor.userID
-
-            await axios.post('http://localhost:5000/auth/checkDate', {ID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
-            .then(function(data) {
-                const {tutorProto } = data.data;
-
-                //console.log("Retr Date: " + tutorProto[0].date.toLocaleDateString());
-
-
-             for(let i = 0; i< tutorProto.length; i++)
-            {
-                var obj = {
-                    Tutor:{
-                        firstName: tutorProto[i].firstName,
-                        lastName: tutorProto[i].lastName,
-                        email: tutorProto[i].email, 
-                    }, 
-                    //Date: tutorProto[i].date
-                }
-                console.log("Email: " + tutorProto[i].email); 
-                console.log("firstName: " + tutorProto[i].firstName); 
-                console.log("lastName: " + tutorProto[i].lastName); 
-               // console.log("Date: " + tutorProto[i].date); 
-
-                placeHolder.push(obj);
-            }            
-            })
-            .catch(err => {
-                console.log(err);
-            }) */
-
-
-
 
 function SearchOutput(props)
 {
