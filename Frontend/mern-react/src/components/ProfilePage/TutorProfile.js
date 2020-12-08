@@ -27,10 +27,14 @@ function BringUpPass()
         var temp = document.getElementById("setupForm").style.display ="none";
         var temp = document.getElementById("editBioform").style.display ="inline-block";
     }
-    function BringupSche()
+    const BringupSche = async event =>
     {
+        event.preventDefault();
+        window.location.href = 'ModifySchedulePage';
+        /*
         var temp = document.getElementById("setupForm").style.display ="none";
         var temp = document.getElementById("editAvaform").style.display ="inline-block";
+        */
     }
 
 function BringUpEdit() {
@@ -61,7 +65,7 @@ function BringUpEdit() {
 
     function addclasses()
     {
-        setStartDate(new Date());
+        //setStartDate(new Date());
         var newdiv = document.createElement('span');
         count++;
         newdiv.innerHTML = ('<span id= "inner-title"><div id = "class'+(count)+'"><text id ="testhis">Class '+(count+1)+':</text><input type= "text" id="styleText" placeholder = "ex. COP 4331" ></input></div></span>');
@@ -244,9 +248,11 @@ function BringUpEdit() {
         var temp = document.getElementById("setupForm").style.display = "inline-block";
         window.location.reload(true); 
     }
+    /*
     function  setStartDate(date) {
         startDate = date; 
     }
+    */
 class TutorProfile extends Component
 {
 
@@ -396,7 +402,7 @@ class TutorProfile extends Component
                 </div>
                 <br />
                 Select Date and Time for new Timeslots: 
-                <DatePicker id="datePicker" selected={startDate} onChange={date => setStartDate(date)} showTimeSelect />
+                {/*<DatePicker id="datePicker" selected={startDate} onChange={date => setStartDate(date)} showTimeSelect /> */}
                 <input type = "button" id = "buttonstyling2" value = "+" onClick = {addSlot}/>
                 <input type = "button" id = "buttonstyling2" value = "-" onClick = {removeSlot}/>
                 <input type = "button" id = "buttonstyling2" value = "Submit" onClick = {submitAva} />
