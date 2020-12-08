@@ -579,9 +579,8 @@ exports.createAppointment = async function(req, res) {
     const StudentID = StudentInfo._id; 
     const StudentName = StudentInfo.firstName + " " + StudentInfo.lastName; 
     const StudentEmail = StudentInfo.email; 
-                                                                  //List of tutordates
+                             //Specific Date                  //List of Tutor Dates
     const { tutorID, courseName, dateObj, tutorName, tutorEmail, tutorAvail} = req.body; 
-
       //Create Appointment
        Appointment.findOne({student: StudentID}).exec((err, appointment) => {
               if(appointment) {
@@ -606,12 +605,7 @@ exports.createAppointment = async function(req, res) {
 
                 console.log("TutorAvail: " + tutorAvail);
 
-                Availability.findOneAndUpdate({user: tutorID}, {
-                    $set: {
-                        date: tutorAvail,
-                    }
-                },
-                function(err, success) {    
+                Availability.update({user: tutorID}, {$pull: dateObj},  function(err, success) {    
                      if(err) {
                          console.log("Error in TutorAvail: " + err);
                          return res.status(400).json({error: 'Error in TutorAvail:'})

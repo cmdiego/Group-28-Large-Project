@@ -26,7 +26,8 @@ function formatDate(date)
 
 function DateInfo(props) {
     return (
-        <text>{'Date: ' + props.Date + ' '}</text>
+        <text>{'Date: ' + props.Date.toLocaleDateString() + ' ' + props.Date.toLocaleTimeString()}</text>
+
     );
    /* return (
         <text>{'Date: ' + formatDate(props.Date) + ' '}</text>
