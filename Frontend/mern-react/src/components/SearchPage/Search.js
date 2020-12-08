@@ -16,47 +16,77 @@ var randomBandaid = true;
 var FirstNames = [];
 
 var classesTest = []; 
-var placeHolder = [
+var placeHolder = [];
 
-];
+//Global list of TutorID's
+const tutorID = []; 
+//Global list of TutorInfo
+const tutorInfo = []; 
 
-async function helper(props)
-{
-            randomBandaid = false;
-            let studentCourse = props.value; 
-            await axios.post('http://localhost:5000/auth/checkUserTutorCourse', {studentCourse}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
-            .then(function(data) {
-                const {tutorProto } = data.data;
+async function helper(props) {
+    randomBandaid = false;
+    //Grabs the current selected course from user
+    let studentCourse = props.value; 
+    
+    //Return tutors w/ their ID's that have the same course w/ student ----------------------------------------------------------------------------------------
+    await axios.post('http://localhost:5000/auth/checkUserTutorCourse', {studentCourse}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+    .then(function(data) {
+        const { tut } = data.data;
+        const TutorLength = tut.length; 
+        let tempID = [];
+        for(let i = 0; i < TutorLength; i++) {
+            tempID[i] = tut[i].user; 
+        }
+        tutorID.push(tempID);
+    })
+    .catch(err => {
+        console.log("Error in retrieving list of Tutor IDs: " + err);
+    })
 
-                //console.log("Retr Date: " + tutorProto[0].date.toLocaleDateString());
+    //for(let i = 0; i < )
+    //Returns a list of tutor objects info: firstName, lastName, email ------------------------------------------------------------------------------------------------------------------------
+    await axios.post('http://localhost:5000/auth/getTutorInfo', {tutorID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+    .then(function(data) {
+        const { tutorinfo } = data.data; 
+        console.log("TutorInfo: " + tutorinfo); 
 
-            placeHolder.splice(0);
-            for(let i = 0; i< tutorProto.length; i++)
-            {
-                var obj = {
-                    Tutor:{
-                        firstName: tutorProto[i].firstName,
-                        lastName: tutorProto[i].lastName,
-                        email: tutorProto[i].email, 
-                    }, 
-                    //Date: tutorProto[i].date
-                }
-                console.log("Email: " + tutorProto[i].email); 
-                console.log("firstName: " + tutorProto[i].firstName); 
-                console.log("lastName: " + tutorProto[i].lastName); 
-               // console.log("Date: " + tutorProto[i].date); 
+    }) 
+    .catch(err => {
+        console.log("Error in returning list of tutorInformation: " + err);
+    })
+}
 
-                placeHolder.push(obj);
-            }
-            //placeHolder.push(obj);
-            
-            })
-            .catch(err => {
-                console.log(err);
-            }) 
+    /*await axios.post('http://localhost:5000/auth/getTutorInfo', {tutorID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+    .then(function(dataInfo) {
+        const { tutorinfo } = dataInfo.data;
+
+        console.log("TutorInfo: " + tutorinfo); 
+        console.log("Tutor Email: " + tutorinfo[0].email);
+
+    }) 
+    .catch(err => {
+        console.log("Error in the TutorInfo: " + err); 
+    })
+})*/
+    /*placeHolder.splice(0);
+    for(let i = 0; i < TutorLength; i++) {
+        var obj = {
+            Tutor:{
+                firstName: tut[i].Tutor.firstName,
+                lastName: tut[i].Tutor.lastName,
+                email: tut[i].Tutor.email, 
+            }, 
+        }
+        console.log("Email: " + tut[i].Tutor.email); 
+        console.log("firstName: " + tut[i].Tutor.firstName); 
+        console.log("lastName: " + tut[i].Tutor.lastName); 
+
+        placeHolder.push(obj);
+    }*/
+    
 
 
-            let ID = placeHolder[0].Tutor.userID
+            /*let ID = placeHolder[0].Tutor.userID
 
             await axios.post('http://localhost:5000/auth/checkDate', {ID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
             .then(function(data) {
@@ -81,16 +111,14 @@ async function helper(props)
                // console.log("Date: " + tutorProto[i].date); 
 
                 placeHolder.push(obj);
-            }
-            //placeHolder.push(obj);
-            
+            }            
             })
             .catch(err => {
                 console.log(err);
-            }) 
+            }) */
 
 
-}
+
 
 function SearchOutput(props)
 {

@@ -536,16 +536,17 @@ exports.checkUserTutorCourse = async function(req, res)
             console.log("Error: " + err);
         }
 
-        console.log("After Date");
+        console.log("Print out Tutor Object");
         console.log(tut);
-
+        //Returns Tutor Object
         return res.json({tut});
 
     }) //Ends: Searching through Tutor
 }
-
+//Grabs a list of tutor information 
 exports.getTutorInfo = async function(req, res){
   const  { tutorID } = req.body;
+  console.log("TutorID: " + tutorID);
    User.findById({_id: tutorID}, async function(err, succ) {
        let fName = succ.firstName;
        let lName = succ.lastName;
@@ -556,6 +557,7 @@ exports.getTutorInfo = async function(req, res){
            lastName: lName,
            email: tEmail,
        }
+       console.log("TutorInfo: " + tutorinfo); 
        return res.json(tutorinfo);
    });
 }
@@ -627,12 +629,12 @@ exports.createAppointment = async function(req, res) {
 exports.getAppointment = async function(req, res) {
     const UserInfo = req.user.user;
     const UserID = UserInfo._id; 
-    const studentTrue = UserID.isStudent; 
-    const tutorTrue = UserID.isTutor; 
+    const studentTrue = UserInfo.isStudent; 
+    const tutorTrue = UserInfo.isTutor; 
 
     //If Student is True
     if(studentTrue) {
-        Appointment.findById({student: UserID}).exec((err, appt) => {
+        Appointment.find({student: UserID}).exec((err, appt) => {
             if(!appt) {
                 console.log("Appointment doesn't exists!"); 
                 return res.sendStatus(400).json("Appointment doesn't exists!");
@@ -645,7 +647,7 @@ exports.getAppointment = async function(req, res) {
     }
     //If Tutor is True
     if(tutorTrue) {
-        Appointment.findById({tutor: UserID}).exec((err, appt) => {
+        Appointment.find({tutor: UserID}).exec((err, appt) => {
             if(!appt) {
                 console.log("Appointment doesn't exists!"); 
                 return res.sendStatus(400).json("Appointment doesn't exists!");
@@ -661,8 +663,8 @@ exports.getAppointment = async function(req, res) {
 exports.cancelAppointment = async function(req, res) {
     const UserInfo = req.user.user;
     const UserID = UserInfo._id; 
-    const studentTrue = UserID.isStudent; 
-    const tutorTrue = UserID.isTutor; 
+    const studentTrue = UserInfo.isStudent; 
+    const tutorTrue = UserInfo.isTutor; 
 
      //If Student is True
      if(studentTrue) {
