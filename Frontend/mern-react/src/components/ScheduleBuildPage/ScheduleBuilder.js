@@ -43,7 +43,6 @@ function ScheduleBuilder()
             .catch(err => {
                 console.log(err); 
             })
-
         
     }
 

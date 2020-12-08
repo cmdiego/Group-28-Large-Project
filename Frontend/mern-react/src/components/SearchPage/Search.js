@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import SearchCard from './SearchCard';
-import './Search.css';
+//import './Search.css';
 import otLogo from '../../otLogo.png';
 const axios = require('axios');
 
@@ -93,6 +93,7 @@ async function helper(props) {
     {
         for(let j = 0; j <= tutorAvail.length; j++)
         {
+
             var obj = { 
                 Tutor:{
                     firstName: tutorInfo[i].firstName,
@@ -102,7 +103,15 @@ async function helper(props) {
                 }, 
                 Date: new Date (tutorAvail[i].date[j]),
                 Course: props.value, 
+                
             }
+            console.log(obj);
+            
+
+        //if(isNaN(obj.Date))
+         //   break;
+
+            console.log("ABJCSBKFBIKUJFIK"+j);
             tutorHolder.push(obj);
         }
        var myDate = new Date(obj.Date);
@@ -119,6 +128,8 @@ async function helper(props) {
 function SearchOutput(props)
 {
     //alert("first");
+
+
     if(props.value === undefined)
     {
         return <text></text>;
@@ -126,6 +137,7 @@ function SearchOutput(props)
     else 
     { 
         helper(props);
+        
         return (
             <div id="SearchDisplay">
                 <br/>
@@ -162,19 +174,19 @@ async function getCourse() {
     const _onSelect=(e)=>{
         //console.log(e);
         setValue(e);
-        
     }
     getCourse();
 
 
-
+///onInput = {SearchOutput(value)}
     return (
         <div id="searchPageDiv">
             <img class = "img-thumbnail" src = {otLogo} alt ="otLogo"/>    
             <button id="backButton" onClick={backButtonProcess} >Back</button>
             <div id="DropdownHelper">
             <Dropdown id="searchDrop" options={classesTest} onChange={_onSelect} placeholder="What class do you need help with?" />
-            <SearchOutput value={value.value} />
+            {/*SearchOutput(value)*/}
+            {<SearchOutput value={value.value} />}
             </div>
             
         </div>
