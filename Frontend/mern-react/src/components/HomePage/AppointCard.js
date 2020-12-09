@@ -96,6 +96,19 @@ class AppointCard extends React.Component {
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
     }
     async handleDeleteClick() {
+        //Heroku deployment 
+    const app_name = 'opentutor'
+    function buildPath(route)
+    {
+        if(process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'https://localhost:5000/' + route;
+        }
+    }
         var choice = window.confirm("Are you sure you want to cancel this Appointment?");
         
         if (choice)
@@ -103,7 +116,7 @@ class AppointCard extends React.Component {
             var apptID = this.info.id;
             var tutorID = this.info.tutor;
             var dateObj = this.info.Date;
-            const res = await  axios.post('http://localhost:5000/auth/cancelAppointment', {apptID, tutorID, dateObj}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+            const res = await  axios.post(buildPath('auth/cancelAppointment'), {apptID, tutorID, dateObj}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
             console.log("response: " + res);
             this.setState({isDisplayed: false});
         }
@@ -114,7 +127,7 @@ class AppointCard extends React.Component {
         var isStudent = this.isStudent;
         var stuff = this.info;
         // Enter here if given empty info (no appointments owned)
-        if (Object.entries(stuff).length === 0)
+        if (Object.entries(stuff).length === 0 || stuff === undefined)
         {
             return (
                 <div>

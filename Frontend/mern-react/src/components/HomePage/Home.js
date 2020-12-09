@@ -51,8 +51,21 @@ const searchProcess = async event =>
  const profileProcess = async event =>
 {
     event.preventDefault();
+    //Heroku deployment 
+    const app_name = 'opentutor'
+    function buildPath(route)
+    {
+        if(process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'https://localhost:5000/' + route;
+        }
+    }
     
-  await  axios.get('http://localhost:5000/auth/profile', { headers: {Authorization: localStorage.getItem('jwtToken')}})
+  await  axios.get(buildPath('auth/profile'), { headers: {Authorization: localStorage.getItem('jwtToken')}})
     .then(function(resp) {
         const { isStudent, isTutor } = resp.data;
         if(isStudent == true) {
@@ -89,8 +102,21 @@ class Home extends Component {
     }
 
     async componentDidMount() {
-        const res = await  axios.get('http://localhost:5000/auth/profile', { headers: {Authorization: localStorage.getItem('jwtToken')}});
-        const resAppt = await axios.get('http://localhost:5000/auth/getAppointment', { headers: {Authorization: localStorage.getItem('jwtToken')}});
+        //Heroku deployment 
+    const app_name = 'opentutor'
+    function buildPath(route)
+    {
+        if(process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'https://localhost:5000/' + route;
+        }
+    }
+        const res = await  axios.get(buildPath('auth/profile'), { headers: {Authorization: localStorage.getItem('jwtToken')}});
+        const resAppt = await axios.get(buildPath('auth/getAppointment'), { headers: {Authorization: localStorage.getItem('jwtToken')}});
         console.log("whole thing: ");
         //console.log(resAppt.data.appt[0]._id);
         var length = resAppt.data.appt.length;
@@ -106,7 +132,6 @@ class Home extends Component {
                 tutorName: name of tutor,
                 tutorEmail: email of tutor,
                 time: date that needs to be formatted new Date (info in appt)
-
             },
         ]
         */
@@ -148,9 +173,11 @@ class Home extends Component {
             
             <div id ="middleOfPage">
             {this.state.stu ? <input type="button" id="searchButton" class="button" value="Search for Tutors" onClick={searchProcess} /> : <div></div>}
-                {hold.map(infoStuff => (
+                {hold[0] !== undefined ? hold.map(infoStuff => (
                     <AppointCard info={infoStuff} isStudent={this.state.stu} />
-                ))}
+                )): <text id = 'appt'>
+                    No Appointments available </text>
+                }
             
             </div>
         </div>
