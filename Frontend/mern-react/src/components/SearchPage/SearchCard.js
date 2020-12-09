@@ -74,6 +74,20 @@ class SearchCard extends React.Component {
         this.handleAddClick = this.handleAddClick.bind(this);
     }
     async handleAddClick(){
+
+            //Heroku deployment 
+        const app_name = 'opentutor'
+        function buildPath(route)
+        {
+            if(process.env.NODE_ENV === 'production')
+            {
+                return 'https://' + app_name + '.herokuapp.com/' + route;
+            }
+            else
+            {
+                return 'https://localhost:5000/' + route;
+            }
+        }
         const tutor = this.info; 
         const tutorID = tutor.Tutor.tutorID; 
         const courseName = tutor.Course; 
@@ -82,7 +96,7 @@ class SearchCard extends React.Component {
         const tutorEmail = tutor.Tutor.email; 
 
         //Creates Appointment once schedule button is clicked
-        await axios.post('http://localhost:5000/auth/createAppointment', {tutorID, courseName, dateObj, tutorName, tutorEmail}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+        await axios.post(buildPath('auth/createAppointment'), {tutorID, courseName, dateObj, tutorName, tutorEmail}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
         .then(function(anotha) {
             console.log("Appointment Added! " + anotha); 
             if(anotha.status == 200) {

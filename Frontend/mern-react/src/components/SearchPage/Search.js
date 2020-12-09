@@ -1,4 +1,3 @@
-
 import React, { Component, useState } from 'react';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
@@ -30,12 +29,27 @@ const tutorInfo = [];
 const tutorAvail = []; 
 var lengthDate; 
 async function helper(props) {
+
+    //Heroku deployment 
+    const app_name = 'opentutor'
+    function buildPath(route)
+    {
+        if(process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'https://localhost:5000/' + route;
+        }
+    }
+
     randomBandaid = false;
     //Grabs the current selected course from user
     let studentCourse = props.value; 
     
     //Return tutors w/ their ID's that have the same course w/ student ----------------------------------------------------------------------------------------
-    await axios.post('http://localhost:5000/auth/checkUserTutorCourse', {studentCourse}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+    await axios.post(buildPath('auth/checkUserTutorCourse'), {studentCourse}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
     .then(function(data) {
         const { tut } = data.data;
         const TutorLength = tut.length; 
@@ -51,10 +65,16 @@ async function helper(props) {
 
     //Returns a list of tutor objects info: firstName, lastName, email ------------------------------------------------------------------------------------------------------------------------
     const tutorLength = tutorID.length; 
+    console.log('before');
+    console.log(tutorID);
     let tempTutor = []; 
-    for(let i = 0; i < tutorLength; i++) {
-        let tempID = tutorID[i];
-        await axios.post('http://localhost:5000/auth/getTutorInfo', {tempID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+    let tutorlist = tutorID[0];
+
+    for(let i = 0; i < tutorlist.length; i++) {
+        let tempID = tutorlist[i];
+        console.log('After');
+        console.log(tempID);
+        await axios.post(buildPath('auth/getTutorInfo'), {tempID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
         .then(function(other) {
             const tutorinfo  = other.data; 
             tempTutor[i] = tutorinfo;
@@ -73,9 +93,9 @@ async function helper(props) {
     let tempAvail = [];
     tempAvail.splice(0); 
     console.log("tutorLength: " + tutorLength);
-    for(let i = 0; i < tutorLength; i++) {
-        let tempID = tutorID[i];
-        await axios.post('http://localhost:5000/auth/getTutorAvailability', {tempID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+    for(let i = 0; i < tutorlist.length; i++) {
+        let tempID = tutorlist[i];
+        await axios.post(buildPath('auth/getTutorAvailability'), {tempID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
         .then(function(anotha) {
             const dt  = anotha.data; 
             tempAvail[i] = dt;
@@ -97,7 +117,7 @@ async function helper(props) {
     tutorHolder.splice(0, tutorHolder.length);
     console.log("TutorDate length: " + tutorAvail);
     //Create a Tutor Object
-    for(let i = 0; i < tutorLength; i++)
+    for(let i = 0; i < tutorlist.length; i++)
     {
         for(let j = 0; j <= tempAvail.length; j++)
         {
@@ -106,7 +126,7 @@ async function helper(props) {
                     firstName: tutorInfo[i].firstName,
                     lastName: tutorInfo[i].lastName,
                     email: tutorInfo[i].email, 
-                    tutorID: tutorID[i],
+                    tutorID: tutorlist[i],
                 }, 
                 Date: new Date (tutorAvail[i].date[j]),
                 Course: props.value, 
@@ -166,7 +186,21 @@ const backButtonProcess = async event =>
 
 
 async function getCourse() {
-    const res = await axios.get('http://localhost:5000/auth/getCourse', { headers: {Authorization: localStorage.getItem('jwtToken')}});
+    //Heroku deployment 
+    const app_name = 'opentutor'
+    function buildPath(route)
+    {
+        if(process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'https://localhost:5000/' + route;
+        }
+    }
+
+    const res = await axios.get(buildPath('auth/getCourse'), { headers: {Authorization: localStorage.getItem('jwtToken')}});
     let c =  await res.data.courses;
     
     for(let i = 0; i < c.length; i++) {
@@ -246,24 +280,19 @@ import SearchCard from './SearchCard';
 import './Search.css';
 import otLogo from '../../otLogo.png';
 const axios = require('axios');
-
 var options = [
     {class: 'COP 4600'},
     {class: 'COP 4331'}
 ]
-
 var value = {
     value: undefined
 }
-
   function setValue(e) {
     value.value = e.value; 
 }
-
 const _onSelect=(e)=>{
     setValue(e);
 }
-
 //When User Clicks on Class, the following Appointment cards will display
 function SearchOutput(props)
 { 
@@ -295,7 +324,6 @@ function SearchOutput(props)
                 Date: new Date()
             }
         ];
-
         return (
             <div id="SearchDisplay">
                 <br/>
@@ -307,19 +335,16 @@ function SearchOutput(props)
         );
     }
 }
-
 const backButtonProcess = async event =>
 {
     event.preventDefault();
     window.location.href = '/HomePage';
 }
-
 //Convert Class Objects into an array of classes in dropdown 
 var format  = options.map(function(item)
 {
     return item['class']
 });
-
 class Search extends Component {
     // converts object array of class into strings in order to use with dropdown menu
     // couldn't quite figure out how to make object arrays work with dropdown so next best thing
@@ -338,6 +363,4 @@ class Search extends Component {
         );
     };
 }
-
 export default Search;*/
-

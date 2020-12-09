@@ -19,7 +19,21 @@ class SearchTest extends Component {
 	}
 	
 	async componentDidMount() {
-		const res = await axios.get('http://localhost:5000/auth/getCourse', { headers: {Authorization: localStorage.getItem('jwtToken')}});
+		//Heroku deployment 
+		const app_name = 'opentutor'
+		function buildPath(route)
+		{
+			if(process.env.NODE_ENV === 'production')
+			{
+				return 'https://' + app_name + '.herokuapp.com/' + route;
+			}
+			else
+			{
+				return 'https://localhost:5000/' + route;
+			}
+		}
+
+		const res = await axios.get(buildPath('auth/getCourse'), { headers: {Authorization: localStorage.getItem('jwtToken')}});
 		const _Courses = await res.data.courses;
 		console.log("course: " + _Courses[0]);
 		var tutorHolder = [];
@@ -31,7 +45,7 @@ class SearchTest extends Component {
 			const tutorAvail = [];
 			var course = _Courses[i];
 			console.log("Course" + course);
-			await axios.post('http://localhost:5000/auth/checkUserTutorCourse', {course}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+			await axios.post(buildPath('auth/checkUserTutorCourse'), {course}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
 			.then(function(data) {
 				const  tut  = data.data;
 				const TutorLength = tut.length;
@@ -54,7 +68,7 @@ class SearchTest extends Component {
 			for (let j = 0; j < tutorLength; j++)
 			{
 				let tempID = tutorID[j];
-				await axios.post('http://localhost:5000/auth/getTutorInfo', {tempID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+				await axios.post(buildPath('auth/getTutorInfo'), {tempID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
 				.then(function(other) {
 					const tutInfo = other.data;
 					tempTutor[j] = tutInfo;
@@ -73,7 +87,7 @@ class SearchTest extends Component {
 			for (let j = 0; j < tutorLength; j++)
 			{
 				let tempID = tutorID[j];
-				await axios.post('http://localhost:5000/auth/getTutorAvailability', {tempID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+				await axios.post(buildPath('auth/getTutorAvailability'), {tempID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
 				.then(function(anotha) {
 					const dt = anotha.data;
 					tempAvail[i] = dt;
