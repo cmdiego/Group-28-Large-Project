@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { Component, useState } from 'react';
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
 import SearchCard from './SearchCard';
@@ -11,7 +11,10 @@ var options = [{
     class: ""
 }];
 
+var hold;
+
 var randomBandaid = true;
+var bandaid2 = true;
 
 var FirstNames = [];
 
@@ -25,7 +28,7 @@ const tutorID = [];
 const tutorInfo = []; 
 //Global list of Tutor Avail 
 const tutorAvail = []; 
-
+var lengthDate; 
 async function helper(props) {
     randomBandaid = false;
     //Grabs the current selected course from user
@@ -68,30 +71,35 @@ async function helper(props) {
 
     //Grab the list of tutorAvailability -------------------------------------------------------------------------------------------------------------------------------------------------------
     let tempAvail = [];
+    tempAvail.splice(0); 
+
     for(let i = 0; i < tutorLength; i++) {
         let tempID = tutorID[i];
         await axios.post('http://localhost:5000/auth/getTutorAvailability', {tempID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
         .then(function(anotha) {
             const dt  = anotha.data; 
             tempAvail[i] = dt;
+            lengthDate = dt.date.length; 
+            console.log("DT: " + dt.date.length); 
         }) 
         .catch(err => {
             console.log("Error in returning list of tutorAvail: " + err);
         })
     }
 
+    console.log("TempAvailLength: " + tempAvail.length); 
     //Assign the array of tutor Availabilities to tutorAvail
     for(let i = 0; i < tempAvail.length; i++) {
         tutorAvail[i] = tempAvail[i];
     }
 
     //Let's start putting it all into an Tutor Object! 
-    tutorHolder.splice(0,tutorHolder);
+    tutorHolder.splice(0, tutorHolder.length);
     console.log("TutorDate length: " + tutorAvail);
     //Create a Tutor Object
     for(let i = 0; i < tutorLength; i++)
     {
-        for(let j = 0; j <= tutorAvail.length; j++)
+        for(let j = 0; j <= tempAvail.length; j++)
         {
 
             var obj = { 
@@ -120,6 +128,7 @@ async function helper(props) {
         console.log("TutorID: " + obj.Tutor.tutorID); 
         console.log("Tutor Course: " + obj.Course); 
     }
+    bandaid2 = false;
 
     
 }
@@ -137,7 +146,14 @@ function SearchOutput(props)
     else 
     { 
         helper(props);
+<<<<<<< HEAD
         
+=======
+        var coun = 0;
+       
+        
+
+>>>>>>> 9dc18ed51a52afe1dbe4d9d6b927b952dcad9221
         return (
             <div id="SearchDisplay">
                 <br/>
@@ -167,8 +183,18 @@ async function getCourse() {
     }
 
 }
+const searchStuff = async event =>
+{
+    event.preventDefault();
+    
+    var stuff = hold;
+    console.log("hello" + stuff);
+    return (
+        <text>{stuff}</text>
+    );
+}
 
-  function Search () {
+  function Search() {
     const [value,setValue] = useState('');
 
     const _onSelect=(e)=>{
@@ -178,6 +204,7 @@ async function getCourse() {
     getCourse();
 
 
+<<<<<<< HEAD
 ///onInput = {SearchOutput(value)}
     return (
         <div id="searchPageDiv">
@@ -187,10 +214,22 @@ async function getCourse() {
             <Dropdown id="searchDrop" options={classesTest} onChange={_onSelect} placeholder="What class do you need help with?" />
             {/*SearchOutput(value)*/}
             {<SearchOutput value={value.value} />}
+=======
+    
+        return (
+            <div id="searchPageDiv">
+                <img class = "img-thumbnail" src = {otLogo} alt ="otLogo"/>    
+                <button id="backButton" onClick={backButtonProcess} >Back</button>
+                <div id="DropdownHelper">
+                <Dropdown id="searchDrop" options={classesTest} onChange={_onSelect} placeholder="What class do you need help with?" />
+                {/*<button onClick={searchStuff}>search</button>*/}
+
+                <SearchOutput value={value.value} />
+                </div>
+                
+>>>>>>> 9dc18ed51a52afe1dbe4d9d6b927b952dcad9221
             </div>
-            
-        </div>
-    );
+        );
 }
 
 export default Search;

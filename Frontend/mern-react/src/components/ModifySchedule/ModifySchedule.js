@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
-import Dropdown from 'react-dropdown';
 import DatePicker from 'react-datepicker';
-import 'react-dropdown/style.css';
-import './ScheduleBuilder.css';
+import './Modify.css';
 import 'react-datepicker/dist/react-datepicker.css';
 const axios = require('axios');
 
 var count = 0;
-var dateArray = [];
+var editArray = [];
 var alreadyPressed = false;
 
-function ScheduleBuilder()
-{
+function ModifySchedule() {
     const [startDate,setStartDate] = useState(new Date());
     
     function submitBlock()
@@ -28,30 +25,26 @@ function ScheduleBuilder()
             //alert('Please add atleast 1 time Slot');
             return;
         }
-
-        let req = {
-            count: count,
-            dateArray: dateArray
-        }
-        console.log("Date Array: " + req.dateArray);
-        axios.post('http://localhost:5000/auth/timeslots', req, { headers: {Authorization: localStorage.getItem('jwtToken')}})
-        .then(function(resp) {
-            const status = resp.status; 
-            console.log("status " + status);
-            if(status == 200)
-                window.location = '/HomePage';
-        })
-            .catch(err => {
-                console.log(err); 
+        console.log("DateArray")
+        axios.post('http://localhost:5000/auth/modifyAvailability', {editArray}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+            .then(function(resp) {
+                console.log(resp);
+                if(resp.status == 200) {
+                    window.location.href = '/TutorProfilePage';
+                } 
             })
+                .catch(err => {
+                    console.log(err); 
+                })
+
         
     }
 
     function addText()
     {
-        dateArray.push(startDate);
+        editArray.push(startDate);
         var newdiv = document.createElement('div');
-        newdiv.innerHTML = ('<br/><div id = "form'+(count)+'"><span id="innerPart">Time Slot '+(count + 1)+' :<text id="timeText">'+dateArray[count].toLocaleDateString()+'</text>'+'<text id="dateText"> at '+dateArray[(count)].toLocaleTimeString()+'</text>'+' <br /></span>' + '</div>');
+        newdiv.innerHTML = ('<br/><div id = "form'+(count)+'"><span id="innerPart">Time Slot '+(count + 1)+' :<text id="timeText">'+editArray[count].toLocaleDateString()+'</text>'+'<text id="dateText"> at '+editArray[(count)].toLocaleTimeString()+'</text>'+' <br /></span>' + '</div>');
         if (count === 0)
         {
             document.getElementById("form").appendChild(newdiv);
@@ -72,7 +65,7 @@ function ScheduleBuilder()
         }
         var div = document.getElementById("form"+(count - 1));
         div.parentNode.removeChild(div);
-        dateArray.splice((count - 1), 1);
+        editArray.splice((count - 1), 1);
         count--;
         return;
     }
@@ -109,6 +102,6 @@ function ScheduleBuilder()
 
         </div>
     );
-};
+}
 
-export default ScheduleBuilder;
+export default ModifySchedule;

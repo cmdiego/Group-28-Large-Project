@@ -1,0 +1,56 @@
+#mainScheduleForm {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    min-width: 100px;
+    min-height: auto;
+    padding: 20px 40px 40px 40px;
+    border-radius: 6px;
+    box-shadow: 0px 8px 36px #222;
+    background-color: rgb(236, 91, 75);
+}
+
+#innerPart
+{
+    padding: 10px 10px;
+    border-radius: 5px;
+    width: auto;
+    color: whitesmoke;
+    background-color: #444;
+}
+
+#timeSlotBlock {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-items: auto;
+}
+
+#addDelButtons {
+    display:flex;
+    flex-direction: row;
+}
+#chooseTime{
+    padding: 10px;
+}
+#submitBlock{
+    color: white;
+    background-color:#444;
+    font-size: medium;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#buttonForm
+{
+    align-items: center;
+}
+
+
+
+#styleDropdown
+{
+    background-color: #444;
+    color: red;
+}
