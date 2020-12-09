@@ -8,7 +8,6 @@ export.addTimeslot = async function(req, res) {
   const user = req.user;
   const date = req.date;
 
-  // TODO set the correct time of day of the date object based on whatever is passed to us to show the time of day
 
   let newTimeslot = new Appointment({
     "tutorEmail": user.email,

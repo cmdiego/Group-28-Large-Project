@@ -3,6 +3,8 @@ import './SignIn.css';
 import otLogo from '../../otLogo.png';
 const axios = require('axios');
 
+var alreadyPressed == false
+
 function Signin()
 {
     var signinEmail;
@@ -15,9 +17,9 @@ function Signin()
     const signinProcess = async event =>
     {
         event.preventDefault();
-        
+
         let req = {
-            email: signinEmail.value, 
+            email: signinEmail.value,
             password: signinPassword.value
         }
 
@@ -27,14 +29,25 @@ function Signin()
             .then(function(resp) {
                 const { accessToken } = resp.data;
                 localStorage.setItem('jwtToken', accessToken);
-                const status = resp.status; 
+                const status = resp.status;
                 if(status == 200)
                      window.location = '/HomePage';
+                else if(status == 401 || status == 402)
+                {
+                  if (!alreadyPressed)
+                  {
+                      var newdiv = document.createElement('div');
+                      newdiv.innerHTML = ('<div id= "confirmAppend"><span="inner">Incorrect password or email<br /></span></div>');
+                      document.getElementById("theForm").appendChild(newdiv);
+                      alreadyPressed = true;
+                  }
+                }
+
             })
                 .catch(err => {
-                    console.log(err); 
+                    console.log(err);
                 })
-                
+
                 axios.defaults.headers.common['Authorization'] = "Bearer " + localStorage.getItem('jwtToken');
             //alert('signing in ' + signinEmail.value + ' ' + signinPassword.value);
         }
@@ -50,7 +63,7 @@ function Signin()
 
     return (
         <div id="signinDiv">
-            <img class = "img-rounded" src = {otLogo} alt ="otLogo"/>    
+            <img class = "img-rounded" src = {otLogo} alt ="otLogo"/>
             <br></br>
             <form onSubmit={signinProcess} id = "formID">
                 <span id="inner-title">Sign In</span><br />
@@ -60,6 +73,11 @@ function Signin()
                 <label>Dont have an account?<input type="submit" id="defferSignIn" class="buttons" value="Sign up" onClick={() => state.button = 2} /></label>
                 <input type="submit" id="defferSignIn" class="buttons" value="Forgot Password?" onClick={() => state.button = 3} />
             </form>
+            <div id="confirmNotify">
+            <form id="theForm">
+                <text></text>
+            </form>
+        </div>
     <span id="signinResult">{message}</span>
         </div>
     );
