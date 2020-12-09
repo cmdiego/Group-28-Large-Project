@@ -15,6 +15,19 @@ function ForgotPassword()
     const fp = async event =>
     {
         event.preventDefault();
+            //Heroku deployment 
+        const app_name = 'opentutor'
+        function buildPath(route)
+        {
+            if(process.env.NODE_ENV === 'production')
+            {
+                return 'https://' + app_name + '.herokuapp.com/' + route;
+            }
+            else
+            {
+                return 'https://localhost:5000/' + route;
+            }
+        }
         
         let req = {
             email: signinEmail.value, 
@@ -22,7 +35,7 @@ function ForgotPassword()
 
         if (state.button === 1)
         {
-            axios.post('http://localhost:5000/auth/request-password', req)
+            axios.post(buildPath('auth/request-password'), req)
             .then(function(resp) {
                 const status = resp.status; 
                 //alert(status + ": Email Sent")
