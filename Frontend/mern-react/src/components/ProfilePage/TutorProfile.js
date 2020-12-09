@@ -86,6 +86,19 @@ function BringUpEdit() {
 
     function submitNewClasses()
     {
+        //Heroku deployment 
+    const app_name = 'opentutor'
+    function buildPath(route)
+    {
+        if(process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'https://localhost:5000/' + route;
+        }
+    }
         var courseArray = [];
 
         for (var i = 0; i<=count; i++) {
@@ -98,7 +111,7 @@ function BringUpEdit() {
             count: count 
         }
     
-        axios.post('http://localhost:5000/auth/modifyCourses', req, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+        axios.post(buildPath('auth/modifyCourses'), req, { headers: {Authorization: localStorage.getItem('jwtToken')}})
            .then(function(resp) {
                console.log(resp);
                if(resp.status == 200) {
@@ -111,12 +124,26 @@ function BringUpEdit() {
     }
 
     const submitnewBio = async event => {
+        //Heroku deployment done
+    const app_name = 'opentutor'
+    function buildPath(route)
+    {
+        if(process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'https://localhost:5000/' + route;
+        }
+    }
+
         try {
            var oo = document.getElementById("bioText").value; 
        } catch(err) {
            console.log("Error: " + err);
        }
-       axios.post('http://localhost:5000/auth/bioBox', {oo}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+       axios.post(buildPath('auth/bioBox'), {oo}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
            .then(function(resp) {
                console.log(resp);
                if(resp.status == 200) {
@@ -135,6 +162,19 @@ function BringUpEdit() {
 
     const submitnewPass = async event =>
     {
+        //Heroku deployment 
+    const app_name = 'opentutor'
+    function buildPath(route)
+    {
+        if(process.env.NODE_ENV === 'production')
+        {
+            return 'http://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'http://localhost:5000/' + route;
+        }
+    }
         var pass1 = document.getElementById("newPass").value;
         var pass2 = document.getElementById("confirmNewPass").value;
     
@@ -142,7 +182,7 @@ function BringUpEdit() {
             alert("Password Not Matching");
     
         else {
-            axios.post('http://localhost:5000/auth/changePassword', {pass1}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+            axios.post(buildPath('auth/changePassword'), {pass1}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
             .then(function(resp) {
                 console.log(resp);
                 if(resp.status == 200) {
@@ -209,6 +249,19 @@ function BringUpEdit() {
     }
 
     function submitAva() {
+        //Heroku deployment 
+    const app_name = 'opentutor'
+    function buildPath(route)
+    {
+        if(process.env.NODE_ENV === 'production')
+        {
+            return 'http://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'http://localhost:5000/' + route;
+        }
+    }
         if (editCount === 0)
         {
             // Make a label display or something that tells them to add atleast 1 slot
@@ -221,7 +274,7 @@ function BringUpEdit() {
             }
         }
         else {
-            axios.post('http://localhost:5000/auth/modifyAvailability', {editArray}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+            axios.post(buildPath('auth/modifyAvailability'), {editArray}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
             .then(function(resp) {
                 console.log(resp);
                 if(resp.status == 200) {
@@ -267,7 +320,20 @@ class TutorProfile extends Component
     }
 
  async  componentDidMount() {
-        const res = await axios.get('http://localhost:5000/auth/tutorProfile', { headers: {Authorization: localStorage.getItem('jwtToken')}});
+     //Heroku deployment 
+    const app_name = 'opentutor'
+    function buildPath(route)
+    {
+        if(process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'https://localhost:5000/' + route;
+        }
+    }
+        const res = await axios.get(buildPath('auth/tutorProfile'), { headers: {Authorization: localStorage.getItem('jwtToken')}});
         const resFirst = await res.data.firstName;
         const resLast = await res.data.lastName;
         const resSchool = await res.data.schoolName;

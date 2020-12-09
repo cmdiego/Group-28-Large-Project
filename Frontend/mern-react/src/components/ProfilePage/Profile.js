@@ -1,4 +1,3 @@
-
 import React, { useState, Component } from 'react';
 import './Profile.css';
 import download from './download.png';
@@ -103,12 +102,26 @@ function addclasses()
 };
 
 const submitnewBio = async event => {
+    //Heroku deployment 
+    const app_name = 'opentutor'
+    function buildPath(route)
+    {
+        if(process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'https://localhost:5000/' + route;
+        }
+    }
+
     try {
        var oo = document.getElementById("boxbio").value; 
    } catch(err) {
        console.log("Error: " + err);
    }
-   axios.post('http://localhost:5000/auth/bioBox', {oo}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+   axios.post(buildPath('auth/bioBox'), {oo}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
        .then(function(resp) {
            console.log(resp);
            if(resp.status == 200) {
@@ -122,6 +135,20 @@ const submitnewBio = async event => {
 
 const  submitnewPass = async event =>
 {
+    //Heroku deployment 
+    const app_name = 'opentutor'
+    function buildPath(route)
+    {
+        if(process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'https://localhost:5000/' + route;
+        }
+    }
+
     var pass1 = document.getElementById("newPass").value;
     var pass2 = document.getElementById("confirmNewPass").value;
 
@@ -129,7 +156,7 @@ const  submitnewPass = async event =>
         alert("Password Not Matching");
 
     else {
-        axios.post('http://localhost:5000/auth/changePassword', {pass1}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+        axios.post(buildPath('auth/changePassword'), {pass1}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
         .then(function(resp) {
             console.log(resp);
             if(resp.status == 200) {
@@ -143,6 +170,20 @@ const  submitnewPass = async event =>
 }
 
 function submitNewClasses() {
+    //Heroku deployment done
+    const app_name = 'opentutor'
+    function buildPath(route)
+    {
+        if(process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'https://localhost:5000/' + route;
+        }
+    }
+
     var courseArray = [];
 
     for (var i = 0; i<=count; i++) {
@@ -155,7 +196,7 @@ function submitNewClasses() {
         count: count 
     }
 
-    axios.post('http://localhost:5000/auth/modifyCourses', req, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+    axios.post(buildPath('auth/modifyCourses'), req, { headers: {Authorization: localStorage.getItem('jwtToken')}})
        .then(function(resp) {
            console.log(resp);
            if(resp.status == 200) {
@@ -181,7 +222,21 @@ class Profile extends Component
     }
 
     async  componentDidMount() {
-        const res = await axios.get('http://localhost:5000/auth/userinfo', { headers: {Authorization: localStorage.getItem('jwtToken')}});
+        //Heroku deployment 
+    const app_name = 'opentutor'
+    function buildPath(route)
+    {
+        if(process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'https://localhost:5000/' + route;
+        }
+    }
+
+        const res = await axios.get(buildPath('auth/userinfo'), { headers: {Authorization: localStorage.getItem('jwtToken')}});
         const resFirst = await res.data.firstName;
         const resLast = await res.data.lastName;
         const resSchool = await res.data.schoolName;
