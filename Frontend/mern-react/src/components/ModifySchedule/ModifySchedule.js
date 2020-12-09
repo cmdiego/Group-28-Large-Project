@@ -13,6 +13,19 @@ function ModifySchedule() {
     
     function submitBlock()
     {
+        //Heroku deployment 
+    const app_name = 'opentutor'
+    function buildPath(route)
+    {
+        if(process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'https://localhost:5000/' + route;
+        }
+    }
         if (count === 0)
         {
             if (!alreadyPressed)
@@ -26,7 +39,7 @@ function ModifySchedule() {
             return;
         }
         console.log("DateArray")
-        axios.post('http://localhost:5000/auth/modifyAvailability', {editArray}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+        axios.post(buildPath('auth/modifyAvailability'), {editArray}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
             .then(function(resp) {
                 console.log(resp);
                 if(resp.status == 200) {
