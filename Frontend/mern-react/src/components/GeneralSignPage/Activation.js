@@ -17,7 +17,21 @@ function Activation() {
     //Clicked after creating account
     const generalCont = async event =>
     {
+       
         event.preventDefault();
+        //Heroku deployment 
+        const app_name = 'opentutor'
+        function buildPath(route)
+        {
+            if(process.env.NODE_ENV === 'production')
+            {
+                return 'https://' + app_name + '.herokuapp.com/' + route;
+            }
+            else
+            {
+                return 'https://localhost:5000/' + route;
+            }
+        }
         let req = {
             firstName: firstName.value, 
             lastName: lastName.value,
@@ -25,7 +39,7 @@ function Activation() {
             bioBox: bioInfo.value,
             token: token
         }
-       axios.post(`http://localhost:5000/auth/email-activate/`, req)
+       axios.post(buildPath(`auth/email-activate/`), req)
         .then(function(data) {
             const { accessToken } = data.data;
             localStorage.setItem('jwtToken', accessToken);
