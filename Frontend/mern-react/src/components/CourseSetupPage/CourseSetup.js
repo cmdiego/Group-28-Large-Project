@@ -43,6 +43,19 @@ function CourseSetup()
 
     function submitclass()
     {
+            //Heroku deployment 
+        const app_name = 'opentutor'
+        function buildPath(route)
+        {
+            if(process.env.NODE_ENV === 'production')
+            {
+                return 'https://' + app_name + '.herokuapp.com/' + route;
+            }
+            else
+            {
+                return 'https://localhost:5000/' + route;
+            }
+        }
         let courseCodeIndex = 0;
         let courseNumIndex = 0;
 
@@ -83,7 +96,7 @@ function CourseSetup()
         for(let i = 0; i < count; i++) {
             req.courses.push(courses[i]); 
         }
-        axios.post('http://localhost:5000/auth/addCourse', req, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+        axios.post(buildPath('auth/addCourse'), req, { headers: {Authorization: localStorage.getItem('jwtToken')}})
         .then(function(resp) {
             const status = resp.status; 
             if(status == 201)
