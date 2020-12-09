@@ -6,19 +6,6 @@ var alreadyPressed = false;
 
 function Signup()
 {
-    //Heroku deployment 
-    const app_name = 'opentutor'
-    function buildPath(route)
-    {
-        if(process.env.NODE_ENV === 'production')
-        {
-            return 'http://' + app_name + '.herokuapp.com/' + route;
-        }
-        else
-        {
-            return 'http://localhost:5000/' + route;
-        }
-    }
 
     var signupEmail, signupPassword, confirmPassword;
     const [message,setMessage] = useState('');
@@ -27,7 +14,21 @@ function Signup()
     };
 
     const signupProcess = async event => {
+
         event.preventDefault();
+            //Heroku deployment 
+        const app_name = 'opentutor'
+        function buildPath(route)
+        {
+            if(process.env.NODE_ENV === 'production')
+            {
+                return 'https://' + app_name + '.herokuapp.com/' + route;
+            }
+            else
+            {
+                return 'https://localhost:5000/' + route;
+            }
+        }
 
         //User is on the Signup page
         if (state.button === 1){
@@ -74,7 +75,7 @@ function Signup()
                     student: false, 
                     tutor: true
                 }
-                axios.post('http://localhost:5000/auth/signup', req)
+                axios.post(buildPath('auth/signup'), req)
                 .catch(err => {
                     console.log(err); 
                 })
