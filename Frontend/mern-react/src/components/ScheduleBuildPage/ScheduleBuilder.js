@@ -12,6 +12,20 @@ var alreadyPressed = false;
 
 function ScheduleBuilder()
 {
+    //Heroku deployment 
+    const app_name = 'opentutor'
+    function buildPath(route)
+    {
+        if(process.env.NODE_ENV === 'production')
+        {
+            return 'https://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'https://localhost:5000/' + route;
+        }
+    }
+
     const [startDate,setStartDate] = useState(new Date());
     
     function submitBlock()
@@ -34,7 +48,7 @@ function ScheduleBuilder()
             dateArray: dateArray
         }
         console.log("Date Array: " + req.dateArray);
-        axios.post('http://localhost:5000/auth/timeslots', req, { headers: {Authorization: localStorage.getItem('jwtToken')}})
+        axios.post(buildPath('auth/timeslots'), req, { headers: {Authorization: localStorage.getItem('jwtToken')}})
         .then(function(resp) {
             const status = resp.status; 
             console.log("status " + status);
