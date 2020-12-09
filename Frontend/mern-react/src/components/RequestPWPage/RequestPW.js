@@ -17,7 +17,21 @@ function RequestPW()
 
     const changePW = async event =>
     {
+        
         event.preventDefault();
+        //Heroku deployment 
+        const app_name = 'opentutor'
+        function buildPath(route)
+        {
+            if(process.env.NODE_ENV === 'production')
+            {
+                return 'https://' + app_name + '.herokuapp.com/' + route;
+            }
+            else
+            {
+                return 'https://localhost:5000/' + route;
+            }
+        }
 
         if(newpassword.value !== confirmPassword.value) {
             alert('Passwords don\'t match');
@@ -31,7 +45,7 @@ function RequestPW()
 
         if (state.button === 1)
         {
-            axios.post('http://localhost:5000/auth/reset-password/', req)
+            axios.post(buildPath('auth/reset-password/'), req)
             .then(function(resp) {
                 const status = resp.status; 
                 if(status == 200)
