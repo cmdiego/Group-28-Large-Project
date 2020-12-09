@@ -12,7 +12,9 @@ import HomePage from './pages/HomePage';
 import ProfilePage from './pages/ProfilePage';
 import SearchPage from './pages/SearchPage';
 import TutorProfilePage from './pages/TutorProfilePage';
+
 import ModifySchedulePage from './pages/ModifySchedulePage';
+
 
 function App() {
   
@@ -30,7 +32,9 @@ function App() {
         <Route path ="/ProfilePage" exact><ProfilePage/></Route>
         <Route path ="/TutorProfilePage" exact><TutorProfilePage/></Route>
         <Route path="/SearchPage" exact><SearchPage /></Route>
+
         <Route path="/ModifySchedulePage" exact><ModifySchedulePage/></Route>
+
         <Redirect to="/SignupPage" />
       </Switch>
     </Router>
