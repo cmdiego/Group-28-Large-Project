@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:tuter/HomePage/edit_profile.dart';
 import 'package:tuter/HomePage/home_page.dart';
+import 'package:tuter/HomePage/tutor_home_page.dart';
 import 'package:tuter/Login/login_page.dart';
 import 'package:tuter/constants.dart';
 
@@ -43,7 +44,7 @@ class ViewTutorProfileState extends State<ViewTutorProfile>{
                     context,
                     MaterialPageRoute(
                         builder: (context) {
-                          return HomePage();
+                          return TutorHomePage();
                         }
                     )
                 );},

@@ -75,7 +75,7 @@ class ProfileInformation extends StatelessWidget {
                     text: "Next",
                     press: () async{
 
-                      var url = 'http://10.0.2.2:5000/auth/email-activate';
+                      var url = 'https://opentutor.herokuapp.com/auth/email-activate';
                       print('Email: ${firstNameController.text}');
                       print('Password: ${lastNameController.text}');
                       final SharedPreferences pref = await SharedPreferences.getInstance();

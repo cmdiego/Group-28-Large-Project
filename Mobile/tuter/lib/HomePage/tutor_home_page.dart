@@ -16,12 +16,12 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:tuter/Components/appt.dart';
 
-class HomePage extends StatefulWidget {
+class TutorHomePage extends StatefulWidget {
   @override
-  HomePageState createState() => new HomePageState();
+  TutorHomePageState createState() => new TutorHomePageState();
 }
 
-class HomePageState extends State<HomePage>{
+class TutorHomePageState extends State<TutorHomePage>{
   List<Widget> appointmentWidgets = [];
   String jwt;
   @override
@@ -29,83 +29,47 @@ class HomePageState extends State<HomePage>{
     Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-          leading: IconButton(
-            icon: Icon(Icons.person_outline, color: Colors.white),
-            onPressed: () async{
-              SharedPreferences pref = await SharedPreferences.getInstance();
-              String jwt = (pref.getString('jwt') ?? "");
-              Map<String, dynamic> jsonDecoded = parseJwt(jwt);
-              print("JWT:");
-              print(jsonDecoded.toString());
-              print(jsonDecoded['user'].toString());
-              print(jsonDecoded['user']['isTutor'].toString());
-              bool isTutor = jsonDecoded['user']['isTutor'];
+        leading: IconButton(
+          icon: Icon(Icons.person_outline, color: Colors.white),
+          onPressed: () async{
+            SharedPreferences pref = await SharedPreferences.getInstance();
+            String jwt = (pref.getString('jwt') ?? "");
+              // HTTP call to get availibility
+              var url = 'https://opentutor.herokuapp.com/auth/tutorProfile';
+              var response = await http.get(url,
+                headers: {"content-type": "application/json",
+                  "Authorization": jwt},
+              );
+              print('Response status: ${response.statusCode}');
+              print('Response body: ${response.body}');
+              var parsedJSON = jsonDecode(response.body);
+              String firstName = parsedJSON['firstName'];
+              String lastName = parsedJSON['lastName'];
+              String school = parsedJSON['schoolName'];
+              String email = parsedJSON['email'];
+              List<dynamic> courses = parsedJSON['courses'];
+              String bio = parsedJSON['bioBox'];
+              List<dynamic> availability = parsedJSON['time'];
 
-                var url = 'https://opentutor.herokuapp.com/auth/userinfo';
-                var response = await http.get(url,
-                  headers: {"content-type": "application/json",
-                    "Authorization": jwt},
-                );
-                print('Response status: ${response.statusCode}');
-                print('Response body: ${response.body}');
-                var parsedJSON = jsonDecode(response.body);
-                String firstName = parsedJSON['firstName'];
-                String lastName = parsedJSON['lastName'];
-                String school = parsedJSON['schoolName'];
-                String email = parsedJSON['email'];
-                List<dynamic> courses = parsedJSON['courses'];
-                String bio = parsedJSON['bioBox'];
-
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) {
-                          return ViewProfile(
-                              firstName: firstName,
-                              lastName: lastName,
-                              schoolName: school,
-                              email: email,
-                              courses: courses,
-                              bio: bio
-                          );
-                        }
-                    )
-                );
-
-              },
-          ),
-          title: Text("My Appointments"),
-          actions: <Widget>[
-            IconButton(
-                icon: Icon(Icons.search, color: Colors.white),
-                onPressed: () async{
-                  SharedPreferences pref = await SharedPreferences.getInstance();
-                  String jwt = (pref.getString('jwt') ?? "");
-                  var url = 'https://opentutor.herokuapp.com/auth/getCourse';
-                  var response = await http.get(url,
-                    headers: {"content-type": "application/json",
-                      "Authorization": jwt},
-                  );
-                  print('Response status: ${response.statusCode}');
-                  print('Response body: ${response.body}');
-                  var parsedJSON = jsonDecode(response.body);
-                  List<dynamic> courses = parsedJSON['courses'];
-                  List<String> coursesStrings = [];
-                  for (var i = 0; i<courses.length; i++) {
-                    coursesStrings.add(courses[i].toString());
-                    }
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
                       builder: (context) {
-                        return SearchPage(
-                          courses: coursesStrings,
+                        return ViewTutorProfile(
+                            firstName: firstName,
+                            lastName: lastName,
+                            schoolName: school,
+                            email: email,
+                            courses: courses,
+                            availability: availability,
+                            bio: bio
                         );
                       }
-                    )
-                  );
-                })
-          ],
+                  )
+              );
+          },
+        ),
+        title: Text("My Appointments"),
       ),
       body:
       Container(
@@ -129,11 +93,11 @@ class HomePageState extends State<HomePage>{
                 bool isTutor = jsonDecoded['user']['isTutor'];
                 var url = 'https://opentutor.herokuapp.com/auth/getAppointment';
                 var response = await http.get(url,
-                    headers: {"content-type": "application/json","Authorization": jwt},
+                  headers: {"content-type": "application/json","Authorization": jwt},
                 );
                 print('Response status: ${response.statusCode}');
                 print('Response body: ${response.body}');
-                  List<Appt> appointments = Appts.fromJson(jsonDecode(response.body)).appt;
+                List<Appt> appointments = Appts.fromJson(jsonDecode(response.body)).appt;
                 for (int i = 0; i < appointments.length; i++){
                   var currentAppointment = appointments[i];
                   String course = currentAppointment.course;
@@ -147,23 +111,23 @@ class HomePageState extends State<HomePage>{
                   String studentName = currentAppointment.studentName;
                   print("id:" + sId);
                   appointmentWidgets.add(
-                    Container(
-                      height: size.height * 0.2,
-                      margin: EdgeInsets.all(10.0),
-                      color: kPrimaryLightColor,
-                      child: Appointment(
-                        course: course,
-                        tutor: tutorName,
-                        tutorID: tutorID,
-                        id: sId,
-                        date: date,
-                        tutorEmail: tutorEmail,
-                        student: studentName,
-                        studentEmail: studentEmail,
-                        studentID: studentID,
-                        isTutor: isTutor,
-                      ),
-                    )
+                      Container(
+                        height: size.height * 0.2,
+                        margin: EdgeInsets.all(10.0),
+                        color: kPrimaryLightColor,
+                        child: Appointment(
+                          course: course,
+                          tutor: tutorName,
+                          tutorID: tutorID,
+                          id: sId,
+                          date: date,
+                          tutorEmail: tutorEmail,
+                          student: studentName,
+                          studentEmail: studentEmail,
+                          studentID: studentID,
+                          isTutor: isTutor,
+                        ),
+                      )
                   );
                 }
 
@@ -195,7 +159,7 @@ class HomePageState extends State<HomePage>{
                   return ListView(children: children);
                 },
               ),
-              ),
+            ),
           ],
         ),
       ),
@@ -272,26 +236,26 @@ class HomePageState extends State<HomePage>{
             margin: EdgeInsets.all(10.0),
             color: kPrimaryLightColor,
             child: Appointment(
-                course: course,
-                tutor: tutorName,
-                tutorID: tutorID,
-                id: sId,
-                date: date,
-                tutorEmail: tutorEmail,
-                student: studentName,
-                studentEmail: studentEmail,
-                studentID: studentID,
-                isTutor: isTutor,
+              course: course,
+              tutor: tutorName,
+              tutorID: tutorID,
+              id: sId,
+              date: date,
+              tutorEmail: tutorEmail,
+              student: studentName,
+              studentEmail: studentEmail,
+              studentID: studentID,
+              isTutor: isTutor,
             ),
           )
       );
     }
     return aWidgets;
   }
-  
+
   List<Widget> getActions(BuildContext context) {
     List<Widget> actions = [];
-   bool isTutor = getIsTutor();
+    bool isTutor = getIsTutor();
     if (!isTutor){
       actions.add(
           IconButton(
@@ -326,8 +290,8 @@ class HomePageState extends State<HomePage>{
       );
     }
   }
-  
- bool getIsTutor(){
+
+  bool getIsTutor(){
     getJWT();
     Map<String, dynamic> jsonDecoded = parseJwt(jwt);
     print("JWT:");
@@ -337,7 +301,7 @@ class HomePageState extends State<HomePage>{
     bool isTutor = jsonDecoded['user']['isTutor'];
     return isTutor;
   }
-  
+
   void getJWT() async{
     SharedPreferences pref = await SharedPreferences.getInstance();
     String jwt = (pref.getString('jwt') ?? "");

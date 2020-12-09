@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tuter/HomePage/change_password.dart';
+import 'package:tuter/Login/reset_password.dart';
 import 'package:tuter/ProfileCreation/profile_information.dart';
 import 'package:tuter/constants.dart';
 import 'package:tuter/Login/login_page.dart';
@@ -30,6 +33,13 @@ Future<Null> initUniLinks() async {
         print("Token: "+token);
         homePage = ProfileInformation(
           token: token
+        );
+      }
+      else  if (initialLink.indexOf("reset-password") > -1){
+        String token = initialLink.substring(initialLink.indexOf("reset-password")+15);
+        print("Token: "+token);
+        homePage = ResetPassword(
+          token: token,
         );
       }
     }

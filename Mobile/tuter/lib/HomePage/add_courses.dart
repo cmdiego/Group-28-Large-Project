@@ -65,10 +65,9 @@ class AddCoursesState extends State<AddCourses>{
                   courses.add(courseToAdd);
                 }
                 SharedPreferences pref = await SharedPreferences.getInstance();
-                bool isTutor = (pref.getBool("isTutor") ?? false);
                 String jwt = (pref.getString('jwt') ?? "");
 
-                var url = 'http://10.0.2.2:5000/auth/modifyCourses';
+                var url = 'https://opentutor.herokuapp.com/auth/modifyCourses';
                 var response = await http.post(url,
                     headers: {"content-type": "application/json",
                       "Authorization": jwt},
@@ -80,7 +79,7 @@ class AddCoursesState extends State<AddCourses>{
                 print('Response status: ${response.statusCode}');
                 print('Response body: ${response.body}');
 
-                if (!isTutor) {
+                if (!widget.isTutor) {
                   Navigator.push(
                       context,
                       MaterialPageRoute(

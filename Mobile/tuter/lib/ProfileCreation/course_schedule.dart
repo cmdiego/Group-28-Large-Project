@@ -49,7 +49,7 @@ class CourseScheduleState extends State<CourseSchedule>{
                 bool isTutor = (pref.getBool("isTutor") ?? false);
                 String jwt = (pref.getString('jwt') ?? "");
 
-                var url = 'http://10.0.2.2:5000/auth/addcourse';
+                var url = 'https://opentutor.herokuapp.com/auth/addcourse';
                 var response = await http.post(url,
                     headers: {"content-type": "application/json",
                     "Authorization": jwt},

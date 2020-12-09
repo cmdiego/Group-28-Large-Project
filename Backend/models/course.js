@@ -10,6 +10,7 @@ const coursesSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "User",
     },
+    isTutor: Boolean
 });
 
 module.exports = mongoose.model('Courses', coursesSchema);

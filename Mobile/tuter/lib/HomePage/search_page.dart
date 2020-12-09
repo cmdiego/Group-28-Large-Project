@@ -67,7 +67,7 @@ class SearchPageState extends State<SearchPage>{
                   tutors = [];
                   SharedPreferences pref = await SharedPreferences.getInstance();
                   String jwt = (pref.getString('jwt') ?? "");
-                  var url = 'http://10.0.2.2:5000/auth/checkUserTutorCourse';
+                  var url = 'https://opentutor.herokuapp.com/auth/checkUserTutorCourse';
                   var response = await http.post(url,
                       headers: {"content-type": "application/json","Authorization": jwt},
                       body: jsonEncode({"studentCourse": dropDownValue})
@@ -83,10 +83,10 @@ class SearchPageState extends State<SearchPage>{
                     print(currentTutor);
                     var parse2 = jsonDecode(currentTutor);
                     String id = parse2["user"];
-                    var url = 'http://10.0.2.2:5000/auth/getTutorInfo';
+                    var url = 'http://opentutor.herokuapp.com/auth/getTutorInfo';
                     var response = await http.post(url,
                         headers: {"content-type": "application/json","Authorization": jwt},
-                        body: jsonEncode({"tutorID": id})
+                        body: jsonEncode({"tempID": id})
                     );
                     print('Response status: ${response.statusCode}');
                     print('Response body: ${response.body}');
@@ -106,10 +106,10 @@ class SearchPageState extends State<SearchPage>{
                   print("Tutors: ${tutors}");
                   for (var j = 0; j < tutors.length; j++) {
                       String id = tutors[j].id;
-                      var url = 'http://10.0.2.2:5000/auth/getTutorAvailability';
+                      var url = 'http://opentutor.herokuapp.com/auth/getTutorAvailability';
                       var response = await http.post(url,
                           headers: {"content-type": "application/json","Authorization": jwt},
-                          body: jsonEncode({"tutorID": id})
+                          body: jsonEncode({"tempID": id})
                       );
                       print('Response status: ${response.statusCode}');
                       print('Response body: ${response.body}');
@@ -131,6 +131,8 @@ class SearchPageState extends State<SearchPage>{
                                 email: tutors[j].email,
                                 date: dates[y],
                                 otherTimes: getOtherDates(dates, dates[y]),
+                                tutorID: id,
+                                course: dropDownValue,
                         )));
                       }
 

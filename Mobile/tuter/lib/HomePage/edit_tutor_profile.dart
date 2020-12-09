@@ -50,7 +50,7 @@ class EditTutorProfileState extends State<EditTutorProfile>{
                   icon: Icon(Icons.check, color: Colors.white),
                   onPressed: () async{
 
-                    var url = 'http://10.0.2.2:5000/auth/bioBox';
+                    var url = 'https://opentutor.herokuapp.com/auth/bioBox';
                     SharedPreferences pref = await SharedPreferences.getInstance();
                     String jwt = (pref.getString('jwt') ?? "");
                     var response = await http.post(url,

@@ -97,7 +97,7 @@ class SignUpPageState extends State<SignUpPage>{
                         // please make sure you passwords match
                       }
                       else{
-                        var url = 'http://10.0.2.2:5000/auth/signup';
+                        var url = 'https://opentutor.herokuapp.com/auth/signup';
                         print('Email: ${emailController.text}');
                         print('Password: ${passwordController.text}');
                         print('Password: ${passwordCheckController.text}');

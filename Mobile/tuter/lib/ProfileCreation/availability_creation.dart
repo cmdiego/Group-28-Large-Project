@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:tuter/Components/rounded_button.dart';
 import 'package:tuter/Components/rounded_input_field.dart';
 import 'package:tuter/Components/timeslot.dart';
+import 'package:tuter/HomePage/tutor_home_page.dart';
 import 'package:tuter/ProfileCreation/profile_information.dart';
 import 'package:tuter/Signup/email_confirmation.dart';
 import 'package:tuter/Components/student_course.dart';
@@ -49,7 +50,7 @@ class AvailabilityState extends State<Availability>{
                   datesToPass.add(timeSlotData[i].toString());
                 }
 
-                var url = 'http://10.0.2.2:5000/auth/timeslots';
+                var url = 'https://opentutor.herokuapp.com/auth/timeslots';
                 SharedPreferences pref = await SharedPreferences.getInstance();
                 String jwt = (pref.getString('jwt') ?? "");
                 print("Date Array: "+timeSlotData.toString());
@@ -64,7 +65,7 @@ class AvailabilityState extends State<Availability>{
                     context,
                     MaterialPageRoute(
                         builder: (context) {
-                          return HomePage();
+                          return TutorHomePage();
                         }
                     )
                 );

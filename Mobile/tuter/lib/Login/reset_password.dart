@@ -14,12 +14,16 @@ import 'package:http/http.dart' as http;
 import 'package:tuter/constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ChangePassword extends StatefulWidget {
+class ResetPassword extends StatefulWidget {
+  final String token;
+  ResetPassword({
+    this.token
+});
   @override
-  ChangePasswordState createState() => new ChangePasswordState();
+  ResetPasswordState createState() => new ResetPasswordState();
 }
 
-class ChangePasswordState extends State<ChangePassword>{
+class ResetPasswordState extends State<ResetPassword>{
   final passwordController = TextEditingController();
   final passwordCheckController = TextEditingController();
   bool isTutor;
@@ -61,22 +65,19 @@ class ChangePasswordState extends State<ChangePassword>{
                         // please make sure you passwords match
                       }
                       else{
-                        var url = 'https://opentutor.herokuapp.com/auth/changePassword';
-                        SharedPreferences pref = await SharedPreferences.getInstance();
-                        String jwt = (pref.getString('jwt') ?? "");
+                        var url = 'https://opentutor.herokuapp.com/auth/reset-password';
                         var response = await http.post(url,
-                            headers: {"content-type": "application/json",
-                              "Authorization": jwt},
-                            body: jsonEncode({"pass1":"${passwordController.text}"})
+                            headers: {"content-type": "application/json"},
+                            body: jsonEncode({"token": widget.token, "password":"${passwordController.text}"})
                         );
                         print('Response status: ${response.statusCode}');
                         print('Response body: ${response.body}');
                       }
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) {
-                                return HomePage();
+                                return LoginPage();
                               }
                           )
                       );

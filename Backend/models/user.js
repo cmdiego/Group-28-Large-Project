@@ -33,6 +33,11 @@ const userSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId, 
         ref: 'Courses'
     }, 
+    appointment: {
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: 'Appointment'
+    },  
+
 }, {timestamps: true});
 
 

@@ -1,10 +1,9 @@
 const mongoose = require("mongoose");
 const Appointment = require('../models/appointment');
 const User = require('../models/user');
-const jwt = require('jsonwebtoken'); 
 
 
-exports.addTimeslot = async function(req, res) {
+export.addTimeslot = async function(req, res) {
 
   const user = req.user;
   const date = req.date;
@@ -15,17 +14,17 @@ exports.addTimeslot = async function(req, res) {
     "tutorEmail": user.email,
     "date": date
   });
-  newTimeslot.save((err, success) => {
+  newTimeslot.save(err, success) => {
     if(err) {
       console.log("Error creating a timeslot object in database\n");
       return res.status(400).json({error: "Error saving timeSlot to db"});
     }
     res.json({message: "timeSlot creation successful"});
-  });
+  }
 }
 
 
-exports.removeTimeslot = async function(req, res) {
+export.removeTimeslot = async function(req, res) {
 
   // TODO: are we tracking the ID of the timeslot objects?
   // we need to have a way to identify them from the frontend
@@ -41,19 +40,19 @@ exports.removeTimeslot = async function(req, res) {
     timeSlot.course = "";
     // 'timeSlot.date' connant be set to null
     // but if we always check 'studentEmail' != "" we shouln't have any issues
-    timeSlot.save((err, success) => {
+    timeSlot.save(err, success) => {
       if(err)
       {
         console.log("Error removing timeslot");
         return res.status(400).json({error: "did not remove timeslot correctly"});
       }
       res.json({message: "timeslot removed successfully"});
-    });
+    };
   });
 }
 
 
-exports.setTimeslot = async function(req, res) {
+export.setTimeslot = async function(req, res) {
 
   const user = req.user;
   // again not sure how we are identifying these appointment objects from the frontend
@@ -69,19 +68,19 @@ exports.setTimeslot = async function(req, res) {
     }
     timeSlot.studentEmail = user.email;
     timeSlot.course = course;
-    timeSlot.save((err, success) => {
+    timeSlot.save(err, success) => {
       if(err)
       {
         console.log("Error in timeslot setup");
         return res.status(400).json({error: "did not setup timeslot correctly"});
       }
       res.json({message: "timeslot setup successfully"});
-    });
+    };
   });
 }
 
 
-exports.getAppointments = async function(req, res) {
+export.getAppointments = async function(req, res) {
   const user = req.user;
   if(user.isStudent)
   {
@@ -109,7 +108,7 @@ exports.getAppointments = async function(req, res) {
   }
 }
 
-exports.getTimeslots = async function(req, res) {
+export.getTimeslots = async function(req, res) {
   const course = req.course;
   User.find({isTutor: true}, function(err, users){
     if(err)
@@ -126,21 +125,4 @@ exports.getTimeslots = async function(req, res) {
     }
     res.timeSlots = timeSlots;
   });
-}
-
-exports.authenticateToken = function(req, res, next) {
-    const token = req.headers['authorization'];
-    if(!token) {
-        console.log("No token exists!"); //Boot to signup page
-        return res.sendStatus(401);
-    }
-
-    jwt.verify(token, process.env.SECRET_KEY, (err, user) => {
-        if(err) {
-            console.log("Error: " + err); //Boot to signup page
-            return res.sendStatus(403);
-        }
-        req.user = user;
-        next();
-    })
 }
