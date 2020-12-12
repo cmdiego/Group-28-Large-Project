@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 //**************** Appointment / Time slot Collection ***********************
 //*** defining schemas ********/
 const appointmentSchema = new mongoose.Schema({
-    class: String,
+    course: String,
     tutorName: String,
     studentName: String,
     time: Date,

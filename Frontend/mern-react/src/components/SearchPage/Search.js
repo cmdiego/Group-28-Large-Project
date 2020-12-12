@@ -72,7 +72,7 @@ async function helper(props) {
     //Grab the list of tutorAvailability -------------------------------------------------------------------------------------------------------------------------------------------------------
     let tempAvail = [];
     tempAvail.splice(0); 
-
+    console.log("tutorLength: " + tutorLength);
     for(let i = 0; i < tutorLength; i++) {
         let tempID = tutorID[i];
         await axios.post('http://localhost:5000/auth/getTutorAvailability', {tempID}, { headers: {Authorization: localStorage.getItem('jwtToken')}})
@@ -113,6 +113,7 @@ async function helper(props) {
                 Course: props.value, 
                 
             }
+<<<<<<< HEAD
             console.log(obj);
             
 
@@ -120,6 +121,14 @@ async function helper(props) {
          //   break;
 
             console.log("ABJCSBKFBIKUJFIK"+j);
+=======
+            
+            if(isNaN(obj.Date))
+            {
+                continue;
+            }
+            
+>>>>>>> c49ec2922ada202b563c18620861c3bf5f1a7426
             tutorHolder.push(obj);
         }
        var myDate = new Date(obj.Date);

@@ -26,13 +26,15 @@ exports.signup = async function(req, res) {
         let transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
+              client_secret : 'Sjn4a7G6FNrvUEPuuVeuMnZ0',
+              client_Id: '249169745521-ia05e09cna7rgcuqdha7t9a6204dk0n1.apps.googleusercontent.com',
               user: 'tutormasterlearner@gmail.com',
               pass: 'tutormasterlearner@1'
           }
         });
 
        // const CLIENT_URL = 'http://' + req.headers.host;
-       const CLIENT_URL = 'http://localhost:3000'
+       const CLIENT_URL = 'https://opentutor.herokuapp.com'
 
         let mailResponse = {
             from: 'tutormasterlearner@gmail.com',
@@ -69,13 +71,15 @@ exports.requestPassword = async function(req, res) {
         let transporter = nodemailer.createTransport({
           service: 'gmail',
           auth: {
+            client_secret : 'Sjn4a7G6FNrvUEPuuVeuMnZ0',
+            client_Id: '249169745521-ia05e09cna7rgcuqdha7t9a6204dk0n1.apps.googleusercontent.com',
               user: 'tutormasterlearner@gmail.com',
               pass: 'tutormasterlearner@1'
           }
         });
 
        // const CLIENT_URL = 'http://' + req.headers.host;
-       const CLIENT_URL = 'http://localhost:3000'
+       const CLIENT_URL = 'https://opentutor.herokuapp.com'
 
         let mailResponse = {
             from: 'tutormasterlearner@gmail.com',
@@ -148,8 +152,8 @@ exports.signin = async function(req, res) {
     User.findOne({email}).exec((err, user) => {
         if(!user) {
             console.log("No email associated with this account");
-            return res.status(400).json({error: "No email associated with this account"});
-        }
+            return res.sendStatus(201);       
+         }
         else {
             bcrypt.compare(password, user.password, function(err, success) {
                 if(success) {
@@ -165,6 +169,8 @@ exports.signin = async function(req, res) {
                 }
                 else {
                     console.log("Incorrect Password!");
+                    return res.sendStatus(202);     
+
                 }
             });
         }
@@ -299,7 +305,9 @@ exports.timeslots = async function(req, res) {
             if(err){
                 console.log("Error: " + err);
             }
+
         return res.sendStatus(200);
+//fixed
         //Create Appointment
         /*    Appointment.findOne({user: UserInfo._id}).exec((err, app) => {
                 console.log("Availability Added!");
@@ -387,7 +395,7 @@ exports.getTutorProfile = async function(req, res) {
                 let time = avail.date;
 
                 /*
-                    if(avail.date === null) {
+                    if(avail.date === null) ggsd
                         let time = " ";
 
                     }
@@ -549,17 +557,24 @@ exports.getTutorInfo = async function(req, res){
   const  { tempID } = req.body;
   console.log("TutorID: " + tempID);
    User.findById({_id: tempID}, async function(err, succ) {
-       let fName = succ.firstName;
-       let lName = succ.lastName;
-       let tEmail = succ.email;
+       if(succ)
+       {
+            let fName = succ.firstName;
+            let lName = succ.lastName;
+            let tEmail = succ.email;
 
-       let tutorinfo = {
-           firstName: fName,
-           lastName: lName,
-           email: tEmail,
-       }
-       console.log("TutorInfo: " + tutorinfo); 
-       return res.json(tutorinfo);
+            let tutorinfo = {
+                firstName: fName,
+                lastName: lName,
+                email: tEmail,
+            }
+    
+            console.log("TutorInfo: " + tutorinfo); 
+            return res.json(tutorinfo);
+    }
+    else{
+        return res.status (400);
+    }
    });
 }
 
@@ -588,7 +603,7 @@ exports.createAppointment = async function(req, res) {
                    console.log("Existing appointment");
                }
                const appt = new Appointment({
-                   class: courseName,
+                   course: courseName,
                    tutorName: tutorName, 
                    studentName: StudentName, 
                    time: dateObj, 
@@ -658,15 +673,32 @@ exports.cancelAppointment = async function(req, res) {
     const UserID = UserInfo._id; 
     const studentTrue = UserInfo.isStudent; 
     const tutorTrue = UserInfo.isTutor; 
+    const { apptID, tutorID, dateObj } = req.body;
 
+
+    Appointment.remove({_id: apptID}, function(err, success) {
+        if (err) {
+            console.log("Err: " + err);
+        }
+        console.log ("Appointment Deleted?: " + success);
+    })
+
+    Availability.updateOne({user: tutorID}, {$push: {'date': dateObj}}, function(err, success) {
+        if (err) {
+            console.log("Error in AppDel: " + err);
+            return res.status(400).json({error: 'Error in TutorAvail:'})
+        }
+        console.log("Updating AppDel: " + success);
+        return res.status(200).json("Updating Avail");
+    });
      //If Student is True
+     /*
      if(studentTrue) {
         Appointment.remove({student: UserID},function(err, success) {
             if(!appt) {
                 console.log("Appointment doesn't exists!"); 
                 return res.sendStatus(400).json("Appointment doesn't exists!");
             }
-
             console.log("Appointment Deleted?: " + success); 
         })
     }
@@ -680,4 +712,5 @@ exports.cancelAppointment = async function(req, res) {
             console.log("Appointment Deleted?: " + success); 
         })
     }
+    */
 }

@@ -6,6 +6,20 @@ var alreadyPressed = false;
 
 function Signup()
 {
+    //Heroku deployment 
+    const app_name = 'opentutor'
+    function buildPath(route)
+    {
+        if(process.env.NODE_ENV === 'production')
+        {
+            return 'http://' + app_name + '.herokuapp.com/' + route;
+        }
+        else
+        {
+            return 'http://localhost:5000/' + route;
+        }
+    }
+
     var signupEmail, signupPassword, confirmPassword;
     const [message,setMessage] = useState('');
     const state = {
@@ -37,7 +51,7 @@ function Signup()
                     student: true, 
                     tutor: false
                 }
-                axios.post('http://localhost:5000/auth/signup', req)
+                axios.post(buildPath('auth/signup'), req)
                 .catch(err => {
                     console.log(err); 
                 })
